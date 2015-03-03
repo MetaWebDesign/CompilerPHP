@@ -1,0 +1,1 @@
+Revisar ruta del LOGO, por el tema de "usuario" en el directorio del workspace.
