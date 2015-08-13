@@ -70,9 +70,9 @@ public class ReadModel{
     }
 	}//end cargarXml()
 
-	/*
+	
 	public static void main() throws IOException {
 		cargarXml();
-	}*/
+	}
 
 }

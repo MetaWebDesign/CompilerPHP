@@ -71,4 +71,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		ReadModel.cargarXml();
 	}
 	
+	public static void genDataBase(){
+		WriteSQL.genSQL();
+	}
 }
