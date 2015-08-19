@@ -27,6 +27,16 @@ public class WriteSQL {
 		}
 	}
 	
+	public static void put(String sentence){
+		FileWriter fichero = null;
+		try {
+			fichero = new FileWriter("/home/leo/DataBase.sql");
+			fichero.write(sentence + "\n");
+			fichero.close();
+		}catch (Exception ex) {
+			System.out.println("Mensaje de la excepción: " + ex.getMessage());
+		}
+	}
 	
 	
 	public static void main() throws IOException {
