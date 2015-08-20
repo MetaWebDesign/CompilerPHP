@@ -9,6 +9,13 @@ public class Atributo{
 	//private String[] type={"numeric", "text", "date time"};
 	private String type;
 	
+	public Atributo(){
+		this.nombre="none";
+		this.primaryKey=false;
+		this.derived=false;
+		this.type="text";		
+	}
+	
 	//Construcctor
 	public Atributo(String nombrex, boolean pk, boolean der, String typex){
 		this.nombre=nombrex;

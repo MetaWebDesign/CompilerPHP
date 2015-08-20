@@ -7,18 +7,18 @@ import java.util.List;
 public class Tabla{
 	
 	private String nombre;
-	private List<Atributo> Atributos;
+	private List<Atributo> atributos;
 	
 	public Tabla(){
-		this.Atributos = new ArrayList<Atributo>();
+		this.atributos = new ArrayList<Atributo>();
 	}
 	
 	public void setNombre(String n){
 		this.nombre=n;
 	}
 	
-	public void setAtributo(Atributo a){
-		this.Atributos.add(a);
+	public void addAtributo(Atributo a){
+		this.atributos.add(a);
 	}
 	
 	public String getNombre(){
@@ -26,6 +26,6 @@ public class Tabla{
 	}
 	
 	public List<Atributo> getAtributos(){
-		return this.Atributos;
+		return this.atributos;
 	}
 }
