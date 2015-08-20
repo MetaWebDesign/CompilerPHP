@@ -35,9 +35,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		//WriteSQL.put("hola");
-		//ReadModel.cargarXml();
-		//ReadModel.test();
+		//Acción aca
 		MessageDialog.openInformation(
 			window.getShell(),
 			"CompilerPHP",
@@ -72,7 +70,4 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	}
 	
 	
-	public static void genDataBase(){
-		WriteSQL.genSQL();
-	}
 }
