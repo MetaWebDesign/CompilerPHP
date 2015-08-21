@@ -12,14 +12,14 @@ public class SQL{
 
 	//CONSTRUCTOR
 	public SQL(){
-		this.tablas = new ArrayList<Tabla>();
+		tablas = new ArrayList<Tabla>();
 	}
 	
 	public void addTabla(Tabla t){
-		this.tablas.add(t);
+		tablas.add(t);
 	}
 	
 	public List<Tabla> getTablas(){
-		return this.tablas;
+		return tablas;
 	}
 }
