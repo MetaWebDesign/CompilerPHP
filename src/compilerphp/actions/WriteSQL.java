@@ -34,6 +34,10 @@ public class WriteSQL {
 			    		fichero.write(", ");
 			    	}
 			    	fichero.write(atributo.getNombre());
+			    	fichero.write(" "+atributo.getType());
+			    	if(atributo.getPrimaryKey() == true){
+			    		fichero.write(" PRIMARY KEY");
+			    	}
 			    	coma++;
 			    }
 			    fichero.write(");");

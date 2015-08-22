@@ -32,6 +32,7 @@ public class ReadModel{
 				int x_attribute_derived=line.indexOf("metawebdesign:Derived");
 				int x_attribute_name=line.indexOf("name=");//POSICION DEL NOMBRE DEL ATRIBUTO
 				int x_attribute_type=line.indexOf("dataType=");
+				int x_attribute_pk=line.indexOf("primaryKey=");
 				int x_relation=line.indexOf("hasRelationClass name=");//IDENTIFICA UNA RELACION
 				int x_relation_to_class=line.indexOf("fromClass=");//IDENTIFICA LA OTRA CLASE EN LA RELACION
 				//BUSQUEDA TABLA
@@ -61,11 +62,17 @@ public class ReadModel{
 			        int stop_nombre=substr_nombre.indexOf("\"");
 			        int stop_type=substr_type.indexOf("\"");
 			        
+			        boolean pk=false;
+			        
+			        if(x_attribute_pk != -1){
+			        	pk=true;
+			        }
+			        
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        
 			        System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
-			        Atributo a = new Atributo(atributo_nombre, false, false, atributo_type);
+			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type);
 			        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
 				}
 				
