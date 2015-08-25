@@ -22,6 +22,8 @@ public class ReadModel{
 			String line;//LINEA DE LECTURA DEL ARCHIVO
 			int cont_tabla=0;//CONTADOR DE TABLAS
 			
+			String tabla = null;//NOMBRE DE LA TABLA
+			
 			//LECTURA
 			while((line = br.readLine()) != null) {
 				
@@ -33,8 +35,12 @@ public class ReadModel{
 				int x_attribute_name=line.indexOf("name=");//POSICION DEL NOMBRE DEL ATRIBUTO
 				int x_attribute_type=line.indexOf("dataType=");
 				int x_attribute_pk=line.indexOf("primaryKey=");
+				int x_attribute_formula=line.indexOf("formula=");
 				int x_relation=line.indexOf("hasRelationClass name=");//IDENTIFICA UNA RELACION
-				int x_relation_to_class=line.indexOf("fromClass=");//IDENTIFICA LA OTRA CLASE EN LA RELACION
+				int x_relation_name=line.indexOf("name=");
+				int x_relation_classA=line.indexOf("Attribute_Class_A=");
+				int x_relation_classB=line.indexOf("Attribute_Class_B=");
+				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
@@ -46,9 +52,9 @@ public class ReadModel{
 					t = new Tabla();
 			        String substr = line.substring(x_class+12, line.length());
 			        int stop=substr.indexOf("\"");//CRITERIO DE PARADA PARA EXTRACCION DEL DATO
-			        String tabla=substr.substring(0, stop);
+			        tabla=substr.substring(0, stop);
 			        t.setNombre(tabla);//AGREGO EL NOMBRE A LA TABLA
-			        System.out.println("Tabla nombre: "+tabla);
+			        //System.out.println("Tabla nombre: "+tabla);
 			        cont_tabla++;
 			    }
 				
@@ -71,18 +77,40 @@ public class ReadModel{
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        
-			        System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
+			        //System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
 			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type);
 			        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
+				}
+				
+				//BUSQUEDA ATRIBUTO DERIVADO 
+				/*
+				 * Este atributo genera una vista en la Base de Datos
+				 */
+				if(x_attribute != -1 && x_attribute_derived != -1){
+					//DATOS A EXTRAER DE LOS ATRIBUTOS
+					String substr_nombre=line.substring(x_attribute_name+6,line.length());
+					String substr_formula=line.substring(x_attribute_formula+9, line.length());
+					
+					//CRITERIO DE PARADA PARA EXTRACCION DEL DATO
+			        int stop_nombre=substr_nombre.indexOf("\"");
+			        int stop_formula=substr_formula.indexOf("\"");
+			        
+			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
+			        String atributo_formula=substr_formula.substring(0, stop_formula);
+			        View v = new View(atributo_nombre, atributo_formula, tabla );
+			        sql.addView(v);
 				}
 				
 				//BUSQUEDA RELACION
 				if(x_relation != -1){
 					//NOMBRE EN LA RELACION
-			        String substr = line.substring(x_relation+23, x_relation_to_class-2);
-			        
-			        //OTRA TABLA INVOLUCRADA
-			        substr = line.substring(x_relation_to_class+14, line.length()-3);
+			        //String substr = line.substring(x_relation+23, x_relation_to_class-2);
+					 String substr_nombre = line.substring(x_relation_name+6, line.length());
+				     String substr_tablaA=line.substring(x_relation_classA, line.length());
+				     String substr_tablaA=line.substring(x_relation_classA, line.length());   
+				     //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
+				     int stop_nombre=substr_nombre.indexOf("\""); 
+				     int stop_tablaA=substr_tablaA.indexOf("@");
 				}
 				
 				
@@ -91,41 +119,6 @@ public class ReadModel{
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA
 			WriteSQL.write(sql);
 			
-	}
-	
-	public static void loadTest(){
-		SQL sql= new SQL();
-		Tabla t;
-		Atributo a = new Atributo();
-		
-		t = new Tabla();
-		t.setNombre("NOMBRE1_A");
-		a = new Atributo("A1", false, false, "text");
-        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
-        a = new Atributo("A2", false, false, "text");
-        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA
-        
-        sql.addTabla(t);
-        
-        t = new Tabla();
-		t.setNombre("NOMBRE1_B");
-		a = new Atributo("B1", false, false, "text");
-        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
-        a = new Atributo("B2", false, false, "text");
-        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
-        
-        sql.addTabla(t);
-        
-        t = new Tabla();
-		t.setNombre("NOMBRE1_C");
-		a = new Atributo("C1", false, false, "text");
-        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
-        a = new Atributo("C2", false, false, "text");
-        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA
-        
-        sql.addTabla(t);
-        
-        WriteSQL.write(sql);
 	}
 	
 	public static void main(String[] args) throws IOException {

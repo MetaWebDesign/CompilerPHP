@@ -11,12 +11,13 @@ public class WriteSQL {
 	public static void write(SQL sql){
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
-		
+		List <View> views = sql.getViews();
 		//ESCRITURA DE LA NUEVA SENTENCIA
 		FileWriter fichero = null;
 		try {
-			fichero = new FileWriter(path);
 			
+			
+			fichero = new FileWriter(path);
 			
 			//ESCRIVO LAS TABLAS
 			for(Tabla tabla : tablas) {
@@ -33,15 +34,32 @@ public class WriteSQL {
 			    	if(coma !=0){
 			    		fichero.write(", ");
 			    	}
+			    	
 			    	fichero.write(atributo.getNombre());
-			    	fichero.write(" "+atributo.getType());
-			    	if(atributo.getPrimaryKey() == true){
-			    		fichero.write(" PRIMARY KEY");
+			    	
+			    	System.out.println("type: |"+atributo.getType()+"|");
+			    	if (atributo.getType().equals("autoincremental")){
+			    		System.out.println("si");
+			    		fichero.write(" integer primary key not null");
+			    	}
+			    	if (!atributo.getType().equals("autoincremental")){
+			    		System.out.println("no");
+			    		fichero.write(" "+atributo.getType());
+			    		if(atributo.getPrimaryKey() == true){
+			    			fichero.write(" PRIMARY KEY");
+			    		}
 			    	}
 			    	coma++;
 			    }
 			    fichero.write(");");
 	        }
+			
+			//ESCRIVO LAS VISTAS
+			for(View view : views){
+				fichero.write("\n CREATE VIEW "+view.getTabla()+view.getNombre()+"view as ");
+				fichero.write("select * from "+view.getTabla());
+				fichero.write(", ("+view.getFormula()+") as derived");
+			}
 			
 			fichero.close();
 		}catch (Exception ex){
