@@ -102,6 +102,7 @@ public class ReadModel{
 				}
 				
 				//BUSQUEDA RELACION
+				/*
 				if(x_relation != -1){
 					//NOMBRE EN LA RELACION
 			        //String substr = line.substring(x_relation+23, x_relation_to_class-2);
@@ -111,7 +112,7 @@ public class ReadModel{
 				     //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
 				     int stop_nombre=substr_nombre.indexOf("\""); 
 				     int stop_tablaA=substr_tablaA.indexOf("@");
-				}
+				}*/
 				
 				
 			}
