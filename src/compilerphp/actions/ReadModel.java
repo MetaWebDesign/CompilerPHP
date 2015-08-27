@@ -36,8 +36,7 @@ public class ReadModel{
 				int x_attribute_formula=line.indexOf("formula=");//IDENTIFICA FORMULA SQL DEL ATRIBUTO DERIVADO PARA CREAR UNA VISTA
 				int x_relation=line.indexOf("hasRelationClass name=");//IDENTIFICA UNA RELACION
 				int x_relation_name=line.indexOf("name=");//IDENTIFICA EL NOMBRE DE UNA RELACION PARA CREAR LLAVE FORANEA
-				int x_relation_classA=line.indexOf("Attribute_Class_A=");
-				int x_relation_classB=line.indexOf("Attribute_Class_B=");
+				int x_relation_destination=line.indexOf("Attribute_Destination");
 				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
@@ -104,17 +103,25 @@ public class ReadModel{
 				}
 				
 				//BUSQUEDA RELACION
-				/*
 				if(x_relation != -1){
 					//NOMBRE EN LA RELACION
-			        //String substr = line.substring(x_relation+23, x_relation_to_class-2);
-					 String substr_nombre = line.substring(x_relation_name+6, line.length());
-				     String substr_tablaA=line.substring(x_relation_classA, line.length());
-				     String substr_tablaA=line.substring(x_relation_classA, line.length());   
+				     String substr_nombre=line.substring(x_relation_name+6, line.length());
+				     String substr_claseDestino=line.substring(x_relation_destination+32, line.length());
+				     String substr_atributoDestino=line.substring(x_relation_destination+49, line.length());
+				     
 				     //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
-				     int stop_nombre=substr_nombre.indexOf("\""); 
-				     int stop_tablaA=substr_tablaA.indexOf("@");
-				}*/
+				     int stop_nombre=substr_nombre.indexOf("\"");
+				     int stop_classDestino=substr_claseDestino.indexOf("/");
+				     int stop_atributoDestino=substr_atributoDestino.indexOf("\"");
+				     
+				     //EXTRACCION DE DATOS DE LA RELACION
+				     String relation_name=substr_nombre.substring(0, stop_nombre);
+				     int numClaseDestino= Integer.parseInt(substr_claseDestino.substring(0, stop_classDestino));
+				     int numAtributoDestino= Integer.parseInt(substr_atributoDestino.substring(0, stop_atributoDestino));
+				     
+				     ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
+				     t.addForeignKey(f);
+				}
 				
 				
 			}

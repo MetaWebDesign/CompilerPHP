@@ -9,9 +9,10 @@ public class WriteSQL {
 
 
 	public static void write(SQL sql){
+		List <View> views = sql.getViews();
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
-		List <View> views = sql.getViews();
+		List <ForeignKey> foreignKeys;
 		//ESCRITURA DE LA NUEVA SENTENCIA
 		FileWriter fichero = null;
 		try {
@@ -26,6 +27,7 @@ public class WriteSQL {
 			    
 			    //CAPTURO LOS ATRIBUTOS DE LA TABLA
 			    atributos=tabla.getAtributos();
+			    foreignKeys=tabla.getForeignKeys();
 			    
 			    //IMPRIMO LOS ATRIBUTOS
 			    int coma=0;
@@ -37,25 +39,38 @@ public class WriteSQL {
 			    	
 			    	fichero.write(atributo.getNombre());
 			    	
-			    	System.out.println("type: |"+atributo.getType()+"|");
 			    	if (atributo.getType().equals("autoincremental")){
-			    		System.out.println("si");
 			    		fichero.write(" integer primary key not null");
 			    	}
 			    	if (!atributo.getType().equals("autoincremental")){
-			    		System.out.println("no");
 			    		fichero.write(" "+atributo.getType());
 			    		if(atributo.getPrimaryKey() == true){
 			    			fichero.write(" PRIMARY KEY");
 			    		}
 			    	}
 			    	
-			    	//IF RELATION (LLAVE FORANEA)
-			    	//TABLA[RELATIONTABLA.GETNUM()]
-			    			
-			    	
 			    	coma++;
 			    }
+			    
+		    	//IMPRIMO LLAVES FORANEAS
+		    	
+		    	for(ForeignKey fk : foreignKeys){
+		    		String tablaDestino=tablas.get(fk.getDestination()).getNombre();
+		    		String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();
+		    		String typeAtributo=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType();
+		    		
+		    		fichero.write(", "+fk.getNombre()+" ");
+		    		if(typeAtributo.equals("autoincremental")){
+		    			fichero.write("integer ,");
+		    		}
+		    		fichero.write(" FOREIGN KEY("+fk.getNombre()+") REFERENCES "+tablaDestino+"("+atributoDestino+")");
+		    		/*
+		    		System.out.println("Tabla :"+tablas.get(fk.getDestination()).getNombre());
+		    		System.out.println("Atributo :"+tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre());
+		    		System.out.println("Typo :"+tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType());
+		    		*/
+		    	}
+			    
 			    fichero.write(");");
 	        }
 			
