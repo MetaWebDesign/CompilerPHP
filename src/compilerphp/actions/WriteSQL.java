@@ -49,6 +49,11 @@ public class WriteSQL {
 			    			fichero.write(" PRIMARY KEY");
 			    		}
 			    	}
+			    	
+			    	//IF RELATION (LLAVE FORANEA)
+			    	//TABLA[RELATIONTABLA.GETNUM()]
+			    			
+			    	
 			    	coma++;
 			    }
 			    fichero.write(");");
