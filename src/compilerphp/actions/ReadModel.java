@@ -1,6 +1,7 @@
 package compilerphp.actions;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -8,12 +9,47 @@ import java.io.IOException;
 
 public class ReadModel{
 	
-	private static String path="/home/leo/elearning.metawebdesign";
+	private static String path;
+	private static String filemodel;
+	
+	public static String getCurrentFile(String currentDirectory){
+		String fileModel = null;
+		File folder = new File(currentDirectory);
+		File[] listOfFiles = folder.listFiles();
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	      if (listOfFiles[i].isFile()) {
+	        //System.out.println("File " + listOfFiles[i].getName());
+	        if(listOfFiles[i].getName().indexOf("metawebdesign")!=-1){
+	        	int stop=listOfFiles[i].getName().indexOf(".");
+	        	fileModel=listOfFiles[i].getName().substring(0, stop)+"metawebdesign";
+	        }
+	      } 
+	    }
+		return fileModel;
+	}
+	
+	public static String getCurrentDirectory(){
+		String currentDirectory=System.getProperty("user.dir");
+		System.out.println(currentDirectory);
+		System.out.println (new File (".").getAbsolutePath ());
+        return currentDirectory;
+	}
+	
+	public static void setPath(String p){
+		path=p;
+	}
+	
+	public static void setFileModel(String f){
+		filemodel=f;
+	}
 	
 	public static void loadXML() throws IOException
 	{
 			SQL sql= new SQL();
 			Tabla t=  new Tabla();
+			
+			setPath(getCurrentDirectory());
+			setFileModel(getCurrentFile(path));
 			
 			FileReader fr = new FileReader(path);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
@@ -145,6 +181,7 @@ public class ReadModel{
 	
 	public static void main(String[] args) throws IOException {
 	    //loadTest();
-		loadXML();
+		//loadXML();
+		getCurrentDirectory();
 	}
 }

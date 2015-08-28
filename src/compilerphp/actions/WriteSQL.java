@@ -53,7 +53,6 @@ public class WriteSQL {
 			    }
 			    
 		    	//IMPRIMO LLAVES FORANEAS
-		    	
 		    	for(ForeignKey fk : foreignKeys){
 		    		String tablaDestino=tablas.get(fk.getDestination()).getNombre();
 		    		String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();

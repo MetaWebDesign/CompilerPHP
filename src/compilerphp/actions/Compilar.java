@@ -2,6 +2,8 @@ package compilerphp.actions;
 
 //import java.io.IOException;
 
+import java.io.IOException;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -36,10 +38,18 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 */
 	public void run(IAction action) {
 		//Acción aca
+		try {
+			ReadModel.loadXML();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		MessageDialog.openInformation(
 			window.getShell(),
 			"CompilerPHP",
-			"Compilando ...");
+			ReadModel.getCurrentDirectory()+ReadModel.getCurrentFile(ReadModel.getCurrentDirectory())+"Compilando ...");
 	}
 
 	/**
