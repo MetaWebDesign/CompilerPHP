@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-//import compilerphp.actions.WriteSQL;
 
 public class ReadModel{
 	
@@ -181,7 +180,7 @@ public class ReadModel{
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA
-			WriteSQL.write(sql, path);
+			SQLite.write(sql, path);
 			
 	}
 	

@@ -13,7 +13,7 @@ public class SQL{
 	
 	//CONSTRUCTOR
 	public SQL(){
-		tablas = new ArrayList<Tabla>();
+		tablas = new ArrayList<Tabla>(); //CONTIENE A LA(S) LLAVE(S) FORANEAS
 		views = new ArrayList<View>();
 	}
 	

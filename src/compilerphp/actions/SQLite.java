@@ -3,7 +3,7 @@ package compilerphp.actions;
 import java.io.FileWriter;
 import java.util.List;
 
-public class WriteSQL {
+public class SQLite {
 	
 	private static String fileSQL="db.sql";
 	
