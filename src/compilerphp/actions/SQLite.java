@@ -5,9 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.List;
 
-public class SQLite {
+public class SQLite{
 	
 	private static String fileSQL="sql.dat";
 	
@@ -98,12 +101,13 @@ public class SQLite {
 		try {
 			FileReader fr = new FileReader(path+"/"+fileSQL);
 			BufferedReader br = new BufferedReader(fr);
-			String line;//LINEA DE LECTURA DEL ARCHIVO
+			String sql_line;//LINEA DE LECTURA DEL ARCHIVO
 			System.out.println("Generando la base de datos");
 			//LECTURA
-			while((line = br.readLine()) != null) {
-				obj.executeCommand("sqlite3 "+path+"/"+file+".db "+"'"+line+"';");//UBICA EL ARCHIVO XML
-				System.out.println("sqlite3 "+path+"/"+file+".db "+"'"+line+"';");
+			while((sql_line = br.readLine()) != null) {
+				//obj.executeCommand("sqlite3 "+path+"/"+file+".db "+"'"+line+"';");//UBICA EL ARCHIVO XML
+				sqlite_execute(sql_line, path);
+				System.out.println(sql_line);
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Error al leer el archivo sql.dat");
@@ -112,4 +116,28 @@ public class SQLite {
 		}
 		
 	}
+
+	//EXECUTA EL SQL CREADO
+	public static void sqlite_execute(String sql, String path){
+		   Connection c = null;
+		    Statement stmt = null;
+		    try {
+		     // Class.forName("SQLite");
+		      c = DriverManager.getConnection("jdbc:sqlite:"+path+"/test.db");
+		      System.out.println("Opened database successfully");
+		      stmt = c.createStatement();
+		      stmt.executeUpdate(sql);
+		      stmt.close();
+		      c.close();
+		    } catch ( Exception e ) {
+		      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		      System.exit(0);
+		    }
+		    System.out.println("Table created successfully");
+  }
+	
+	public static void main(String[] args) throws IOException {
+		sqlite_execute("Create table test2(nombre text);", "/home/leo/runtime-EclipseApplication/Elearning");
+	}
+	
 }

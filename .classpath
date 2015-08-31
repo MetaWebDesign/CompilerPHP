@@ -4,5 +4,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/home/leo/.otros/eclipse/JDOM/jdom-2.0.6.jar"/>
+	<classpathentry kind="lib" path="/home/leo/.otros/eclipse/SQLite/sqlite-jdbc-3.8.11.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
