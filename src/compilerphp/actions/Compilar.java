@@ -38,6 +38,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 */
 	public void run(IAction action) {
 		//Acción aca
+		
 		try {
 			ReadModel.loadXML();
 		} catch (IOException e) {
@@ -45,11 +46,13 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			e.printStackTrace();
 		}
 		
-		
+		//IF NO HAY ERRORES
 		MessageDialog.openInformation(
 			window.getShell(),
 			"CompilerPHP",
-			ReadModel.getCurrentDirectory()+ReadModel.getCurrentFile(ReadModel.getCurrentDirectory())+"Compilando ...");
+			"Compilando ...");
+		//ELSE HAY ERRORES
+			//MENSAJE DE ERROR
 	}
 
 	/**

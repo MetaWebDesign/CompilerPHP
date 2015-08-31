@@ -1,17 +1,19 @@
 package compilerphp.actions;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 //import compilerphp.actions.WriteSQL;
 
 public class ReadModel{
 	
 	private static String path;
-	private static String filemodel;
+	private static String file;
 	
+	/*
 	public static String getCurrentFile(String currentDirectory){
 		String fileModel = null;
 		File folder = new File(currentDirectory);
@@ -26,22 +28,39 @@ public class ReadModel{
 	      } 
 	    }
 		return fileModel;
-	}
+	}*/
+	
 	
 	public static String getCurrentDirectory(){
-		String currentDirectory=System.getProperty("user.dir");
-		System.out.println(currentDirectory);
-		System.out.println (new File (".").getAbsolutePath ());
+		ExecuteShellComand obj = new ExecuteShellComand();
+		String output = obj.executeCommand("locate *.metawebdesign");//UBICA EL ARCHIVO XML
+		Path p = Paths.get(output);
+		/*
+		System.out.format("toString: %s%n", p.toString());
+		System.out.format("getFileName: %s%n", p.getFileName());
+		System.out.format("getName(0): %s%n", p.getName(0));
+		System.out.format("getNameCount: %d%n", p.getNameCount());	
+		System.out.format("subpath(0,2): %s%n", p.subpath(0,2));
+		System.out.format("getParent: %s%n", p.getParent());
+		System.out.format("getRoot: %s%n", p.getRoot());
+		*/
+		String currentDirectory=p.getParent().toString();//IDENTIFICA LA RUTA DEL XML
+		String currentFile=p.getFileName().toString();
+		//System.out.println(currentDirectory);
+		setFile(currentFile.substring(0, currentFile.length()-1 ));//IDENTIFICA EL NOMBRE DEL XML
+		//System.out.println(file);
         return currentDirectory;
+	}
+
+	public static void setFile(String f){
+		file=f;
 	}
 	
 	public static void setPath(String p){
 		path=p;
 	}
 	
-	public static void setFileModel(String f){
-		filemodel=f;
-	}
+	
 	
 	public static void loadXML() throws IOException
 	{
@@ -49,9 +68,8 @@ public class ReadModel{
 			Tabla t=  new Tabla();
 			
 			setPath(getCurrentDirectory());
-			setFileModel(getCurrentFile(path));
-			
-			FileReader fr = new FileReader(path);//LECTURA DEL ARCHIVO DEL MODELO
+			System.out.println("Load XML");
+			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
 			int cont_tabla=0;//CONTADOR DE TABLAS
@@ -163,7 +181,7 @@ public class ReadModel{
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA
-			WriteSQL.write(sql);
+			WriteSQL.write(sql, path);
 			
 	}
 	
@@ -183,5 +201,6 @@ public class ReadModel{
 	    //loadTest();
 		//loadXML();
 		getCurrentDirectory();
+		//test();
 	}
 }

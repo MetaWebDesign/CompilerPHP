@@ -5,10 +5,11 @@ import java.util.List;
 
 public class WriteSQL {
 	
-	private static String path="/home/leo/DataBase.sql";
+	private static String fileSQL="db.sql";
+	
 
-
-	public static void write(SQL sql){
+	public static void write(SQL sql, String path){
+		System.out.println("Write XML, path: "+path);
 		List <View> views = sql.getViews();
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
@@ -16,9 +17,7 @@ public class WriteSQL {
 		//ESCRITURA DE LA NUEVA SENTENCIA
 		FileWriter fichero = null;
 		try {
-			
-			
-			fichero = new FileWriter(path);
+			fichero = new FileWriter(path+"/"+fileSQL);
 			
 			//ESCRIVO LAS TABLAS
 			for(Tabla tabla : tablas) {
