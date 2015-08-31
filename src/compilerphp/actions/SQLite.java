@@ -1,13 +1,17 @@
 package compilerphp.actions;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class SQLite {
 	
-	private static String fileSQL="db.sql";
+	private static String fileSQL="sql.dat";
 	
-
+	//ESCRIBRE EN TEXTO PLANO LAS SENTENCIAS SQL
 	public static void write(SQL sql, String path){
 		System.out.println("Write XML, path: "+path);
 		List <View> views = sql.getViews();
@@ -83,5 +87,29 @@ public class SQLite {
 		}catch (Exception ex){
 			System.out.println("Mensaje de la excepción: " + ex.getMessage());
 		}
+	}
+	
+	//GENERO LA BASE DE DATOS EN BASE AL ARCHIVO SQL.DAT ESCRITO ANTEIORMENTE
+	public static void createDB(SQL sql, String path, String file) throws IOException{
+		//GENERO EL CODIGO SQL
+		SQLite.write(sql, path);
+		ExecuteShellComand obj = new ExecuteShellComand();
+		//GENERO EN BASE AL COD SQL LA BASE DE DATOS SQLITE
+		try {
+			FileReader fr = new FileReader(path+"/"+fileSQL);
+			BufferedReader br = new BufferedReader(fr);
+			String line;//LINEA DE LECTURA DEL ARCHIVO
+			System.out.println("Generando la base de datos");
+			//LECTURA
+			while((line = br.readLine()) != null) {
+				obj.executeCommand("sqlite3 "+path+"/"+file+".db "+"'"+line+"';");//UBICA EL ARCHIVO XML
+				System.out.println("sqlite3 "+path+"/"+file+".db "+"'"+line+"';");
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Error al leer el archivo sql.dat");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

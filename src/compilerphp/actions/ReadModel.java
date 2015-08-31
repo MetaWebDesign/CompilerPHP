@@ -3,71 +3,19 @@ package compilerphp.actions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class ReadModel{
 	
-	private static String path;
-	private static String file;
-	
-	/*
-	public static String getCurrentFile(String currentDirectory){
-		String fileModel = null;
-		File folder = new File(currentDirectory);
-		File[] listOfFiles = folder.listFiles();
-	    for (int i = 0; i < listOfFiles.length; i++) {
-	      if (listOfFiles[i].isFile()) {
-	        //System.out.println("File " + listOfFiles[i].getName());
-	        if(listOfFiles[i].getName().indexOf("metawebdesign")!=-1){
-	        	int stop=listOfFiles[i].getName().indexOf(".");
-	        	fileModel=listOfFiles[i].getName().substring(0, stop)+"metawebdesign";
-	        }
-	      } 
-	    }
-		return fileModel;
-	}*/
-	
-	
-	public static String getCurrentDirectory(){
-		ExecuteShellComand obj = new ExecuteShellComand();
-		String output = obj.executeCommand("locate *.metawebdesign");//UBICA EL ARCHIVO XML
-		Path p = Paths.get(output);
-		/*
-		System.out.format("toString: %s%n", p.toString());
-		System.out.format("getFileName: %s%n", p.getFileName());
-		System.out.format("getName(0): %s%n", p.getName(0));
-		System.out.format("getNameCount: %d%n", p.getNameCount());	
-		System.out.format("subpath(0,2): %s%n", p.subpath(0,2));
-		System.out.format("getParent: %s%n", p.getParent());
-		System.out.format("getRoot: %s%n", p.getRoot());
-		*/
-		String currentDirectory=p.getParent().toString();//IDENTIFICA LA RUTA DEL XML
-		String currentFile=p.getFileName().toString();
-		//System.out.println(currentDirectory);
-		setFile(currentFile.substring(0, currentFile.length()-1 ));//IDENTIFICA EL NOMBRE DEL XML
-		//System.out.println(file);
-        return currentDirectory;
-	}
 
-	public static void setFile(String f){
-		file=f;
-	}
 	
-	public static void setPath(String p){
-		path=p;
-	}
-	
-	
-	
-	public static void loadXML() throws IOException
+	public static void loadXML(String path, String file) throws IOException
 	{
 			SQL sql= new SQL();
 			Tabla t=  new Tabla();
 			
-			setPath(getCurrentDirectory());
 			System.out.println("Load XML");
+			
 			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
@@ -95,7 +43,7 @@ public class ReadModel{
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
 					if(cont_tabla !=0){
-						sql.addTabla(t);//AGREGO LA TABLA IDENTIFICADA EN LOS CICLOS ANTERIORES A LAS SENTENCIAS SQL
+						sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
 					}
 					
 					//NUEVA TABLA
@@ -175,12 +123,10 @@ public class ReadModel{
 				     ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
 				     t.addForeignKey(f);
 				}
-				
-				
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA
-			SQLite.write(sql, path);
+			SQLite.createDB(sql, path, file);
 			
 	}
 	
@@ -197,9 +143,7 @@ public class ReadModel{
 	}
 	
 	public static void main(String[] args) throws IOException {
-	    //loadTest();
-		//loadXML();
-		getCurrentDirectory();
-		//test();
+		//getCurrentDirectory();
+		loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
 	}
 }

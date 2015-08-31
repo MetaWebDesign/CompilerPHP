@@ -37,10 +37,13 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
+		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
+		FileModel model = new FileModel();
+		String path=model.getPath();
+		String file=model.getFile();
 		//Acción aca
-		
 		try {
-			ReadModel.loadXML();
+			ReadModel.loadXML(path, file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,6 +84,4 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
 	}
-	
-	
 }
