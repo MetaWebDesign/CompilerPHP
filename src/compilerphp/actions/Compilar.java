@@ -44,11 +44,20 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		System.out.println("Compilando..");
 		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
+		/*
 		String workingDir = System.getProperty("user.dir");
 		Path p = Paths.get(workingDir);
+		ExecuteShellComand obj = new ExecuteShellComand();
+		String comando="ls -1 "+p.getParent().toString()+"/runtime-EclipseApplication/ | wc | awk {'print $1'}";
+		String num_dir=  obj.executeCommand(comando);//UBICA EL ARCHIVO XML
+		System.out.println(comando);
+		System.out.println("Number proyect: "+num_dir);
 		String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
 		String currentXML=getCurrentFile(currentDirectory);
 		System.out.println(currentDirectory+"/"+currentXML);
+		*/
+		ExecuteShellComand obj= new ExecuteShellComand();
+		obj.countProyects();
 		//Acción aca
 		/*
 		try {
@@ -91,15 +100,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		this.window = window;
 	}
 	
-	public static void test(){
-		try {
-			ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning/", "elearning.metawebdesign");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	public static String getCurrentFile(String currentDirectory){
 		System.out.println("getCurrentFile");
 		String fileModel = null;
@@ -136,6 +136,15 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			"CompilerPHP",
 			msn);
 	}
+	
+	public static void test(){
+		ExecuteShellComand obj = new ExecuteShellComand();
+		String comando="ls -1 /home/leo/Documentos/github/runtime-EclipseApplication | wc | awk {'print $1'}";
+		String num_dir=  obj.executeCommand(comando);//UBICA EL ARCHIVO XML
+		System.out.println("comando");
+		System.out.println("Number proyect: "+num_dir);
+	}
+	
 	
 	public static void main(String[] args) throws IOException {
 		//getCurrentDirectory();
