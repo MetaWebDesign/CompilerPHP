@@ -2,14 +2,17 @@ package compilerphp.actions;
 
 //import java.io.IOException;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+//import org.eclipse.swt.graphics.Path;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.jface.dialogs.MessageDialog;
-
 
 
 
@@ -37,13 +40,18 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
+		System.out.println("Compilando..");
 		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
-		FileModel model = new FileModel();
-		String path=model.getPath();
-		String file=model.getFile();
+		String workingDir = System.getProperty("user.dir");
+		Path p = Paths.get(workingDir);
+		String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
+		String currentXML=getCurrentFile(currentDirectory);
+		System.out.println(currentDirectory+"-"+currentXML);
 		//Acción aca
 		try {
-			ReadModel.loadXML(path, file);
+			System.out.println("Ejecutando el resto");
+			ReadModel.loadXML(" ", " ");
+			//ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,5 +91,36 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 */
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
+	}
+	
+	public static void test(){
+		try {
+			ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning/", "elearning.metawebdesign");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static String getCurrentFile(String currentDirectory){
+		System.out.println("getCurrentFile");
+		String fileModel = null;
+		File folder = new File(currentDirectory);
+		File[] listOfFiles = folder.listFiles();
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	      if (listOfFiles[i].isFile()) {
+	        System.out.println("File " + listOfFiles[i].getName());
+	        if(listOfFiles[i].getName().indexOf("metawebdesign")!=-1){
+	        	int stop=listOfFiles[i].getName().indexOf(".");
+	        	fileModel=listOfFiles[i].getName().substring(0, stop)+".metawebdesign";
+	        }
+	      } 
+	    }
+		return fileModel;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		//getCurrentDirectory();
+		test();
 	}
 }

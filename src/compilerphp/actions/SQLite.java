@@ -1,11 +1,14 @@
 package compilerphp.actions;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+//import org.sqlite.*;
+import java.sql.*;
+
 
 public class SQLite{
 	
@@ -100,9 +103,11 @@ public class SQLite{
 
 	//EXECUTA EL SQL CREADO
 	public static void sqlite_execute(String sql, String path){
-		   Connection c = null;
-		    Statement stmt = null;
+		
+		Connection c = null;
+		   Statement stmt = null;
 		    try {
+		      Class.forName("org.sqlite.JDBC");   
 		      c = DriverManager.getConnection("jdbc:sqlite:"+path+"/test.db");
 		      System.out.println("Opened database successfully");
 		      stmt = c.createStatement();
