@@ -16,7 +16,6 @@ public class SQL{
 		tablas = new ArrayList<Tabla>(); //CONTIENE A LA(S) LLAVE(S) FORANEAS
 		views = new ArrayList<View>();
 	}
-	
 
 	public void addTabla(Tabla t){
 		tablas.add(t);
