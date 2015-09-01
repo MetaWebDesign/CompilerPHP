@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 //import org.eclipse.swt.graphics.Path;
@@ -25,7 +27,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
  * @see IWorkbenchWindowActionDelegate
  */
 public class Compilar implements IWorkbenchWindowActionDelegate {
-	private IWorkbenchWindow window;
+	private static IWorkbenchWindow window;
 	//public ReadModel RM;
 	/**
 	 * The constructor.
@@ -46,8 +48,9 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		Path p = Paths.get(workingDir);
 		String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
 		String currentXML=getCurrentFile(currentDirectory);
-		System.out.println(currentDirectory+"-"+currentXML);
+		System.out.println(currentDirectory+"/"+currentXML);
 		//Acción aca
+		/*
 		try {
 			System.out.println("Ejecutando el resto");
 			ReadModel.loadXML(" ", " ");
@@ -55,15 +58,10 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
-		//IF NO HAY ERRORES
-		MessageDialog.openInformation(
-			window.getShell(),
-			"CompilerPHP",
-			"Compilando ...");
-		//ELSE HAY ERRORES
-			//MENSAJE DE ERROR
+		windowMensajeInfo("Probando compilador");
+
 	}
 
 	/**
@@ -117,6 +115,26 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	      } 
 	    }
 		return fileModel;
+	}
+	
+	
+	public static void windowListOptions(String[] choices){
+		//String[] choices = { "A", "B", "C", "D", "E", "F" };
+		String input = (String) JOptionPane.showInputDialog(null, "Choose now...",
+				"The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
+                                                                        // default
+                                                                        // icon
+        choices, // Array of choices
+        choices[1]); // Initial choice
+		System.out.println(input);
+	}
+	
+	public static void windowMensajeInfo(String msn){
+		//IF NO HAY ERRORES
+		MessageDialog.openInformation(
+			window.getShell(),
+			"CompilerPHP",
+			msn);
 	}
 	
 	public static void main(String[] args) throws IOException {
