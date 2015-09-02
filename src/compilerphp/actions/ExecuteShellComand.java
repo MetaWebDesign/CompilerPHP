@@ -66,15 +66,15 @@ public class ExecuteShellComand {
 		System.out.println("getProyects()");
 		Locate l=new Locate();
 		String path=l.getPath();
-		String[] proyectos=new String[2];
+		String[] proyectos=new String[countProyects()+1];
 		int cont=0;
 		//StringBuffer output = new StringBuffer();
 		Process p;
 		
-		String command="ls -l "+path+"/runtime-EclipseApplication/ | awk {'print $9'}";
+		String comando="bash "+path+path_bash+"get_proyects.sh "+path+"/runtime-EclipseApplication/";
 		try {
-			System.out.println("try :"+command);
-			p = Runtime.getRuntime().exec(command);
+			System.out.println("try :"+comando);
+			p = Runtime.getRuntime().exec(comando);
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
