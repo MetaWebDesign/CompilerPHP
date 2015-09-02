@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 public class ExecuteShellComand {
 
 	public String path_bash="/CompilerPHP/src/bash/";
+	//public int num_proyects=0;
 	
 	public static void main(String[] args) {
 
@@ -55,8 +56,39 @@ public class ExecuteShellComand {
 		String path=l.getPath();
 		String comando="bash "+path+path_bash+"contar_dir_proyecto.sh "+path+"/runtime-EclipseApplication/";
 		String output=executeCommand(comando);
-		System.out.println("output: "+output);
-		return  Integer.parseInt(output);
+		
+		int count=Integer.parseInt(output.substring(0, output.length()-1));//-1 POR QUE HAY UN SALTO DE LINEA EN EL STRING
+		System.out.println("output: |"+count+"|");
+		return count;
+	}
+	
+	public String[] getProyects(){
+		System.out.println("getProyects()");
+		Locate l=new Locate();
+		String path=l.getPath();
+		String[] proyectos=new String[2];
+		int cont=0;
+		//StringBuffer output = new StringBuffer();
+		Process p;
+		
+		String command="ls -l"+path+"/runtime-EclipseApplication/ | awk {'print $9'}";
+		try {
+			//System.out.println("exec: "+command);
+			p = Runtime.getRuntime().exec(command);
+			p.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = "";			
+			while ((line = reader.readLine())!= null) {
+				System.out.println("-> "+line);
+				proyectos[cont]=line;
+				//output.append(line + "\n");
+				cont++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return proyectos;
 	}
 
 }

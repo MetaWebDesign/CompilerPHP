@@ -49,31 +49,33 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 
 		ExecuteShellComand obj= new ExecuteShellComand();
 		int num_pro=obj.countProyects();
+		System.out.println("num_pro: "+num_pro);
 		
 		if(num_pro ==1){//Hay solo un proyecto (modelo)
+			//String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
+			//String currentXML=getCurrentFile(currentDirectory);
+			//System.out.println(currentDirectory+"/"+currentXML);
 			
+			//Acción aca
+			/*
+			try {
+				System.out.println("Ejecutando el resto");
+				ReadModel.loadXML(" ", " ");
+				//ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			
+			windowMensajeInfo("Probando compilador");
+
 		}
 		else{//hay más de un proyecto (modelo)
-			
+			System.out.println("Else");
+			windowListOptions(obj.getProyects());
 		}
 		
 		
-		//String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
-		//String currentXML=getCurrentFile(currentDirectory);
-		//System.out.println(currentDirectory+"/"+currentXML);
-		
-		//Acción aca
-		/*
-		try {
-			System.out.println("Ejecutando el resto");
-			ReadModel.loadXML(" ", " ");
-			//ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		windowMensajeInfo("Probando compilador");
 
 	}
 
