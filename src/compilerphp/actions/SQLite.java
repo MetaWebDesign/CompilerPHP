@@ -99,14 +99,17 @@ public class SQLite{
 		int stop=file.indexOf(".");
 		String nombreScriptBD=file.substring(0, stop);
 		System.out.println("nombre archivo: "+nombreScriptBD+" stop :"+stop);
+		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
 		FileWriter fichero = null;
 		fichero = new FileWriter(path+"/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
-			//sqlite_execute(sql_line, path, file);
 			fichero.write("sqlite3 "+path+"/"+nombreScriptBD+".db \""+sql_line+"\"\n");
 			System.out.println("sqlite3-> "+sql_line);
 		}
 		fichero.close();
+		ExecuteShellComand obj= new ExecuteShellComand();
+		obj.executeCommand("chmod +x "+path+"/"+nombreScriptBD+".sh");
+		obj.executeCommand("bash "+path+"/"+nombreScriptBD+".sh");
 	}
 
 	/*
