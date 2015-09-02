@@ -54,18 +54,16 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		System.out.println("num_pro: "+num_pro);
 		
 		if(num_pro ==1){//Hay solo un proyecto (modelo)
-
-			
-			//Acción aca
-			/*
+			path=currentDirectory+obj.getProyects()[0];
+			file=getCurrentFile(path);
 			try {
 				System.out.println("Ejecutando el resto");
-				ReadModel.loadXML(" ", " ");
-				//ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
+				System.out.println(path+"/"+file);
+				ReadModel.loadXML(path, file);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 			
 			windowMensajeInfo("Probando compilador");
 
@@ -77,8 +75,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			file=getCurrentFile(path);
 			try {
 				System.out.println(path+"/"+file);
-				ReadModel.loadXML(path, file);
-				//ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
+				ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

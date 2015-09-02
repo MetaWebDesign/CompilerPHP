@@ -62,13 +62,13 @@ public class ExecuteShellComand {
 		return count;
 	}
 	
+	//OBTIENE TODOS LOS PROYECTOS DE MODELADOS (LISTA DE NOMBRES)
 	public String[] getProyects(){
 		System.out.println("getProyects()");
 		Locate l=new Locate();
 		String path=l.getPath();
 		String[] proyectos=new String[countProyects()+1];
 		int cont=0;
-		//StringBuffer output = new StringBuffer();
 		Process p;
 		
 		String comando="bash "+path+path_bash+"get_proyects.sh "+path+"/runtime-EclipseApplication/";
