@@ -1,6 +1,5 @@
 package compilerphp.actions;
 
-import java.io.FileWriter;
 import java.io.IOException;
 //import java.sql.Connection;
 //import java.sql.DriverManager;
@@ -96,22 +95,34 @@ public class SQLite{
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);
-		int stop=file.indexOf(".");
-		String nombreScriptBD=file.substring(0, stop);
-		System.out.println("nombre archivo: "+nombreScriptBD+" stop :"+stop);
-		FileWriter fichero = null;
-		fichero = new FileWriter(path+"/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
-			//sqlite_execute(sql_line, path, file);
-			fichero.write("sqlite3 "+path+"/"+nombreScriptBD+".db \""+sql_line+"\"\n");
-			System.out.println("sqlite3-> "+sql_line);
+				sqlite_execute(sql_line, path);
+				System.out.println("sqlite3-> "+sql_line);
 		}
-		fichero.close();
 	}
 
-	/*
+	//EXECUTA EL SQL CREADO
+	public static void sqlite_execute(String sql, String path){
+		
+		Connection c = null;
+		   Statement stmt = null;
+		    try {
+		      Class.forName("org.sqlite.JDBC");   
+		      c = DriverManager.getConnection("jdbc:sqlite:"+path+"/test.db");
+		      System.out.println("Opened database successfully");
+		      stmt = c.createStatement();
+		      stmt.executeUpdate(sql);
+		      stmt.close();
+		      c.close();
+		    } catch ( Exception e ) {
+		      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		      System.exit(0);
+		    }
+		    System.out.println("Table created successfully");
+  }
+	
 	public static void main(String[] args) throws IOException {
 		sqlite_execute("Create table test2(nombre text);", "/home/leo/runtime-EclipseApplication/Elearning");
-	}*/
+	}
 	
 }
