@@ -28,6 +28,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
  */
 public class Compilar implements IWorkbenchWindowActionDelegate {
 	private static IWorkbenchWindow window;
+	private static String path;
+	private static String file;
 	//public ReadModel RM;
 	/**
 	 * The constructor.
@@ -46,15 +48,13 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
 		String workingDir = System.getProperty("user.dir");
 		Path p = Paths.get(workingDir);
-
+		String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/";//IDENTIFICA LA RUTA DEL XML
 		ExecuteShellComand obj= new ExecuteShellComand();
 		int num_pro=obj.countProyects();
 		System.out.println("num_pro: "+num_pro);
 		
 		if(num_pro ==1){//Hay solo un proyecto (modelo)
-			//String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
-			//String currentXML=getCurrentFile(currentDirectory);
-			//System.out.println(currentDirectory+"/"+currentXML);
+
 			
 			//Acción aca
 			/*
@@ -72,7 +72,17 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		}
 		else{//hay más de un proyecto (modelo)
 			System.out.println("Else");
-			windowListOptions(obj.getProyects());
+			String proyecto=windowListOptions(obj.getProyects());
+			path=currentDirectory+proyecto;
+			file=getCurrentFile(path);
+			try {
+				System.out.println(path+"/"+file);
+				ReadModel.loadXML(path, file);
+				//ReadModel.loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
@@ -107,7 +117,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	}
 	
 	public static String getCurrentFile(String currentDirectory){
-		System.out.println("getCurrentFile");
+		System.out.println("getCurrentFile :"+currentDirectory);
 		String fileModel = null;
 		File folder = new File(currentDirectory);
 		File[] listOfFiles = folder.listFiles();
@@ -124,7 +134,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	}
 	
 	
-	public static void windowListOptions(String[] choices){
+	public static String windowListOptions(String[] choices){
 		//String[] choices = { "A", "B", "C", "D", "E", "F" };
 		String input = (String) JOptionPane.showInputDialog(null, "Choose now...",
 				"The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
@@ -133,6 +143,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
         choices, // Array of choices
         choices[1]); // Initial choice
 		System.out.println(input);
+		return input;
 	}
 	
 	public static void windowMensajeInfo(String msn){
