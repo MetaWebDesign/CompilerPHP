@@ -44,20 +44,24 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		System.out.println("Compilando..");
 		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
-		/*
 		String workingDir = System.getProperty("user.dir");
 		Path p = Paths.get(workingDir);
-		ExecuteShellComand obj = new ExecuteShellComand();
-		String comando="ls -1 "+p.getParent().toString()+"/runtime-EclipseApplication/ | wc | awk {'print $1'}";
-		String num_dir=  obj.executeCommand(comando);//UBICA EL ARCHIVO XML
-		System.out.println(comando);
-		System.out.println("Number proyect: "+num_dir);
-		String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
-		String currentXML=getCurrentFile(currentDirectory);
-		System.out.println(currentDirectory+"/"+currentXML);
-		*/
+
 		ExecuteShellComand obj= new ExecuteShellComand();
-		obj.countProyects();
+		int num_pro=obj.countProyects();
+		
+		if(num_pro ==1){//Hay solo un proyecto (modelo)
+			
+		}
+		else{//hay más de un proyecto (modelo)
+			
+		}
+		
+		
+		//String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/Elearning";//IDENTIFICA LA RUTA DEL XML
+		//String currentXML=getCurrentFile(currentDirectory);
+		//System.out.println(currentDirectory+"/"+currentXML);
+		
 		//Acción aca
 		/*
 		try {

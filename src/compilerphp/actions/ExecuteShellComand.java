@@ -50,11 +50,13 @@ public class ExecuteShellComand {
 		return output.toString();
 	}
 	
-	public void countProyects(){
-		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
-		String workingDir = System.getProperty("user.dir");
-		Path p = Paths.get(workingDir);
-		System.out.println(p.getParent().toString());
+	public int countProyects(){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String comando="bash "+path+path_bash+"contar_dir_proyecto.sh "+path+"/runtime-EclipseApplication/";
+		String output=executeCommand(comando);
+		System.out.println("output: "+output);
+		return  Integer.parseInt(output);
 	}
 
 }
