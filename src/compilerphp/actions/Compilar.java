@@ -56,6 +56,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		if(num_pro ==1){//Hay solo un proyecto (modelo)
 			path=currentDirectory+obj.getProyects()[0];
 			file=getCurrentFile(path);
+			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println("Ejecutando el resto");
 				System.out.println(path+"/"+file);
@@ -73,6 +74,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			String proyecto=windowListOptions(obj.getProyects());
 			path=currentDirectory+proyecto;
 			file=getCurrentFile(path);
+			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println(path+"/"+file);
 				ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
