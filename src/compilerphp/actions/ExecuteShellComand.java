@@ -71,9 +71,9 @@ public class ExecuteShellComand {
 		//StringBuffer output = new StringBuffer();
 		Process p;
 		
-		String command="ls -l"+path+"/runtime-EclipseApplication/ | awk {'print $9'}";
+		String command="ls -l "+path+"/runtime-EclipseApplication/ | awk {'print $9'}";
 		try {
-			//System.out.println("exec: "+command);
+			System.out.println("try :"+command);
 			p = Runtime.getRuntime().exec(command);
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -86,6 +86,7 @@ public class ExecuteShellComand {
 				cont++;
 			}
 		} catch (Exception e) {
+			System.out.println("Exception");
 			e.printStackTrace();
 		}
 		return proyectos;
