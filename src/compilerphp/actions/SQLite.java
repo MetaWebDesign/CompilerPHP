@@ -96,20 +96,23 @@ public class SQLite{
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);
+		ExecuteShellComand obj= new ExecuteShellComand();
 		int stop=file.indexOf(".");
 		String nombreScriptBD=file.substring(0, stop);
 		System.out.println("nombre archivo: "+nombreScriptBD+" stop :"+stop);
+		//CREO LA CARPETA DEL PROYECTO
+		obj.executeCommand("mkdir "+path+"/PHP");
 		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
 		FileWriter fichero = null;
-		fichero = new FileWriter(path+"/"+nombreScriptBD+".sh");
+		fichero = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
-			fichero.write("sqlite3 "+path+"/"+nombreScriptBD+".db \""+sql_line+"\"\n");
+			fichero.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
 			System.out.println("sqlite3-> "+sql_line);
 		}
 		fichero.close();
-		ExecuteShellComand obj= new ExecuteShellComand();
-		obj.executeCommand("chmod +x "+path+"/"+nombreScriptBD+".sh");
-		obj.executeCommand("bash "+path+"/"+nombreScriptBD+".sh");
+		
+		obj.executeCommand("chmod +x "+path+"/PHP/"+nombreScriptBD+".sh");
+		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
 
 	/*
