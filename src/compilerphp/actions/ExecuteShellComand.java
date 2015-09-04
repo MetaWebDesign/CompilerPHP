@@ -81,5 +81,26 @@ public class ExecuteShellComand {
 		System.out.println(comando);
 		executeCommand(comando);
 	}
+	
+	
+	//GENERA EL MODELO DE UNA CLASE
+	public void gen_model(String model){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String path_php="/CompilerPHP/src/php/proyect/";
+		String comando="bash "+path+path_bash+"gen_model.sh "+path+path_php+"/proyect/ "+model;
+		System.out.println(comando);
+		executeCommand(comando);
+	}
+	
+	
+	//RESPALDAR UN ARCHIVOcondb
+	public void backup(String path_file){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String comando="bash "+path+path_bash+"buckup.sh "+path_file;
+		System.out.println(comando);
+		executeCommand(comando);
+	}
 
 }

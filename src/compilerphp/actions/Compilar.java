@@ -45,17 +45,10 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		//System.out.println("Compilando..");
-		
-		//OBTIENE LA RUATA Y EL NOMBRE DEL ARCHIVO DEL MODELO
-		//String workingDir = System.getProperty("user.dir");
-		//Path p = Paths.get(workingDir);
-		//String currentDirectory=p.getParent().toString()+"/runtime-EclipseApplication/";//IDENTIFICA LA RUTA DEL XML
 		Locate l=new Locate();
 		String currentDirectory=l.getPath()+"/runtime-EclipseApplication/";
 		ExecuteShellComand obj= new ExecuteShellComand();
 		int num_pro=obj.countProyects();
-		//System.out.println("num_pro: "+num_pro);
 		
 		if(num_pro ==1){//Hay solo un proyecto (modelo)
 			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
@@ -74,7 +67,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 
 		}
 		else{//hay más de un proyecto (modelo)
-			//System.out.println("Else");
 			String proyecto=windowListOptions(obj.getProyects());
 			path=currentDirectory+proyecto;
 			file=getCurrentFile(path);
@@ -91,7 +83,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		//GENERACION DE CODIGO PHP
 		PHP php=new PHP(path+"/PHP/");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
-
+		php.configureBD();
 	}
 
 	/**
