@@ -76,7 +76,7 @@ public class ExecuteShellComand {
 	public void start_proyect(String path_proyect){
 		Locate l=new Locate();
 		String path=l.getPath();
-		String path_php="/CompilerPHP/src/php/";
+		String path_php="/CompilerPHP/src/php/proyect/";
 		String comando="bash "+path+path_bash+"start_php.sh "+path+path_php+" "+path_proyect;
 		System.out.println(comando);
 		executeCommand(comando);
