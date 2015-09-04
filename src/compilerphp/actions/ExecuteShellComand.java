@@ -9,26 +9,7 @@ import java.nio.file.Paths;
 public class ExecuteShellComand {
 
 	public String path_bash="/CompilerPHP/src/bash/";
-	//public int num_proyects=0;
 	
-	public static void main(String[] args) {
-
-		ExecuteShellComand obj = new ExecuteShellComand();
-
-		String domainName = "google.com";
-		
-		//in mac oxs
-		String command = "ping -c 3 " + domainName;
-		
-		//in windows
-		//String command = "ping -n 3 " + domainName;
-		
-		String output = obj.executeCommand(command);
-
-		System.out.println(output);
-
-	}
-
 	public String executeCommand(String command) {
 
 		StringBuffer output = new StringBuffer();
@@ -90,6 +71,15 @@ public class ExecuteShellComand {
 			e.printStackTrace();
 		}
 		return proyectos;
+	}
+	
+	public void start_proyect(String path_proyect){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String path_php="/CompilerPHP/src/php/";
+		String comando="bash "+path+path_bash+"start_php.sh "+path+path_php+" "+path_proyect;
+		System.out.println(comando);
+		executeCommand(comando);
 	}
 
 }
