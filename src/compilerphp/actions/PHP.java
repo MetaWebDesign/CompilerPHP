@@ -29,7 +29,7 @@ public class PHP{
 	 */
 	public void configureBD(){
 		System.out.println("Configurando base de datos");
-		String config_db=path_proyect+"config/db.php";
+		String config_db=path_proyect+"proyect/config/db.php";
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.backup(config_db);
 		FileWriter fichero = null;
@@ -38,7 +38,7 @@ public class PHP{
 			String file="<?php\n"
 					+"return [\n"
 					+"'class' => 'yii\\db\\Connection', \n"
-					+"'dsn' => 'sqlite:/home/leo/public_html/Elearning/config/yii.db',\n"
+					+"'dsn' => 'sqlite:"+config_db+"',\n"
 					+"];";
 			fichero.write("liena1");
 			fichero.write("liena2");
@@ -47,6 +47,7 @@ public class PHP{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//Mover la BDD
 	}
 	
 	/*
