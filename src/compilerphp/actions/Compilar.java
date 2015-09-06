@@ -4,8 +4,6 @@ package compilerphp.actions;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
 
@@ -30,6 +28,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	private static IWorkbenchWindow window;
 	private static String path;
 	private static String file;
+	private static String name_proyect;
 	//private static String proyecto;
 	//public ReadModel RM;
 	/**
@@ -52,7 +51,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		
 		if(num_pro ==1){//Hay solo un proyecto (modelo)
 			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
-			file=getCurrentFile(path);
+			name_proyect=getCurrentFile(path);
+			file=name_proyect+".metawebdesign";
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 			//	System.out.println("Ejecutando el resto");
@@ -63,8 +63,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 				e.printStackTrace();
 			}
 			
-			windowMensajeInfo("Probando compilador");
-
 		}
 		else{//hay más de un proyecto (modelo)
 			String proyecto=windowListOptions(obj.getProyects());
@@ -83,7 +81,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		//GENERACION DE CODIGO PHP
 		PHP php=new PHP(path+"/PHP/");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
-		php.configureBD();
+		php.configureBD(name_proyect+".db");
+		windowMensajeInfo("Compilado con exito!");
 	}
 
 	/**
@@ -123,7 +122,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	        System.out.println("File " + listOfFiles[i].getName());
 	        if(listOfFiles[i].getName().indexOf("metawebdesign")!=-1){
 	        	int stop=listOfFiles[i].getName().indexOf(".");
-	        	fileModel=listOfFiles[i].getName().substring(0, stop)+".metawebdesign";
+	        	fileModel=listOfFiles[i].getName().substring(0, stop);
 	        }
 	      } 
 	    }

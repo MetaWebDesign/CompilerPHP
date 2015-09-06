@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 //import org.sqlite.*;
-import java.sql.*;
 
 
 public class SQLite{

@@ -27,7 +27,7 @@ public class PHP{
 	 * 	configuración para sqlite, si se desea otra BDD, esta desde el
 	 *  panel de administración de la plataforma se puede cambiar.
 	 */
-	public void configureBD(){
+	public void configureBD(String db_name){
 		System.out.println("Configurando base de datos");
 		String config_db=path_proyect+"proyect/config/db.php";
 		ExecuteShellComand obj= new ExecuteShellComand();
@@ -35,19 +35,20 @@ public class PHP{
 		FileWriter fichero = null;
 		try {
 			fichero = new FileWriter(config_db);
-			String file="<?php\n"
+			String sqlite_conf="<?php\n"
 					+"return [\n"
 					+"'class' => 'yii\\db\\Connection', \n"
-					+"'dsn' => 'sqlite:"+config_db+"',\n"
+					+"'dsn' => 'sqlite:"+db_name+"',\n"
 					+"];";
-			fichero.write("liena1");
-			fichero.write("liena2");
+			fichero.write(sqlite_conf);
 			fichero.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Mover la BDD
+		System.out.println("Movinedo la BDD a la carpeta config");
+		obj.executeCommand("mv "+path_proyect+db_name+" "+path_proyect+"proyect/config/");
 	}
 	
 	/*
