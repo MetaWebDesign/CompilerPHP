@@ -38,7 +38,7 @@ public class PHP{
 			String sqlite_conf="<?php\n"
 					+"return [\n"
 					+"'class' => 'yii\\db\\Connection', \n"
-					+"'dsn' => 'sqlite:"+db_name+"',\n"
+					+"'dsn' => 'sqlite:config/"+db_name+"',\n"
 					+"];";
 			fichero.write(sqlite_conf);
 			fichero.close();
@@ -52,14 +52,16 @@ public class PHP{
 	}
 	
 	/*
-	public void genCRUD(){
+	public void genModel(){
 		
 	}*/
 	
 	/*
-	public void genModel(){
+	public void genCRUD(){
 		
 	}*/
+	
+
 	
 	
 	//public void genExtencion()
