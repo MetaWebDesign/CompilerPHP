@@ -118,7 +118,7 @@ public class SQLite{
 		script_crud = new FileWriter(path+"/PHP/crud.sh");
 		script_crud.write("cd $1/proyect/\n");
 		for(Tabla tabla : tablas) {
-			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\app\\models\\"+tabla.getNombre()+" --controllerClass=\\app\\controllers\\WebController\n");
+			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
 		}
 		script_crud.close();
 		
