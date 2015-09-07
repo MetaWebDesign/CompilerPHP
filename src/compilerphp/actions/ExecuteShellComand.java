@@ -116,12 +116,6 @@ public class ExecuteShellComand {
 		executeCommand(comando);
 	}
 	
-	public void gii_model(String tabla){
-		Locate l=new Locate();
-		String path=l.getPath();
-		String comando="bash "+path+path_bash+"buckup.sh "+path_file;
-		System.out.println(comando);
-		executeCommand(comando);
-	}
+
 
 }

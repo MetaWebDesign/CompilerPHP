@@ -114,22 +114,25 @@ public class SQLite{
 		}
 		script_bdd.close();
 		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
-		script_crud = new FileWriter(path+"/PHP/model.sh");
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
+		script_crud = new FileWriter(path+"/PHP/crud.sh");
+		script_crud.write("cd proyect/\n");
 		for(Tabla tabla : tablas) {
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\app\\models\\"+tabla.getNombre()+" --controllerClass=\\app\\controllers\\WebController\n");
 		}
 		script_crud.close();
 		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE CRUD
-		script_model = new FileWriter(path+"/PHP/crud.sh");
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
+		script_model = new FileWriter(path+"/PHP/model.sh");
+		script_model.write("cd proyect/\n");
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
 		}
 		script_model.close();	
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
-		obj.executeCommand("chmod +x "+path+"/PHP/"+nombreScriptBD+".sh");
+		obj.executeCommand("chmod +x "+path+"/PHP/*");
+		
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
