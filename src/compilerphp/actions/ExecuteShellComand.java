@@ -6,10 +6,17 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/*
+ * EJECUTAR SENTENCIAS SHELL
+ * programa de apoyo para generar software utilizando 
+ * el SO, para la generanci{on de codigo automatico
+ * y obtenci{On de variables de sistema
+ */
 public class ExecuteShellComand {
 
 	public String path_bash="/CompilerPHP/src/bash/";
 	
+	//EJECUTAR UN COMANDO BASH DESDE EL SISTEMA
 	public String executeCommand(String command) {
 
 		StringBuffer output = new StringBuffer();
@@ -32,6 +39,8 @@ public class ExecuteShellComand {
 		return output.toString();
 	}
 	
+	
+	//CONTADOR DE PROYECTOS METAWEBDESIGN
 	public int countProyects(){
 		Locate l=new Locate();
 		String path=l.getPath();
@@ -72,7 +81,11 @@ public class ExecuteShellComand {
 		}
 		return proyectos;
 	}
-	
+
+	/*
+	 * INICIAR PROYECTO PHP
+	 * copia la base de el sitio web php en la carpeta del proyecto
+	 */
 	public void start_proyect(String path_proyect){
 		Locate l=new Locate();
 		String path=l.getPath();
@@ -94,8 +107,16 @@ public class ExecuteShellComand {
 	}
 	
 	
-	//RESPALDAR UN ARCHIVOcondb
+	//RESPALDAR UN ARCHIVO 
 	public void backup(String path_file){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String comando="bash "+path+path_bash+"buckup.sh "+path_file;
+		System.out.println(comando);
+		executeCommand(comando);
+	}
+	
+	public void gii_model(String tabla){
 		Locate l=new Locate();
 		String path=l.getPath();
 		String comando="bash "+path+path_bash+"buckup.sh "+path_file;

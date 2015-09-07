@@ -95,28 +95,38 @@ public class SQLite{
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);
+		List <Tabla> tablas = model.getTablas();
 		ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter script_bdd = null;
+		FileWriter script_model = null;
+		FileWriter script_crud = null;
 		int stop=file.indexOf(".");
 		String nombreScriptBD=file.substring(0, stop);
-		System.out.println("nombre archivo: "+nombreScriptBD+" stop :"+stop);
 		
 		//CREO LA CARPETA DEL PROYECTO
 		obj.executeCommand("mkdir "+path+"/PHP");
 		
 		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
-		FileWriter fichero = null;
-		fichero = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
+		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
-			fichero.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
+			script_bdd.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
 			System.out.println("sqlite3-> "+sql_line);
 		}
+		script_bdd.close();
 		
-		//CAPTURA DE TABLAS PARA LA GENERACIÓN DEL MODELO Y CRUD
-		List <Tabla> tablas = model.getTablas();
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
+		script_crud = new FileWriter(path+"/PHP/model.sh");
 		for(Tabla tabla : tablas) {
-			fichero.write("echo "+tabla.getNombre()+"> tablas.dat\n");
+			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\app\\models\\"+tabla.getNombre()+" --controllerClass=\\app\\controllers\\WebController\n");
 		}
-		fichero.close();
+		script_crud.close();
+		
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE CRUD
+		script_model = new FileWriter(path+"/PHP/crud.sh");
+		for(Tabla tabla : tablas) {
+			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
+		}
+		script_model.close();	
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/"+nombreScriptBD+".sh");

@@ -1,5 +1,8 @@
 package compilerphp.actions;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -52,9 +55,19 @@ public class PHP{
 	}
 	
 	/*
-	public void genModel(){
-		
-	}*/
+	 * GENERA EL MODELO DE LAS TABLAS
+	 */
+	public void genModel() throws IOException{
+		//LECTURA DE LAS TABLAS
+		String substr;
+	    FileReader fr = new FileReader(path_proyect+"tablas.dat");
+	    BufferedReader br = new BufferedReader(fr);
+	    String line;
+	    //LECTURA
+	    while((line = br.readLine()) != null) {
+	    	
+	    }
+	}
 	
 	/*
 	public void genCRUD(){
