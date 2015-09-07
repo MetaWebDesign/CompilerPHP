@@ -142,8 +142,9 @@ public class ReadModel{
 		}
 	}
 	
+	/*
 	public static void main(String[] args) throws IOException {
 		//getCurrentDirectory();
 		loadXML("/home/leo/runtime-EclipseApplication/Elearning", "elearning.metawebdesign");
-	}
+	}*/
 }

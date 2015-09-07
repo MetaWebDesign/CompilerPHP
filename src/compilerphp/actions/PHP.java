@@ -56,7 +56,7 @@ public class PHP{
 	 */
 	public void genModel(){
 		ExecuteShellComand obj= new ExecuteShellComand();
-		String comando="bash "+path_proyect+"model.sh";
+		String comando="bash "+path_proyect+"model.sh "+path_proyect;
 		obj.executeCommand(comando);
 	}
 	
@@ -65,17 +65,12 @@ public class PHP{
 	 */
 	public void genCRUD(){
 		ExecuteShellComand obj= new ExecuteShellComand();
-		String comando="bash "+path_proyect+"crud.sh";
+		String comando="bash "+path_proyect+"crud.sh "+path_proyect;
 		obj.executeCommand(comando);
 	}
 	
-
-	
-	
 	//public void genExtencion()
-
 	
 	//public void configure()
-	
 	
 }
