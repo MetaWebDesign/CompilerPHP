@@ -43,7 +43,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		Locate l=new Locate();
+		Locate l=new Locate();//OBTITNE LA POSICION DEL PROYECTO EN LOS DIRECTORIOS
 		String currentDirectory=l.getPath()+"/runtime-EclipseApplication/";
 		ExecuteShellComand obj= new ExecuteShellComand();
 		int num_pro=obj.countProyects();

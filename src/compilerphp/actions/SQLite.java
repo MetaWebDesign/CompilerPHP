@@ -99,8 +99,10 @@ public class SQLite{
 		int stop=file.indexOf(".");
 		String nombreScriptBD=file.substring(0, stop);
 		System.out.println("nombre archivo: "+nombreScriptBD+" stop :"+stop);
+		
 		//CREO LA CARPETA DEL PROYECTO
 		obj.executeCommand("mkdir "+path+"/PHP");
+		
 		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
 		FileWriter fichero = null;
 		fichero = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
@@ -108,9 +110,17 @@ public class SQLite{
 			fichero.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
 			System.out.println("sqlite3-> "+sql_line);
 		}
+		
+		//CAPTURA DE TABLAS PARA LA GENERACIÓN DEL MODELO Y CRUD
+		List <Tabla> tablas = model.getTablas();
+		for(Tabla tabla : tablas) {
+			fichero.write("echo "+tabla.getNombre()+"> tablas.dat\n");
+		}
 		fichero.close();
 		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/"+nombreScriptBD+".sh");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
 
