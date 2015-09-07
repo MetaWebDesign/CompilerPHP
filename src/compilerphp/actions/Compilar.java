@@ -80,7 +80,9 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		//GENERACION DE CODIGO PHP
 		PHP php=new PHP(path+"/PHP/");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
-		php.configureBD(name_proyect+".db");
+		php.configureBD(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
+		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
+		php.genCRUD();//GENERA SERVICIOS Y VISTAS DE LAS TABLAS
 		windowMensajeInfo("Compilado con exito!");
 	}
 
