@@ -143,24 +143,53 @@ public class SQLite{
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
 
-	/*
-	public void modelView(String view_name){
+	
+	public void modelView(View view, Tabla tabla){
 		String model_view="<?php\n";
+		List <Atributo> atributos=tabla.getAtributos();
 		model_view=model_view+"namespace app\\models;\n";
 		model_view=model_view+"use Yii;\n";
 		model_view=model_view+"/**\n";
-		model_view=model_view+" * This is the model class for table \"ramosview\".\n";
+		model_view=model_view+" * This is the model class for table \""+view.nombre+"\".\n";
 		model_view=model_view+" *\n";
 		model_view=model_view+" * @property integer $id\n";
 		model_view=model_view+" * @property string $classname\n";
 		model_view=model_view+" * @property string $max_student\n";
-		 * @property string $descrip
-		 * @property string $profesor
-		 */
-		//class Ramosview extends \yii\db\ActiveRecord
-		//{
+		model_view=model_view+" * @property string $descrip\n";
+		model_view=model_view+" * @property string $profesor\n";
+		model_view=model_view+" */\n";
+		model_view=model_view+"class Ramosview extends \\yii\\db\\ActiveRecord\n";
+		model_view=model_view+"{\n";
+		model_view=model_view+"public static function tableName()\n";
+		model_view=model_view+"{\n";
+		model_view=model_view+"    return '"+view.nombre+"';\n";
+		model_view=model_view+"}\n";
+		model_view=model_view+"public function rules()\n";
+		model_view=model_view+"{\n";
+		model_view=model_view+"    return [\n";
+		for(Atributo atributo : atributos) {
+		model_view=model_view+"        [['"+atributo.getNombre()+"'], '"+atributo.getType()+"'],\n";
+		}
+		model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
+	    model_view=model_view+"    ];\n";
+	    model_view=model_view+"}\n";
+	    model_view=model_view+"public function attributeLabels()\n";
+	    model_view=model_view+"{\n";
+	    model_view=model_view+"    return [\n";
+		for(Atributo atributo : atributos) {
+			'id' => 'ID',//SI ES LLAVE PRIMARIA NOMBRE MAYUSCULA
+		    'classname' => 'Classname', //SINO SOLO EL PRIMER CARACTER DEL ATRIBUTO ES MAYUSCULA
+		}
+	            
+	            
+	            'max_student' => 'Max Student',
+	            'descrip' => 'Descrip',
+	            /*'profesor' => 'Profesor',*/
+	   model_view=model_view+"    ];\n";
+	   model_view=model_view+" }\n";
+	   model_view=model_view+"}\n";
 		
-	//}*/
+	}
 	
 	/*
 	public static void main(String[] args) throws IOException {
