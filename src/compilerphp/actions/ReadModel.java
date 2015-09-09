@@ -90,16 +90,20 @@ public class ReadModel{
 				 */
 				if(x_attribute != -1 && x_attribute_derived != -1){
 					//DATOS A EXTRAER DE LOS ATRIBUTOS
+					
 					String substr_nombre=line.substring(x_attribute_name+6,line.length());
 					String substr_formula=line.substring(x_attribute_formula+9, line.length());
+					String substr_type=line.substring(x_attribute_type+10, line.length());
 					
 					//CRITERIO DE PARADA PARA EXTRACCION DEL DATO
 			        int stop_nombre=substr_nombre.indexOf("\"");
 			        int stop_formula=substr_formula.indexOf("\"");
+			        int stop_type=substr_type.indexOf("\"");
 			        
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
+			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
-			        View v = new View(atributo_nombre, atributo_formula, tabla );
+			        View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
 			        sql.addView(v);
 				}
 				

@@ -4,11 +4,13 @@ public class View{
 	String nombre;
 	String formula;
 	String tabla_name;
+	String type;
 	
-	public View(String n, String f, String t){
-		this.nombre=n;
-		this.formula=f;
-		this.tabla_name=t;
+	public View(String name, String form, String tabla, String type){
+		this.nombre=name;
+		this.formula=form;
+		this.tabla_name=tabla;
+		this.type=type;
 	}
 	
 	public View(){
@@ -39,5 +41,9 @@ public class View{
 	
 	public String getTabla(){
 		return this.tabla_name;
+	}
+	
+	public String getType(){
+		return this.type;
 	}
 }

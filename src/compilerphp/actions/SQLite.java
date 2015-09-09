@@ -121,9 +121,6 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
 		}
-		for(View view : views){
-			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+view.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+view.getNombre()+"Controller\n");
-		}
 		script_crud.close();
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
@@ -132,10 +129,12 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
 		}
-		for(View view : views){
-			script_model.write("./yii gii/model --tableName="+view.getNombre()+" --modelClass="+view.getNombre()+" --interactive=0\n");
-		}
-		script_model.close();	
+		script_model.close();
+		
+		//MODELO VISTAS
+			//MODE MODEL TABLE ORI
+		//CRUD VISTAS
+			//COPY CRUD TABLE ORI
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
@@ -144,6 +143,25 @@ public class SQLite{
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
 
+	/*
+	public void modelView(String view_name){
+		String model_view="<?php\n";
+		model_view=model_view+"namespace app\\models;\n";
+		model_view=model_view+"use Yii;\n";
+		model_view=model_view+"/**\n";
+		model_view=model_view+" * This is the model class for table \"ramosview\".\n";
+		model_view=model_view+" *\n";
+		model_view=model_view+" * @property integer $id\n";
+		model_view=model_view+" * @property string $classname\n";
+		model_view=model_view+" * @property string $max_student\n";
+		 * @property string $descrip
+		 * @property string $profesor
+		 */
+		//class Ramosview extends \yii\db\ActiveRecord
+		//{
+		
+	//}*/
+	
 	/*
 	public static void main(String[] args) throws IOException {
 		sqlite_execute("Create table test2(nombre text);", "/home/leo/runtime-EclipseApplication/Elearning");
