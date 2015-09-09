@@ -95,7 +95,8 @@ public class SQLite{
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);
-		List <Tabla> tablas = model.getTablas();
+		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
+		List <View> views = model.getViews(); //VISTAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		ExecuteShellComand obj= new ExecuteShellComand();
 		FileWriter script_bdd = null;
 		FileWriter script_model = null;
@@ -120,6 +121,9 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
 		}
+		for(View view : views){
+			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+view.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+view.getNombre()+"Controller\n");
+		}
 		script_crud.close();
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
@@ -127,6 +131,9 @@ public class SQLite{
 		script_model.write("cd $1/proyect/\n");
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
+		}
+		for(View view : views){
+			script_model.write("./yii gii/model --tableName="+view.getNombre()+" --modelClass="+view.getNombre()+" --interactive=0\n");
 		}
 		script_model.close();	
 		
