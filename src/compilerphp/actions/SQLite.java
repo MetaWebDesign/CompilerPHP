@@ -164,11 +164,9 @@ public class SQLite{
 		model_view=model_view+"/**\n";
 		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"view\".\n";
 		model_view=model_view+" *\n";
-		model_view=model_view+" * @property integer $id\n";
-		model_view=model_view+" * @property string $classname\n";
-		model_view=model_view+" * @property string $max_student\n";
-		model_view=model_view+" * @property string $descrip\n";
-		model_view=model_view+" * @property string $profesor\n";
+		for(Atributo atributo : atributos) {
+			model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
+		}
 		model_view=model_view+" */\n";
 		model_view=model_view+"class Ramosview extends \\yii\\db\\ActiveRecord\n";
 		model_view=model_view+"{\n";
@@ -209,14 +207,14 @@ public class SQLite{
 		}
 		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
 		model_view=model_view+"        '"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
-	   model_view=model_view+"    ];\n";
-	   model_view=model_view+" }\n";
-	   model_view=model_view+"}\n";
+	    model_view=model_view+"    ];\n";
+	    model_view=model_view+" }\n";
+	    model_view=model_view+"}\n";
 	   
-	   //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-	   php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
-	   php_model_view.write(model_view);
-	   php_model_view.close();
+	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
+	    php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
+	    php_model_view.write(model_view);
+	    php_model_view.close();
 	}
 	
 	/*
