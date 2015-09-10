@@ -93,7 +93,12 @@ public class SQLite{
 		return dataBase;
 	}
 	
-	//GENERO LA BASE DE DATOS 
+	//GENERO LA BASE DE DATOS Y ALGUNAS ESTRUCTURAS PARA EL SITIO PHP
+	/*
+	 * Crea base de datos sqlite
+	 * Crea script para generar modelos de las tablas
+	 * Crea script para generar controladores y vista de los servicios CRUD de c/u de las tablas
+	 */
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
@@ -137,10 +142,7 @@ public class SQLite{
 		script_crud.close();
 		
 		
-		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
-		for(View view : views) {
-				modelView(view, model.getTabla(view.getTabla()), path+"/PHP/");//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
-		}
+
 		
 		//ESCRITURA DE LOS CONTROLADORES A UTILIZAR PARA LAS VISTAS
 		/*
@@ -148,7 +150,7 @@ public class SQLite{
 		 * Para copiar luego en PHP.java el controlado y las vistas
 		 * asociadas al controlador.
 		 */
-				crudView(views, path+"/PHP/");
+		//		crudView(views, path+"/PHP/");
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
@@ -157,70 +159,7 @@ public class SQLite{
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
 
-	//GENERA EL MODELO PARA LAS VISTAS EN LA BDD
-	public static void modelView(View view, Tabla tabla, String path_proyect) throws IOException{
-		FileWriter php_model_view = null;
-		String atributo_model_name;
-		String model_view="<?php\n";
-		List <Atributo> atributos=tabla.getAtributos();
-		model_view=model_view+"namespace app\\models;\n";
-		model_view=model_view+"use Yii;\n";
-		model_view=model_view+"/**\n";
-		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"view\".\n";
-		model_view=model_view+" *\n";
-		for(Atributo atributo : atributos) {
-			model_view=model_view+" * @property "+atributo.getType()+" "+atributo.getNombre()+"\n";
-		}
-		model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
-		model_view=model_view+" */\n";
-		model_view=model_view+"class Ramosview extends \\yii\\db\\ActiveRecord\n";
-		model_view=model_view+"{\n";
-		model_view=model_view+"public static function tableName()\n";
-		model_view=model_view+"{\n";
-		model_view=model_view+"    return '"+view.getTabla()+view.getNombre()+"view';\n";
-		model_view=model_view+"}\n";
-		model_view=model_view+"public function rules()\n";
-		model_view=model_view+"{\n";
-		model_view=model_view+"    return [\n";
-		for(Atributo atributo : atributos) {
-			if(!atributo.getType().equals("autoincremental")){
-				String typeData=atributo.getType();
-				if(typeData.equals("varchar(10)")){
-					typeData="'string', 'max' => 10";
-				}
-				if(typeData.equals("varchar(30)")){
-					typeData="'string', 'max' => 30";
-				}
-				if(typeData.equals("varchar(50)")){
-					typeData="'string', 'max' => 50";
-				}
-				if(typeData.equals("text")){
-					typeData="'string'";
-				}
-				model_view=model_view+"        [['"+atributo.getNombre()+"'], "+typeData+"],\n";
-			}
-		}
-		model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
-	    model_view=model_view+"    ];\n";
-	    model_view=model_view+"}\n";
-	    model_view=model_view+"public function attributeLabels()\n";
-	    model_view=model_view+"{\n";
-	    model_view=model_view+"    return [\n";
-		for(Atributo atributo : atributos) {
-				atributo_model_name=atributo.getNombre().substring(0, 1).toUpperCase() +atributo.getNombre().substring(1);
-				model_view=model_view+"        '"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
-		}
-		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
-		model_view=model_view+"        '"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
-	    model_view=model_view+"    ];\n";
-	    model_view=model_view+" }\n";
-	    model_view=model_view+"}\n";
-	   
-	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-	    php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
-	    php_model_view.write(model_view);
-	    php_model_view.close();
-	}
+
 	
 	/*
 	 * REGISTRA EL O LOS NOMBRES DE LOS CONTROLADORES A CREAR 

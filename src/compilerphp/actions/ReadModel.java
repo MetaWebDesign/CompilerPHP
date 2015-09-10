@@ -9,7 +9,7 @@ public class ReadModel{
 	
 
 	
-	public static void loadXML(String path, String file) throws IOException
+	public static SQL loadXML(String path, String file) throws IOException
 	{
 			SQL sql= new SQL();
 			Tabla t=  new Tabla();
@@ -130,8 +130,8 @@ public class ReadModel{
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA
-			SQLite.createDB(sql, path, file);
-			
+			SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
+			return sql;
 	}
 	
 	public static String typeAtributeVarChar(String DataType){

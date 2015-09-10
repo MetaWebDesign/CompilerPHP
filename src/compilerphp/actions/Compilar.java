@@ -42,6 +42,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		Locate l=new Locate();//OBTITNE LA POSICION DEL PROYECTO EN LOS DIRECTORIOS
 		String currentDirectory=l.getPath()+"/runtime-EclipseApplication/";
 		ExecuteShellComand obj= new ExecuteShellComand();
+		SQL modelo=new SQL();//MODELO SQL DE LA BASE DE DATOS (ESTRUCTURA DE LOS DATOS)
 		int num_pro=obj.countProyects();
 		//Hay solo un proyecto (modelo)
 		if(num_pro ==1){
@@ -51,7 +52,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println(path+"/"+file);
-				ReadModel.loadXML(path, file);
+				modelo=ReadModel.loadXML(path, file);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -66,7 +67,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println(path+"/"+file);
-				ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
+				modelo=ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -74,11 +75,12 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		}
 		
 		//GENERACION DE CODIGO PHP
-		PHP php=new PHP(path+"/PHP/");
+		PHP php=new PHP(path+"/PHP/", modelo);
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
 		php.configureBD(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
 		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
 		php.genCRUD();//GENERA SERVICIOS Y VISTAS DE LAS TABLAS
+		php.genModelView();//GENERA LOS MODELOS DE LAS VISTAS
 		windowMensajeInfo("Compilado con exito!");
 	}
 
