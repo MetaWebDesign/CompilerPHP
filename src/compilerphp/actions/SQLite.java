@@ -162,7 +162,7 @@ public class SQLite{
 		model_view=model_view+"namespace app\\models;\n";
 		model_view=model_view+"use Yii;\n";
 		model_view=model_view+"/**\n";
-		model_view=model_view+" * This is the model class for table \""+view.nombre+"\".\n";
+		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"view\".\n";
 		model_view=model_view+" *\n";
 		model_view=model_view+" * @property integer $id\n";
 		model_view=model_view+" * @property string $classname\n";
@@ -174,13 +174,28 @@ public class SQLite{
 		model_view=model_view+"{\n";
 		model_view=model_view+"public static function tableName()\n";
 		model_view=model_view+"{\n";
-		model_view=model_view+"    return '"+view.nombre+"';\n";
+		model_view=model_view+"    return '"+view.getTabla()+view.getNombre()+"view';\n";
 		model_view=model_view+"}\n";
 		model_view=model_view+"public function rules()\n";
 		model_view=model_view+"{\n";
 		model_view=model_view+"    return [\n";
 		for(Atributo atributo : atributos) {
-		model_view=model_view+"        [['"+atributo.getNombre()+"'], '"+atributo.getType()+"'],\n";
+			if(!atributo.getType().equals("autoincremental")){
+				String typeData=atributo.getType();
+				if(typeData.equals("varchar(10)")){
+					typeData="'string', 'max' => 10";
+				}
+				if(typeData.equals("varchar(30)")){
+					typeData="'string', 'max' => 30";
+				}
+				if(typeData.equals("varchar(50)")){
+					typeData="'string', 'max' => 50";
+				}
+				if(typeData.equals("text")){
+					typeData="'string'";
+				}
+				model_view=model_view+"        [['"+atributo.getNombre()+"'], "+typeData+"],\n";
+			}
 		}
 		model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
 	    model_view=model_view+"    ];\n";
@@ -189,18 +204,11 @@ public class SQLite{
 	    model_view=model_view+"{\n";
 	    model_view=model_view+"    return [\n";
 		for(Atributo atributo : atributos) {
-			if(atributo.getPrimaryKey()==true){
-				model_view=model_view+"'"+atributo.getNombre()+"' => '"+atributo.getNombre().toUpperCase()+"',\n";
-			}
-			else{
-				//String atributo_model_name=atributo.getNombre();
-				//atributo_model_name[0]=Character.toUpperCase(atributo.getNombre()[0]);
 				atributo_model_name=atributo.getNombre().substring(0, 1).toUpperCase() +atributo.getNombre().substring(1);
-				model_view=model_view+"'"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
-			}
+				model_view=model_view+"        '"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
 		}
 		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
-		model_view=model_view+"'"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
+		model_view=model_view+"        '"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
 	   model_view=model_view+"    ];\n";
 	   model_view=model_view+" }\n";
 	   model_view=model_view+"}\n";
