@@ -132,7 +132,9 @@ public class SQLite{
 		script_model.close();
 		
 		//MODELO VISTAS
-			//MODE MODEL TABLE ORI
+		for(View view : views) {
+				modelView(view, model.getTabla(view.getTabla()));//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
+		}
 		//CRUD VISTAS
 			//COPY CRUD TABLE ORI
 		
@@ -143,8 +145,9 @@ public class SQLite{
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
 
-	
-	public void modelView(View view, Tabla tabla){
+	//GENERA EL MODELO PARA LAS VISTAS EN LA BDD
+	public static void modelView(View view, Tabla tabla){
+		String atributo_model_name;
 		String model_view="<?php\n";
 		List <Atributo> atributos=tabla.getAtributos();
 		model_view=model_view+"namespace app\\models;\n";
@@ -177,18 +180,21 @@ public class SQLite{
 	    model_view=model_view+"{\n";
 	    model_view=model_view+"    return [\n";
 		for(Atributo atributo : atributos) {
-			'id' => 'ID',//SI ES LLAVE PRIMARIA NOMBRE MAYUSCULA
-		    'classname' => 'Classname', //SINO SOLO EL PRIMER CARACTER DEL ATRIBUTO ES MAYUSCULA
+			if(atributo.getPrimaryKey()==true){
+				model_view=model_view+"'"+atributo.getNombre()+"' => '"+atributo.getNombre().toUpperCase()+"',\n";
+			}
+			else{
+				//String atributo_model_name=atributo.getNombre();
+				//atributo_model_name[0]=Character.toUpperCase(atributo.getNombre()[0]);
+				atributo_model_name=atributo.getNombre().substring(0, 1).toUpperCase() +atributo.getNombre().substring(1);
+				model_view=model_view+"'"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
+			}
 		}
-	            
-	            
-	            'max_student' => 'Max Student',
-	            'descrip' => 'Descrip',
-	            /*'profesor' => 'Profesor',*/
+		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
+		model_view=model_view+"'"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
 	   model_view=model_view+"    ];\n";
 	   model_view=model_view+" }\n";
 	   model_view=model_view+"}\n";
-		
 	}
 	
 	/*

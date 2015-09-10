@@ -32,4 +32,14 @@ public class SQL{
 	public List<View> getViews(){
 		return this.views;
 	}
+	
+	public Tabla getTabla(String tabla_name){
+		for(Tabla t : this.tablas) {
+			if(t.getNombre().equals(tabla_name)){
+				return t;
+			}
+		}
+		return null;
+	}
+	
 }
