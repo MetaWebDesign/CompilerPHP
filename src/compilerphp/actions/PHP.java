@@ -58,6 +58,7 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		String comando="bash "+path_proyect+"model.sh "+path_proyect;
 		obj.executeCommand(comando);
+		obj.executeCommand("mv "+path_proyect+"/*.php "+path_proyect+"/proyect/model/");
 	}
 	
 	/*
@@ -67,6 +68,7 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		String comando="bash "+path_proyect+"crud.sh "+path_proyect;
 		obj.executeCommand(comando);
+		//obj.executeCommand("cp -r "+path_proyect+)
 	}
 	
 	//public void genExtencion()

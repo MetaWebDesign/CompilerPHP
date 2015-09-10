@@ -144,7 +144,11 @@ public class SQLite{
 		}
 		
 		//CRUD VISTAS
-			//COPY CRUD TABLE ORI
+			/*
+			 * NO SE REQUIERE MAYOR PROCESO EN ESTA ZONA YA QUE SE UTILIZARA EL CRUD DE LA TABLA QUE CONTIENE A LA VISTA
+			 * POR LO TANTO PRIMERO DEBE CREARCE EL CRUD DE LA TABLA Y LUEGO COPIARLO CON EL NOMBRE DE LA VISTA
+			 * VER PHP.JAVA
+			 */
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
@@ -165,8 +169,9 @@ public class SQLite{
 		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"view\".\n";
 		model_view=model_view+" *\n";
 		for(Atributo atributo : atributos) {
-			model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
+			model_view=model_view+" * @property "+atributo.getType()+" "+atributo.getNombre()+"\n";
 		}
+		model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
 		model_view=model_view+" */\n";
 		model_view=model_view+"class Ramosview extends \\yii\\db\\ActiveRecord\n";
 		model_view=model_view+"{\n";
@@ -215,6 +220,19 @@ public class SQLite{
 	    php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
 	    php_model_view.write(model_view);
 	    php_model_view.close();
+	}
+	
+	/*
+	 * REGISTRA EL O LOS NOMBRES DE LOS CONTROLADORES A CREAR 
+	 * JUNTO CON LAS VISTAS DE LOS SERVICIOS CRUD
+	 */
+	public void crudView(List <View> views, String path_proyect) throws IOException{
+		FileWriter php_crud_view = null;
+		php_crud_view = new FileWriter(path_proyect+"CRUDview.dat");
+		for(View view : views) {
+			php_crud_view.write(view.getTabla());
+		}
+		php_crud_view.close();
 	}
 	
 	/*
