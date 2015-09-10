@@ -28,7 +28,6 @@ public class PHP{
 	 *  panel de administración de la plataforma se puede cambiar.
 	 */
 	public void configureBD(String db_name){
-		System.out.println("Configurando base de datos");
 		String config_db=path_proyect+"proyect/config/db.php";
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.backup(config_db);
@@ -47,7 +46,6 @@ public class PHP{
 			e.printStackTrace();
 		}
 		//Mover la BDD
-		System.out.println("Movinedo la BDD a la carpeta config");
 		obj.executeCommand("mv "+path_proyect+db_name+" "+path_proyect+"proyect/config/");
 	}
 	

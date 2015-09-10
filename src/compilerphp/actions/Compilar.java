@@ -1,7 +1,5 @@
 package compilerphp.actions;
 
-//import java.io.IOException;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -28,8 +26,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	private static String path;
 	private static String file;
 	private static String name_proyect;
-	//private static String proyecto;
-	//public ReadModel RM;
 	/**
 	 * The constructor.
 	 */
@@ -47,14 +43,13 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		String currentDirectory=l.getPath()+"/runtime-EclipseApplication/";
 		ExecuteShellComand obj= new ExecuteShellComand();
 		int num_pro=obj.countProyects();
-		
-		if(num_pro ==1){//Hay solo un proyecto (modelo)
+		//Hay solo un proyecto (modelo)
+		if(num_pro ==1){
 			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
 			name_proyect=getCurrentFile(path);
 			file=name_proyect+".metawebdesign";
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
-			//	System.out.println("Ejecutando el resto");
 				System.out.println(path+"/"+file);
 				ReadModel.loadXML(path, file);
 			} catch (IOException e) {
@@ -63,7 +58,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			}
 			
 		}
-		else{//hay más de un proyecto (modelo)
+		//hay más de un proyecto (modelo)
+		else{
 			String proyecto=windowListOptions(obj.getProyects());
 			path=currentDirectory+proyecto;
 			file=getCurrentFile(path);
@@ -113,8 +109,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		this.window = window;
 	}
 	
+	//BUSCA EL NOMBRE DEL ARCHIVO XML DENTRO DEL DIRECTORIO DEL PROYECTO
 	public static String getCurrentFile(String currentDirectory){
-		System.out.println("getCurrentFile :"+currentDirectory);
 		String fileModel = null;
 		File folder = new File(currentDirectory);
 		File[] listOfFiles = folder.listFiles();
@@ -130,7 +126,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		return fileModel;
 	}
 	
-	
+	//VENTANA CON LAS DIFERENTES PROYECTOS A COMPILAR (EN CASO DE EXISTIR MÁS DE UNO)
 	public static String windowListOptions(String[] choices){
 		//String[] choices = { "A", "B", "C", "D", "E", "F" };
 		String input = (String) JOptionPane.showInputDialog(null, "Choose now...",
@@ -143,26 +139,13 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		return input;
 	}
 	
+	
+	//VENTANA CON INFORMACION
 	public static void windowMensajeInfo(String msn){
-		//IF NO HAY ERRORES
 		MessageDialog.openInformation(
 			window.getShell(),
 			"CompilerPHP",
 			msn);
 	}
-	
-	public static void test(){
-		ExecuteShellComand obj = new ExecuteShellComand();
-		String comando="ls -1 /home/leo/Documentos/github/runtime-EclipseApplication | wc | awk {'print $1'}";
-		String num_dir=  obj.executeCommand(comando);//UBICA EL ARCHIVO XML
-		System.out.println("comando");
-		System.out.println("Number proyect: "+num_dir);
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		//getCurrentDirectory();
-		test();
-	}
-	
+		
 }

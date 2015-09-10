@@ -10,11 +10,11 @@ import java.nio.file.Paths;
  * EJECUTAR SENTENCIAS SHELL
  * programa de apoyo para generar software utilizando 
  * el SO, para la generanci{on de codigo automatico
- * y obtenci{On de variables de sistema
+ * configuración del entorno como la BDD
  */
 public class ExecuteShellComand {
 
-	public String path_bash="/CompilerPHP/src/bash/";
+	public String path_bash="/CompilerPHP/src/bash/";//RUTA DE LOS PROCEDIMIENTOS O RUTINAS DE APOYO A UTILIZAR
 	
 	//EJECUTAR UN COMANDO BASH DESDE EL SISTEMA
 	public String executeCommand(String command) {
@@ -30,7 +30,7 @@ public class ExecuteShellComand {
 
             String line = "";			
 			while ((line = reader.readLine())!= null) {
-				System.out.println("-> "+line);
+				System.out.println("->"+line);
 				output.append(line + "\n");
 			}
 		} catch (Exception e) {
@@ -41,6 +41,9 @@ public class ExecuteShellComand {
 	
 	
 	//CONTADOR DE PROYECTOS METAWEBDESIGN
+	/*
+	 * Explora el directorio de los proyectos del editor y los cuenta
+	 */
 	public int countProyects(){
 		Locate l=new Locate();
 		String path=l.getPath();
@@ -48,13 +51,14 @@ public class ExecuteShellComand {
 		String output=executeCommand(comando);
 		
 		int count=Integer.parseInt(output.substring(0, output.length()-1));//-1 POR QUE HAY UN SALTO DE LINEA EN EL STRING
-		System.out.println("output: |"+count+"|");
 		return count;
 	}
 	
 	//OBTIENE TODOS LOS PROYECTOS DE MODELADOS (LISTA DE NOMBRES)
+	/*
+	 * Explora el directorio de los proyectos del editor grafico e identifica los nombres
+	 */
 	public String[] getProyects(){
-		System.out.println("getProyects()");
 		Locate l=new Locate();
 		String path=l.getPath();
 		String[] proyectos=new String[countProyects()+1];
@@ -63,7 +67,6 @@ public class ExecuteShellComand {
 		
 		String comando="bash "+path+path_bash+"get_proyects.sh "+path+"/runtime-EclipseApplication/";
 		try {
-			System.out.println("try :"+comando);
 			p = Runtime.getRuntime().exec(comando);
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));

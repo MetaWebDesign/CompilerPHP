@@ -54,6 +54,7 @@ public class SQLite{
 			    
 		    	//IMPRIMO LLAVES FORANEAS
 			    coma=0;
+			    //AGREGO ATRIBUTO DE LAS LLAVES FORANEA
 		    	for(ForeignKey fk : foreignKeys){
 		    		//String tablaDestino=tablas.get(fk.getDestination()).getNombre();
 		    		//String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();
@@ -68,6 +69,7 @@ public class SQLite{
 		    		coma++;
 		    	}
 		    	coma=0;
+		    	//AGREGO LAS REFERENCIAS DE LAS LLAVES FORANES
 		    	for(ForeignKey fk : foreignKeys){
 		    		String tablaDestino=tablas.get(fk.getDestination()).getNombre();
 		    		String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();
@@ -93,23 +95,23 @@ public class SQLite{
 	
 	//GENERO LA BASE DE DATOS 
 	public static void createDB(SQL model, String path, String file) throws IOException{
-		System.out.println("CREATEDB");
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
 		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		List <View> views = model.getViews(); //VISTAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		ExecuteShellComand obj= new ExecuteShellComand();
-		FileWriter script_bdd = null;
-		FileWriter script_model = null;
-		FileWriter script_crud = null;
+		
+		//ARCHIVO A GENERAR
+		FileWriter script_bdd = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
+		FileWriter script_model = null;//SCRIPT PARA CREAR MODELO USANDO YII MVC
+		FileWriter script_crud = null;//SCRIPT PARA CREAR CURD + VISTAS CURD USANDO YII MVC
+		
 		int stop=file.indexOf(".");
 		String nombreScriptBD=file.substring(0, stop);
 		
 		//CREO LA CARPETA DEL PROYECTO
-		System.out.println("CREO CARPETA DEL PROYECTO");
 		obj.executeCommand("mkdir "+path+"/PHP");
 		
-		System.out.println("CREO SCRTIP PARA LA BDD");
 		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
 		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
@@ -118,7 +120,6 @@ public class SQLite{
 		}
 		script_bdd.close();
 		
-		System.out.println("CREO SCRIPT PARA EL MODELO");
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
 		script_model = new FileWriter(path+"/PHP/model.sh");
 		script_model.write("cd $1/proyect/\n");
@@ -127,7 +128,6 @@ public class SQLite{
 		}
 		script_model.close();
 		
-		System.out.println("CREO SCRIPT PARA EL CRUD");
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
 		script_crud = new FileWriter(path+"/PHP/crud.sh");
 		script_crud.write("cd $1/proyect/\n");
@@ -137,7 +137,6 @@ public class SQLite{
 		script_crud.close();
 		
 		
-		System.out.println("CREO PHP CON EL MODELO DE LAS VISTAS");
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 				modelView(view, model.getTabla(view.getTabla()), path+"/PHP/");//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
