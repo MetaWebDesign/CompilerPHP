@@ -56,7 +56,8 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		String comando="bash "+path_proyect+"model.sh "+path_proyect;
 		obj.executeCommand(comando);
-		obj.executeCommand("mv "+path_proyect+"/*.php "+path_proyect+"/proyect/model/");
+		obj.move(path_proyect+"*.php" , path_proyect+"proyect/models/");
+		//BORRAR BASH
 	}
 	
 	/*
@@ -72,6 +73,7 @@ public class PHP{
 		 * Copia las vistas de los servicios del CRUD
 		 */
 		//obj.executeCommand("cp -r "+path_proyect+)
+		//BORRAR BASH
 	}
 	
 	//public void genExtencion()

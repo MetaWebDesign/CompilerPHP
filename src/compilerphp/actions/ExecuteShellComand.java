@@ -118,5 +118,14 @@ public class ExecuteShellComand {
 		System.out.println(comando);
 		executeCommand(comando);
 	}
+	
+	//MOVER MV
+	public void move (String to, String from){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String comando="bash "+path+path_bash+"move.sh "+to+" "+from;
+		System.out.println(comando);
+		executeCommand(comando);		
+	}
 
 }
