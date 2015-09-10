@@ -143,12 +143,13 @@ public class SQLite{
 				modelView(view, model.getTabla(view.getTabla()), path+"/PHP/");//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
 		}
 		
-		//CRUD VISTAS
-			/*
-			 * NO SE REQUIERE MAYOR PROCESO EN ESTA ZONA YA QUE SE UTILIZARA EL CRUD DE LA TABLA QUE CONTIENE A LA VISTA
-			 * POR LO TANTO PRIMERO DEBE CREARCE EL CRUD DE LA TABLA Y LUEGO COPIARLO CON EL NOMBRE DE LA VISTA
-			 * VER PHP.JAVA
-			 */
+		//ESCRITURA DE LOS CONTROLADORES A UTILIZAR PARA LAS VISTAS
+		/*
+		 * Registra el nombre de la tabla con la cual crea la vista.
+		 * Para copiar luego en PHP.java el controlado y las vistas
+		 * asociadas al controlador.
+		 */
+				crudView(views, path+"/PHP/");
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
@@ -226,7 +227,7 @@ public class SQLite{
 	 * REGISTRA EL O LOS NOMBRES DE LOS CONTROLADORES A CREAR 
 	 * JUNTO CON LAS VISTAS DE LOS SERVICIOS CRUD
 	 */
-	public void crudView(List <View> views, String path_proyect) throws IOException{
+	public static void crudView(List <View> views, String path_proyect) throws IOException{
 		FileWriter php_crud_view = null;
 		php_crud_view = new FileWriter(path_proyect+"CRUDview.dat");
 		for(View view : views) {

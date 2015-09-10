@@ -68,6 +68,11 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		String comando="bash "+path_proyect+"crud.sh "+path_proyect;
 		obj.executeCommand(comando);
+		//CRUD VISTA
+		/*
+		 * Copia Controlador de la tabla que utiliza la vista
+		 * Copia las vistas de los servicios del CRUD
+		 */
 		//obj.executeCommand("cp -r "+path_proyect+)
 	}
 	
