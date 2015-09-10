@@ -91,10 +91,10 @@ public class SQLite{
 		return dataBase;
 	}
 	
-	//GENERO LA BASE DE DATOS EN BASE AL ARCHIVO SQL.DAT ESCRITO ANTEIORMENTE
+	//GENERO LA BASE DE DATOS 
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
-		List <String> dataBase=SQLite.genSQL(model, path);
+		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
 		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		List <View> views = model.getViews(); //VISTAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		ExecuteShellComand obj= new ExecuteShellComand();
@@ -129,12 +129,12 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
 		}
-		script_model.close();
 		
-		//MODELO VISTAS
+		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
-				modelView(view, model.getTabla(view.getTabla()));//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
+				modelView(view, model.getTabla(view.getTabla()), path+"/PHP/");//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
 		}
+		
 		//CRUD VISTAS
 			//COPY CRUD TABLE ORI
 		
@@ -146,7 +146,8 @@ public class SQLite{
 	}
 
 	//GENERA EL MODELO PARA LAS VISTAS EN LA BDD
-	public static void modelView(View view, Tabla tabla){
+	public static void modelView(View view, Tabla tabla, String path_proyect) throws IOException{
+		FileWriter php_model_view = null;
 		String atributo_model_name;
 		String model_view="<?php\n";
 		List <Atributo> atributos=tabla.getAtributos();
@@ -195,6 +196,11 @@ public class SQLite{
 	   model_view=model_view+"    ];\n";
 	   model_view=model_view+" }\n";
 	   model_view=model_view+"}\n";
+	   
+	   //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
+	   php_model_view = new FileWriter(path_proyect+"/PHP/"+view.getTabla()+view.getNombre()+"view.php");
+	   php_model_view.write(model_view);
+	   php_model_view.close();
 	}
 	
 	/*
