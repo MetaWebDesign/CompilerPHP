@@ -93,6 +93,7 @@ public class SQLite{
 	
 	//GENERO LA BASE DE DATOS 
 	public static void createDB(SQL model, String path, String file) throws IOException{
+		System.out.println("CREATEDB");
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
 		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
@@ -105,8 +106,10 @@ public class SQLite{
 		String nombreScriptBD=file.substring(0, stop);
 		
 		//CREO LA CARPETA DEL PROYECTO
+		System.out.println("CREO CARPETA DEL PROYECTO");
 		obj.executeCommand("mkdir "+path+"/PHP");
 		
+		System.out.println("CREO SCRTIP PARA LA BDD");
 		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
 		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
@@ -115,6 +118,16 @@ public class SQLite{
 		}
 		script_bdd.close();
 		
+		System.out.println("CREO SCRIPT PARA EL MODELO");
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
+		script_model = new FileWriter(path+"/PHP/model.sh");
+		script_model.write("cd $1/proyect/\n");
+		for(Tabla tabla : tablas) {
+			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
+		}
+		script_model.close();
+		
+		System.out.println("CREO SCRIPT PARA EL CRUD");
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
 		script_crud = new FileWriter(path+"/PHP/crud.sh");
 		script_crud.write("cd $1/proyect/\n");
@@ -123,13 +136,8 @@ public class SQLite{
 		}
 		script_crud.close();
 		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
-		script_model = new FileWriter(path+"/PHP/model.sh");
-		script_model.write("cd $1/proyect/\n");
-		for(Tabla tabla : tablas) {
-			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
-		}
 		
+		System.out.println("CREO PHP CON EL MODELO DE LAS VISTAS");
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 				modelView(view, model.getTabla(view.getTabla()), path+"/PHP/");//GENERO EL MODELO PARA LAS VISTAS DE LA BDD
@@ -198,7 +206,7 @@ public class SQLite{
 	   model_view=model_view+"}\n";
 	   
 	   //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-	   php_model_view = new FileWriter(path_proyect+"/PHP/"+view.getTabla()+view.getNombre()+"view.php");
+	   php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
 	   php_model_view.write(model_view);
 	   php_model_view.close();
 	}
