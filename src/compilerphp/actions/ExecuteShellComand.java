@@ -124,6 +124,7 @@ public class ExecuteShellComand {
 		Locate l=new Locate();
 		String path=l.getPath();
 		String comando="bash "+path+path_bash+"move.sh "+to+" "+from;
+		//String comando="mv "+to+" "+from;
 		System.out.println(comando);
 		executeCommand(comando);		
 	}

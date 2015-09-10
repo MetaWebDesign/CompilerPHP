@@ -141,42 +141,11 @@ public class SQLite{
 		}
 		script_crud.close();
 		
-		
-
-		
-		//ESCRITURA DE LOS CONTROLADORES A UTILIZAR PARA LAS VISTAS
-		/*
-		 * Registra el nombre de la tabla con la cual crea la vista.
-		 * Para copiar luego en PHP.java el controlado y las vistas
-		 * asociadas al controlador.
-		 */
-		//		crudView(views, path+"/PHP/");
-		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
 		
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
 	}
-
-
-	
-	/*
-	 * REGISTRA EL O LOS NOMBRES DE LOS CONTROLADORES A CREAR 
-	 * JUNTO CON LAS VISTAS DE LOS SERVICIOS CRUD
-	 */
-	public static void crudView(List <View> views, String path_proyect) throws IOException{
-		FileWriter php_crud_view = null;
-		php_crud_view = new FileWriter(path_proyect+"CRUDview.dat");
-		for(View view : views) {
-			php_crud_view.write(view.getTabla());
-		}
-		php_crud_view.close();
-	}
-	
-	/*
-	public static void main(String[] args) throws IOException {
-		sqlite_execute("Create table test2(nombre text);", "/home/leo/runtime-EclipseApplication/Elearning");
-	}*/
 	
 }
