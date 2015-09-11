@@ -7,7 +7,7 @@ import java.util.List;
 public class PHP{
 	
 	//String path_php="/CompilerPHP/src/php/";//RUTA DONDE ESTA EL CODIGO PHP BASE DEL SITIO WEB 
-	String path_proyect;//RUTA DONDE ESTA EL CODIGO DEL PROYECTO PHP A GENERAR
+	static String path_proyect;//RUTA DONDE ESTA EL CODIGO DEL PROYECTO PHP A GENERAR
 	static SQL modelo;
 	
 	/*
@@ -15,7 +15,7 @@ public class PHP{
 	 *  path : direccion del proyecto PHP
 	 */
 	public PHP(String path, SQL model){
-		this.path_proyect=path; // RUTA DEL PROYECTO PHP
+		path_proyect=path; // RUTA DEL PROYECTO PHP
 		modelo=model;//MODELO DE LA BASE DE DATOS
 	}
 	
@@ -86,7 +86,7 @@ public class PHP{
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 			try {
-				genModelView_(view, modelo.getTabla(view.getTabla()), path_proyect);//GENERO UN MODELO PARA UNA VISTAS DE LA BDD
+				genModelView_(view, modelo.getTabla(view.getTabla()));//GENERO UN MODELO PARA UNA VISTAS DE LA BDD
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,7 +97,7 @@ public class PHP{
 	
 	//GENERA EL MODELO PARA LAS VISTAS EN LA BDD
 	//public static void genModelView_(View view, Tabla tabla, String path_proyect) throws IOException{
-	public static void genModelView_(View view, Tabla tabla, String path_proyect) throws IOException{
+	public static void genModelView_(View view, Tabla tabla) throws IOException{
 		FileWriter php_model_view = null;
 		String atributo_model_name;
 		String model_view="<?php\n";
@@ -173,6 +173,7 @@ public class PHP{
 	}
 	
 	public static void genCRUDView_(View view){
+		FileWriter php_crud_view = null;
 		String controler="<?php\n";
 		controler=controler+"namespace app\\controllers;\n";
 		controler=controler+"use Yii;\n";
@@ -184,7 +185,7 @@ public class PHP{
 		controler=controler+"/**\n";
 		controler=controler+" * "+view.getTabla()+view.getNombre()+"Controller implements the CRUD actions for Cursos model.\n";
 		controler=controler+" */\n";
-		controler=controler+"class CursosController extends Controller\n";
+		controler=controler+"class "+view.getTabla()+view.getNombre()+"Controller extends Controller\n";
 		controler=controler+"{\n";
 		controler=controler+"    public function behaviors()\n";
 		controler=controler+"    {\n";
@@ -198,20 +199,20 @@ public class PHP{
 		controler=controler+"        ];\n";
 		controler=controler+"    }\n\n";	
 		controler=controler+"   /**\n";
-		controler=controler+" * Lists all Cursos models.\n";
+		controler=controler+" * Lists all "+view.getTabla()+view.getNombre()+" models.\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
 		controler=controler+"public function actionIndex()\n";
 		controler=controler+"{\n";
 		controler=controler+"    $dataProvider = new ActiveDataProvider([\n";
-		controler=controler+"        'query' => Cursos::find(),\n";
+		controler=controler+"        'query' => "+view.getTabla()+view.getNombre()+"view::find(),\n";
 		controler=controler+"    ]);\n\n";
 		controler=controler+"    return $this->render('index', [\n";
 		controler=controler+"        'dataProvider' => $dataProvider,\n";
 		controler=controler+"    ]);\n";
 		controler=controler+"}\n";
 		controler=controler+" /**\n";
-		controler=controler+" * Displays a single Cursos model.\n";
+		controler=controler+" * Displays a single "+view.getTabla()+view.getNombre()+" model.\n";
 		controler=controler+" * @param integer $id\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
@@ -222,15 +223,15 @@ public class PHP{
 		controler=controler+"    ]);\n";
 		controler=controler+"}\n\n";
 		controler=controler+"/**\n";
-		controler=controler+" * Creates a new Cursos model.\n";
+		controler=controler+" * Creates a new "+view.getTabla()+view.getNombre()+" model.\n";
 		controler=controler+" * If creation is successful, the browser will be redirected to the 'view' page.\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
 		controler=controler+"public function actionCreate()\n";
 		controler=controler+"{\n";
-		controler=controler+"    $model = new Cursos();\n";
+		controler=controler+"    $model = new "+view.getTabla()+view.getNombre()+"view();\n";
 		controler=controler+"    if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
-		controler=controler+"        return $this->redirect(['view', 'id' => $model->id_curso]);\n";
+		controler=controler+"        return $this->redirect(['view', 'id' => $model->id_curso]);\n";//OJO, LLAVE PRIMARIA!!!
 		controler=controler+"    } else {\n";
 		controler=controler+"        return $this->render('create', [\n";
 		controler=controler+"            'model' => $model,\n";
@@ -238,7 +239,7 @@ public class PHP{
 		controler=controler+"    }\n";
 		controler=controler+"}\n";
 		controler=controler+"/**\n";
-		controler=controler+" * Updates an existing Cursos model.\n";
+		controler=controler+" * Updates an existing "+view.getTabla()+view.getNombre()+" model.\n";
 		controler=controler+" * If update is successful, the browser will be redirected to the 'view' page.\n";
 		controler=controler+" * @param integer $id\n";
 		controler=controler+" * @return mixed\n";
@@ -247,7 +248,7 @@ public class PHP{
 		controler=controler+"{\n";
 		controler=controler+"    $model = $this->findModel($id);\n";
 		controler=controler+"    if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
-		controler=controler+"        return $this->redirect(['view', 'id' => $model->id_curso]);\n";
+		controler=controler+"        return $this->redirect(['view', 'id' => $model->id_curso]);\n";//OJO, LLAVE PRIMARIA!!!
 		controler=controler+"    } else {\n";
 		controler=controler+"        return $this->render('update', [\n";
 		controler=controler+"            'model' => $model,\n";
@@ -255,7 +256,7 @@ public class PHP{
 		controler=controler+"    }\n";
 		controler=controler+"}\n";
 		controler=controler+"/**\n";
-		controler=controler+" * Deletes an existing Cursos model.\n";
+		controler=controler+" * Deletes an existing "+view.getTabla()+view.getNombre()+" model.\n";
 		controler=controler+" * If deletion is successful, the browser will be redirected to the 'index' page.\n";
 		controler=controler+" * @param integer $id\n";
 		controler=controler+" * @return mixed\n";
@@ -266,10 +267,10 @@ public class PHP{
 		controler=controler+"    return $this->redirect(['index']);\n";
 		controler=controler+"}\n";
 		controler=controler+"/**\n";
-		controler=controler+" * Finds the Cursos model based on its primary key value.\n";
+		controler=controler+" * Finds the "+view.getTabla()+view.getNombre()+" model based on its primary key value.\n";
 		controler=controler+" * If the model is not found, a 404 HTTP exception will be thrown.\n";
 		controler=controler+" * @param integer $id\n";
-		controler=controler+" * @return Cursos the loaded model\n";
+		controler=controler+" * @return "+view.getTabla()+view.getNombre()+" the loaded model\n";
 		controler=controler+" * @throws NotFoundHttpException if the model cannot be found\n";
 		controler=controler+" */\n";
 		controler=controler+"protected function findModel($id)\n";
@@ -281,6 +282,10 @@ public class PHP{
 		controler=controler+"    }\n";
 		controler=controler+"}\n";
 		
+	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
+	    php_crud_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
+	    php_crud_view.write(model_view);
+	    php_crud_view.close();
 	}
 	
 	//public void genExtencion()
