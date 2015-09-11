@@ -81,6 +81,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
 		php.genCRUD();//GENERA SERVICIOS Y VISTAS DE LAS TABLAS
 		php.genModelView();//GENERA LOS MODELOS DE LAS VISTAS
+		php.genCRUDView();//GENERA LOS CONTROLADORES DE LAS VISTAS
 		windowMensajeInfo("Compilado con exito!");
 	}
 

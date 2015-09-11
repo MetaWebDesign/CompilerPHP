@@ -92,7 +92,7 @@ public class PHP{
 				e.printStackTrace();
 			}
 		}
-		obj.move(path_proyect+"*.php" , path_proyect+"proyect/models/");
+		obj.move(path_proyect+"*view.php" , path_proyect+"proyect/models/");
 	}
 	
 	//GENERA EL MODELO PARA LAS VISTAS EN LA BDD
@@ -100,9 +100,9 @@ public class PHP{
 	public static void genModelView_(View view, Tabla tabla) throws IOException{
 		FileWriter php_model_view = null;
 		String atributo_model_name;
-		String model_view="<?php\n";
+		String model_view="<?php\n\n";
 		List <Atributo> atributos=tabla.getAtributos();
-		model_view=model_view+"namespace app\\models;\n";
+		model_view=model_view+"namespace app\\models;\n\n";
 		model_view=model_view+"use Yii;\n";
 		model_view=model_view+"/**\n";
 		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"view\".\n";
@@ -136,6 +136,9 @@ public class PHP{
 				if(typeData.equals("text")){
 					typeData="'string'";
 				}
+				else{
+					typeData="'"+typeData+"'";
+				}
 				model_view=model_view+"        [['"+atributo.getNombre()+"'], "+typeData+"],\n";
 			}
 		}
@@ -167,21 +170,27 @@ public class PHP{
 		
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
-			genCRUDView_(view);//GENERO UN MODELO PARA UNA VISTAS DE LA BDD
+			try {
+				genCRUDView_(view);//ESCRIBE EL CRUD PARA LA VISTA
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}//GENERO UN MODELO PARA UNA VISTAS DE LA BDD
 		}
-		obj.move(path_proyect+"*.php" , path_proyect+"proyect/models/");
+		obj.move(path_proyect+"*Controller.php" , path_proyect+"proyect/controllers/");
 	}
 	
-	public static void genCRUDView_(View view){
+	public static void genCRUDView_(View view) throws IOException{
+		//DEBE USAR LA TABLA NO LA VISTA!, PARA LOS SERVIVIOS DEL CRUD
 		FileWriter php_crud_view = null;
-		String controler="<?php\n";
-		controler=controler+"namespace app\\controllers;\n";
+		String controler="<?php\n\n";
+		controler=controler+"namespace app\\controllers;\n\n";
 		controler=controler+"use Yii;\n";
 		controler=controler+"use app\\models\\"+view.getTabla()+view.getNombre()+"view;\n";
 		controler=controler+"use yii\\data\\ActiveDataProvider;\n";
 		controler=controler+"use yii\\web\\Controller;\n";
 		controler=controler+"use yii\\web\\NotFoundHttpException;\n";
-		controler=controler+"use yii\\filters\\VerbFilter;\n";
+		controler=controler+"use yii\\filters\\VerbFilter;\n\n";
 		controler=controler+"/**\n";
 		controler=controler+" * "+view.getTabla()+view.getNombre()+"Controller implements the CRUD actions for Cursos model.\n";
 		controler=controler+" */\n";
@@ -283,8 +292,8 @@ public class PHP{
 		controler=controler+"}\n";
 		
 	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-	    php_crud_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
-	    php_crud_view.write(model_view);
+	    php_crud_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"Controller.php");
+	    php_crud_view.write(controler);
 	    php_crud_view.close();
 	}
 	
