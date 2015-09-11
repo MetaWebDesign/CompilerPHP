@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
 
@@ -49,21 +47,22 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	public void run(IAction action) {
 		Locate l=new Locate();//OBTITNE LA POSICION DEL PROYECTO EN LOS DIRECTORIOS
 		String currentDirectory=l.getPath()+"/runtime-EclipseApplication/";
+		ProgressBar bar=new ProgressBar("Prueba de barra");//BARRA DE PROGRESO
 		ExecuteShellComand obj= new ExecuteShellComand();
 		SQL modelo=new SQL();//MODELO SQL DE LA BASE DE DATOS (ESTRUCTURA DE LOS DATOS)
+		bar.updateProgress(1, "Buscando Proyecto(s)");
 		int num_pro=obj.countProyects();
 		//Hay solo un proyecto (modelo)
 		if(num_pro ==1){
-			windowProgress(0, "Buscando Proyecto");
+			
 			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
 			name_proyect=getCurrentFile(path);
 			file=name_proyect+".metawebdesign";
+			bar.updateProgress(3, "Leyendo "+file);
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
-				windowProgress(1, "Cargando Modelo");
 				System.out.println(path+"/"+file);
 				modelo=ReadModel.loadXML(path, file);
-				windowProgress(10, "Generando Base de datos");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -86,13 +85,21 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		}
 		
 		//GENERACION DE CODIGO PHP
+		bar.updateProgress(60, "Creando Proyecto PHP");
 		PHP php=new PHP(path+"/PHP/", modelo);
+		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
+		bar.updateProgress(64, "Creando Proyecto PHP - Configurando Base de Datos");
 		php.configureBD(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
+		bar.updateProgress(68, "Creando Proyecto PHP - Generado Modelos");
 		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
+		bar.updateProgress(70, "Creando Proyecto PHP - Generado Controladores");
 		php.genCRUD();//GENERA SERVICIOS Y VISTAS DE LAS TABLAS
+		bar.updateProgress(73, "Creando Proyecto PHP - Generado Modelos Vistas");
 		php.genModelView();//GENERA LOS MODELOS DE LAS VISTAS
+		bar.updateProgress(77, "Creando Proyecto PHP - Generado Modelos Controladores Vistas");
 		php.genCRUDView();//GENERA LOS CONTROLADORES DE LAS VISTAS
+		bar.updateProgress(100, "Proyecto PHP creado!");
 		windowMensajeInfo("Compilado con exito!");
 	}
 
@@ -162,16 +169,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			msn);
 	}
 	
-	public static void windowProgress(int p, String msj){
-		  if (monitor == null)
-	          return;
-	        if (monitor.isCanceled()) {
-	          System.out.println("Monitor canceled");
-	        } else {
-	          progress += p;
-	          monitor.setProgress(progress);
-	          monitor.setNote("Loaded " + progress + " "+msj);
-	        }
-	}
+
 		
 }

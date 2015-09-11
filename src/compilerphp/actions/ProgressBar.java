@@ -27,7 +27,7 @@ public class ProgressBar{
 		    border = BorderFactory.createTitledBorder("Iniciando...");
 		    progressBar.setBorder(border);
 		    content.add(progressBar, BorderLayout.NORTH);
-		    f.setSize(300, 100);
+		    f.setSize(500, 100);
 		    f.setVisible(true);
 	}
 	
