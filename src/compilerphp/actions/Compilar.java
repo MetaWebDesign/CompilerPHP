@@ -1,9 +1,15 @@
 package compilerphp.actions;
 
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -26,6 +32,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	private static String path;
 	private static String file;
 	private static String name_proyect;
+	static ProgressMonitor monitor;
+	static int progress;
 	/**
 	 * The constructor.
 	 */
@@ -46,13 +54,16 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		int num_pro=obj.countProyects();
 		//Hay solo un proyecto (modelo)
 		if(num_pro ==1){
+			windowProgress(0, "Buscando Proyecto");
 			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
 			name_proyect=getCurrentFile(path);
 			file=name_proyect+".metawebdesign";
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
+				windowProgress(1, "Cargando Modelo");
 				System.out.println(path+"/"+file);
 				modelo=ReadModel.loadXML(path, file);
+				windowProgress(10, "Generando Base de datos");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,6 +160,18 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			window.getShell(),
 			"CompilerPHP",
 			msn);
+	}
+	
+	public static void windowProgress(int p, String msj){
+		  if (monitor == null)
+	          return;
+	        if (monitor.isCanceled()) {
+	          System.out.println("Monitor canceled");
+	        } else {
+	          progress += p;
+	          monitor.setProgress(progress);
+	          monitor.setNote("Loaded " + progress + " "+msj);
+	        }
 	}
 		
 }
