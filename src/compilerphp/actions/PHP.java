@@ -182,11 +182,14 @@ public class PHP{
 	
 	public static void genCRUDView_(View view) throws IOException{
 		//DEBE USAR LA TABLA NO LA VISTA!, PARA LOS SERVIVIOS DEL CRUD
+		Tabla tabla=modelo.getTabla(view.getTabla());
+		Atributo pk=tabla.getPrimaryKey();
 		FileWriter php_crud_view = null;
 		String controler="<?php\n\n";
 		controler=controler+"namespace app\\controllers;\n\n";
 		controler=controler+"use Yii;\n";
-		controler=controler+"use app\\models\\"+view.getTabla()+view.getNombre()+"view;\n";
+		//controler=controler+"use app\\models\\"+view.getTabla()+view.getNombre()+"view;\n";
+		controler=controler+"use app\\models\\"+view.getTabla()+";\n";
 		controler=controler+"use yii\\data\\ActiveDataProvider;\n";
 		controler=controler+"use yii\\web\\Controller;\n";
 		controler=controler+"use yii\\web\\NotFoundHttpException;\n";
@@ -211,6 +214,7 @@ public class PHP{
 		controler=controler+" * Lists all "+view.getTabla()+view.getNombre()+" models.\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
+		//VISTAS
 		controler=controler+"public function actionIndex()\n";
 		controler=controler+"{\n";
 		controler=controler+"    $dataProvider = new ActiveDataProvider([\n";
@@ -225,6 +229,7 @@ public class PHP{
 		controler=controler+" * @param integer $id\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
+		//VIEW
 		controler=controler+"public function actionView($id)\n";
 		controler=controler+"{\n";
 		controler=controler+"    return $this->render('view', [\n";
@@ -236,11 +241,12 @@ public class PHP{
 		controler=controler+" * If creation is successful, the browser will be redirected to the 'view' page.\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
+		//CREATE
 		controler=controler+"public function actionCreate()\n";
 		controler=controler+"{\n";
-		controler=controler+"    $model = new "+view.getTabla()+view.getNombre()+"view();\n";
+		controler=controler+"    $model = new "+view.getTabla()+"();\n";
 		controler=controler+"    if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
-		controler=controler+"        return $this->redirect(['view', 'id' => $model->id_curso]);\n";//OJO, LLAVE PRIMARIA!!!
+		controler=controler+"        return $this->redirect(['view', 'id' => $model->"+pk+"]);\n";//OJO, LLAVE PRIMARIA!!!
 		controler=controler+"    } else {\n";
 		controler=controler+"        return $this->render('create', [\n";
 		controler=controler+"            'model' => $model,\n";
@@ -253,11 +259,12 @@ public class PHP{
 		controler=controler+" * @param integer $id\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
+		//UPDATE
 		controler=controler+"public function actionUpdate($id)\n";
 		controler=controler+"{\n";
 		controler=controler+"    $model = $this->findModel($id);\n";
 		controler=controler+"    if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
-		controler=controler+"        return $this->redirect(['view', 'id' => $model->id_curso]);\n";//OJO, LLAVE PRIMARIA!!!
+		controler=controler+"        return $this->redirect(['view', 'id' => $model->"+pk+"]);\n";//OJO, LLAVE PRIMARIA!!!
 		controler=controler+"    } else {\n";
 		controler=controler+"        return $this->render('update', [\n";
 		controler=controler+"            'model' => $model,\n";
@@ -270,6 +277,7 @@ public class PHP{
 		controler=controler+" * @param integer $id\n";
 		controler=controler+" * @return mixed\n";
 		controler=controler+" */\n";
+		//DELETE
 		controler=controler+"public function actionDelete($id)\n";
 		controler=controler+"{\n";
 		controler=controler+"    $this->findModel($id)->delete();\n";

@@ -38,4 +38,13 @@ public class Tabla{
 	public List<ForeignKey> getForeignKeys(){
 		return this.llavesForaneas;
 	}
+	
+	public Atributo getPrimaryKey(){
+		for (Atributo a: this.atributos){
+			if(a.getPrimaryKey()){
+				return a;
+			}
+		}
+		return null;
+	}
 }
