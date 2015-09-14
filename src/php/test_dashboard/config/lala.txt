@@ -1,0 +1,2 @@
+ select ramos.id, ramos.ramosname, ramos.max_student, ramos.descrip, derived.profesor from ramos, (select users.name as profesor from users where id = (select roluser.id_user from inscritos, roluser, rol, users where users.id=1 and inscritos.id_user=roluser.id_user and roluser.id_rol=rol.id and rol.rolname='profesor')) as derived;
+

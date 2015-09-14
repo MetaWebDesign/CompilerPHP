@@ -305,6 +305,12 @@ public class PHP{
 	    php_crud_view.close();
 	}
 	
+	//GENERA VISTAS PARA EL CRUD DE LAS VISTAS
+	/*
+	public void genCRUDViews(){
+		
+	}*/
+	
 	//public void genExtencion()
 	
 	//public void configure()
