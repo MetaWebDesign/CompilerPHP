@@ -3,7 +3,7 @@
 return [
 	'class' => 'yii\db\Connection',
     //'dsn' => 'mysql:host=localhost;dbname=reportsa_macromoney', // MySQL, MariaDB
-    'dsn' => 'sqlite:/home/leo/public_html/Elearning/config/yii.db', // SQLite
+    'dsn' => 'sqlite:../config/yii.db', // SQLite
     //'dsn' => 'pgsql:host=localhost;port=5432;dbname=mydatabase', // PostgreSQL
     //'dsn' => 'cubrid:dbname=demodb;host=localhost;port=33000', // CUBRID
     //'dsn' => 'sqlsrv:Server=localhost;Database=mydatabase', // MS SQL Server, sqlsrv driver

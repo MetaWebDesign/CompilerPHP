@@ -14,6 +14,12 @@ public class Atributo{
 	}
 	
 	//Construcctor
+	/*
+	 * Nombre
+	 * Llave primaria?
+	 * Atributo derivado?
+	 * TypeData:test, varchar, date, time , etc
+	 */
 	public Atributo(String nombrex, boolean pk, boolean der, String typex){
 		this.nombre=nombrex;
 		this.primaryKey=pk;

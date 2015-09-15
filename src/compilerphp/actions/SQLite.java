@@ -90,6 +90,23 @@ public class SQLite{
 				vista=vista+", ("+view.getFormula()+") as derived";
 				dataBase.add(vista);
 			}
+			
+			/*
+			 * Dashboard
+			 * Inserción de datos requeridos para la construcción del Dashboard
+			 */
+			
+			//DASHBOARD TABLAS
+			for(Tabla tabla : tablas){
+				String dash_table="INSERTO INTO Dashboard (nombre, vista) values ('"+tabla.getNombre()+"', 'false');";
+				dataBase.add(dash_table);
+			}
+			//DASHBOARD VISTAS
+			for(View view : views){
+				String dash_table="INSERTO INTO Dashboard (nombre, vista) values ('"+view.getNombre()+"', 'true');";
+				dataBase.add(dash_table);
+			}
+			
 		return dataBase;
 	}
 	

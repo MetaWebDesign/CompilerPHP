@@ -290,11 +290,11 @@ echo $model->name;
 
 							foreach($tablas AS $tabla){
 							    echo "<li>\n
-										<a href='index.php?r=$tabla->nombre/index'>$tabla->nombre</a>\n
+									a href='index.php?r=$tabla->name/index'>$tabla->name</a>\n
  	                                 </li>\n";
 							}
 
-?>
+?>                            
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

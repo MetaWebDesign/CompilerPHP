@@ -129,7 +129,20 @@ public class ReadModel{
 				}
 			}
 			fr.close();
-			sql.addTabla(t);//AGREGO LA ULTIMA TABLA
+			sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
+			
+			//AGREGAR TABLAS DASHBOARD
+			Tabla dashboard=new Tabla();
+			dashboard.setNombre("Dashboard");
+			Atributo id=new Atributo("id", true, false, "autoincremental");
+			Atributo nombre=new Atributo("nombre", false, false, "varchar50");
+			Atributo vista=new Atributo("vista", false, false, "boolean");
+			dashboard.addAtributo(id);
+			dashboard.addAtributo(nombre);
+			dashboard.addAtributo(vista);
+			sql.addTabla(dashboard);
+			
+			
 			SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
 			return sql;
 	}

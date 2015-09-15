@@ -305,6 +305,11 @@ public class PHP{
 	    php_crud_view.close();
 	}
 	
+	public void execPermisos(){
+		ExecuteShellComand obj= new ExecuteShellComand();
+		obj.executeCommand("chmod 777 -R "+path_proyect);
+	}
+	
 	//GENERA VISTAS PARA EL CRUD DE LAS VISTAS
 	/*
 	public void genCRUDViews(){
