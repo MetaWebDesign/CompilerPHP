@@ -8,6 +8,7 @@ public class PHP{
 	
 	//String path_php="/CompilerPHP/src/php/";//RUTA DONDE ESTA EL CODIGO PHP BASE DEL SITIO WEB 
 	static String path_proyect;//RUTA DONDE ESTA EL CODIGO DEL PROYECTO PHP A GENERAR
+	static String path_down_proyect;// RUTA UN NIVEL MÁS ABAJO DEL PROYECTO EN LOS DIRECTORIOS
 	static SQL modelo;
 	
 	/*
@@ -15,13 +16,15 @@ public class PHP{
 	 *  path : direccion del proyecto PHP
 	 */
 	public PHP(String path, SQL model){
-		path_proyect=path; // RUTA DEL PROYECTO PHP
+		path_proyect=path+"/PHP/"; // RUTA DEL PROYECTO PHP
+		path_down_proyect=path;
 		modelo=model;//MODELO DE LA BASE DE DATOS
 	}
 	
 	//DESPLIEGA EL CODIGO BASE PHP EN LA CARPETA DEL PROYECTO PHP
 	public void start(){
 		ExecuteShellComand obj= new ExecuteShellComand();
+		//obj.clean_proyect(path_down_proyect);//en caso de existir un proyecto anterior lo respalda
 		obj.start_proyect(path_proyect);
 	}
 	

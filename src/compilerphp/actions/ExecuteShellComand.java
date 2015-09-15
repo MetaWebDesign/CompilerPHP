@@ -98,11 +98,13 @@ public class ExecuteShellComand {
 		executeCommand(comando);
 	}
 	
-	public void clean_proyect(String path_proyect){
+	public void clean_proyect(String path_down_proyect){
 		Locate l=new Locate();
 		String path=l.getPath();
-		String comando="bash "+path+path_bash+"clean_php.sh "+path_proyect;
+		//String path_php="/CompilerPHP/src/php/proyect/";
+		String comando="bash "+path+path_bash+"clean_php.sh "+path_down_proyect;
 		System.out.println(comando);
+		executeCommand(comando);
 	}
 	
 	
