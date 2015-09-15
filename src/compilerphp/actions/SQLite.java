@@ -95,15 +95,14 @@ public class SQLite{
 			 * Dashboard
 			 * Inserción de datos requeridos para la construcción del Dashboard
 			 */
-			
 			//DASHBOARD TABLAS
 			for(Tabla tabla : tablas){
-				String dash_table="INSERTO INTO Dashboard (nombre, vista) values ('"+tabla.getNombre()+"', 'false');";
+				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+tabla.getNombre().toLowerCase()+"', 'false');";
 				dataBase.add(dash_table);
 			}
 			//DASHBOARD VISTAS
 			for(View view : views){
-				String dash_table="INSERTO INTO Dashboard (nombre, vista) values ('"+view.getNombre()+"', 'true');";
+				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla()+view.getNombre().toLowerCase()+"view', 'true');";
 				dataBase.add(dash_table);
 			}
 			

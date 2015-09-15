@@ -98,6 +98,13 @@ public class ExecuteShellComand {
 		executeCommand(comando);
 	}
 	
+	public void clean_proyect(String path_proyect){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String comando="bash "+path+path_bash+"clean_php.sh "+path_proyect;
+		System.out.println(comando);
+	}
+	
 	
 	//GENERA EL MODELO DE UNA CLASE
 	public void gen_model(String model){

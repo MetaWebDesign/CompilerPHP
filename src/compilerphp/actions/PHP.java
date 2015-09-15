@@ -30,7 +30,7 @@ public class PHP{
 	 * 	configuración para sqlite, si se desea otra BDD, esta desde el
 	 *  panel de administración de la plataforma se puede cambiar.
 	 */
-	public void configureBD(String db_name){
+	public void configureBD_Gii(String db_name){
 		String config_db=path_proyect+"proyect/config/db.php";
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.backup(config_db);
@@ -41,6 +41,33 @@ public class PHP{
 					+"return [\n"
 					+"'class' => 'yii\\db\\Connection', \n"
 					+"'dsn' => 'sqlite:config/"+db_name+"',\n"
+					+"];";
+			fichero.write(sqlite_conf);
+			fichero.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Mover la BDD
+		obj.executeCommand("mv "+path_proyect+db_name+" "+path_proyect+"proyect/config/");
+	}
+	
+	/*
+	 * CONFIGURA LA BASE DE DATOS
+	 * 	configuración para sqlite, si se desea otra BDD, esta desde el
+	 *  panel de administración de la plataforma se puede cambiar.
+	 */
+	public void configureBD_Apache(String db_name){
+		String config_db=path_proyect+"proyect/config/db.php";
+		ExecuteShellComand obj= new ExecuteShellComand();
+		obj.backup(config_db);
+		FileWriter fichero = null;
+		try {
+			fichero = new FileWriter(config_db);
+			String sqlite_conf="<?php\n"
+					+"return [\n"
+					+"'class' => 'yii\\db\\Connection', \n"
+					+"'dsn' => 'sqlite:../config/"+db_name+"',\n"
 					+"];";
 			fichero.write(sqlite_conf);
 			fichero.close();

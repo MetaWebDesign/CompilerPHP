@@ -90,7 +90,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
 		bar.updateProgress(64, "Creando Proyecto PHP - Configurando Base de Datos");
-		php.configureBD(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
+		php.configureBD_Gii(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
 		bar.updateProgress(68, "Creando Proyecto PHP - Generado Modelos");
 		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
 		bar.updateProgress(70, "Creando Proyecto PHP - Generado Controladores");
@@ -100,6 +100,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		bar.updateProgress(77, "Creando Proyecto PHP - Generado Modelos Controladores Vistas");
 		php.genCRUDView();//GENERA LOS CONTROLADORES DE LAS VISTAS
 		php.execPermisos();//PERIMISOS PARA QUE APACHE U OTRO PUEDA EJECUTAR EL SITIO WEB
+		php.configureBD_Apache(name_proyect+".db");
 		bar.updateProgress(100, "Proyecto PHP creado!");
 		windowMensajeInfo("Compilado con exito!");
 	}
