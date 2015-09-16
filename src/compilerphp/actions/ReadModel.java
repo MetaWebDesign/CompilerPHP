@@ -72,15 +72,17 @@ public class ReadModel{
 			        }
 			        
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
-			        String atributo_type=substr_type.substring(0, stop_type);
+			        String atributo_type_model=substr_type.substring(0, stop_type);
 			        
 			        //ADATA EL DATA TYPE DEL ATRIBUTO DEL MODELO A UN DATA TYPE ACEPTADO POR SQL (DATA TYPE = VARCHAR)
-			        if(atributo_type.indexOf("varchar")!= -1){
-			        	atributo_type=typeAtributeVarChar(atributo_type);
-			        }
+			        //if(atributo_type.indexOf("varchar")!= -1){
+			        	//atributo_type=typeAtributeVarChar(atributo_type);
+			        //}
+			        
+			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
 			        //System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
-			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type);
+			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model);
 			        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
 				}
 				
@@ -134,9 +136,9 @@ public class ReadModel{
 			//AGREGAR TABLAS DASHBOARD
 			Tabla dashboard=new Tabla();
 			dashboard.setNombre("Dashboard");
-			Atributo id=new Atributo("id", true, false, "autoincremental");
-			Atributo nombre=new Atributo("nombre", false, false, "varchar50");
-			Atributo vista=new Atributo("vista", false, false, "boolean");
+			Atributo id=new Atributo("id", true, false, "autoincremental", "autoincremental");
+			Atributo nombre=new Atributo("nombre", false, false, "varchar(50)", "varchar50");
+			Atributo vista=new Atributo("vista", false, false, "boolean", "boolean");
 			dashboard.addAtributo(id);
 			dashboard.addAtributo(nombre);
 			dashboard.addAtributo(vista);
@@ -147,15 +149,25 @@ public class ReadModel{
 			return sql;
 	}
 	
-	public static String typeAtributeVarChar(String DataType){
-		if(DataType.equals("varchar10")){
+	//public static String typeAtributeVarChar(String DataType){
+	public static String typeAdaptAtribute(String DataTypeModel){
+		if(DataTypeModel.equals("varchar10")){
 			return "varchar(10)";
 		}
-		if(DataType.equals("varchar30")){
+		if(DataTypeModel.equals("varchar30")){
 			return "varchar(30)";
 		}
-		else{
+		if(DataTypeModel.equals("varchar50")){
 			return "varchar(50)";
+		}
+		if(DataTypeModel.equals("img")){
+			return "varchar(100)";
+		}
+		if(DataTypeModel.equals("date_time")){
+			return "datetime";
+		}
+		else{
+			return DataTypeModel;
 		}
 	}
 }

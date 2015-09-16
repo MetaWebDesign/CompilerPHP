@@ -290,7 +290,7 @@ echo $model->name;
 
 							foreach($tablas AS $tabla){
 							    echo "<li>\n
-										<a href='index.php?r=$tabla->nombre/index'>$tabla->nombre</a>\n
+										<a href='index.php?r=$tabla->nombre/index' target='_blank'>$tabla->nombre</a>\n
  	                                 </li>\n";
 							}
 

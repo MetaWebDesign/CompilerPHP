@@ -6,11 +6,13 @@ public class Atributo{
 	private String nombre;
 	private boolean primaryKey=false;
 	private String type;
+	private String typeModel;
 	
 	public Atributo(){
 		this.nombre="none";
 		this.primaryKey=false;
 		this.type="text";
+		this.typeModel="text";
 	}
 	
 	//Construcctor
@@ -20,10 +22,11 @@ public class Atributo{
 	 * Atributo derivado?
 	 * TypeData:test, varchar, date, time , etc
 	 */
-	public Atributo(String nombrex, boolean pk, boolean der, String typex){
+	public Atributo(String nombrex, boolean pk, boolean der, String type_, String typeModel_){
 		this.nombre=nombrex;
 		this.primaryKey=pk;
-		this.type=typex;
+		this.type=type_;
+		this.typeModel=typeModel_;
 	}
 	
 	public String getNombre(){
@@ -37,6 +40,10 @@ public class Atributo{
 	
 	public String getType(){
 		return this.type;
+	}
+	
+	public String getTypeModel(){
+		return this.typeModel;
 	}
 	
 }
