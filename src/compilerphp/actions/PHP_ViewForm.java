@@ -68,9 +68,20 @@ public class PHP_ViewForm{
 		form=form+"/* @var $model app\\models\\"+tabla.getNombre()+" */\n";
 		form=form+"/* @var $form yii\\widgets\\ActiveForm */\n";
 		form=form+"?>\n\n";
-
-		//LECTURA DE ATRIBUTOS
 		
+		
+		
+		//LECTURA DE ATRIBUTOS		
+		//..... seguir con el resto de la vista
+		//si el atributo es de tipo datetime
+		//si el atributo es de tipo time
+		//si el atributo es de tipo date
+		//si el atributo es de tipo passwd
+		//si el atributo es de tipo file
+		//si el atributo es de tipo img
+
+
+		//ESCRITURA DE LA VISTA CON LAS MODIFICACIONES
 		FileWriter fichero = null;
 		fichero = new FileWriter(path_view);
 		fichero.write(form);
