@@ -100,6 +100,19 @@ public class PHP{
 		String comando="bash "+path_proyect+"crud.sh "+path_proyect;
 		obj.executeCommand(comando);
 		//BORRAR BASH
+		
+		System.out.println("LOAD PLUGINS O EXTECIONES PARA FORMULRIOS");
+		//LOAD PLUGINS O EXTECIONES PARA FORMULRIOS
+		for(Tabla tabla : modelo.getTablas()){
+			
+			try {
+				PHP_ViewForm form = new PHP_ViewForm(path_proyect+"proyect/views/"+tabla.getNombre().toLowerCase()+"/", tabla);
+				form.write();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	//public static void genModelView(SQL model){
@@ -142,6 +155,8 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.executeCommand("chmod 777 -R "+path_proyect);
 	}
+	
+
 	
 	//GENERA VISTAS PARA EL CRUD DE LAS VISTAS
 	/*

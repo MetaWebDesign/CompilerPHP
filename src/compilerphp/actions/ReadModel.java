@@ -7,8 +7,6 @@ import java.io.IOException;
 
 public class ReadModel{
 	
-
-	
 	public static SQL loadXML(String path, String file) throws IOException
 	{
 			SQL sql= new SQL();

@@ -13,7 +13,7 @@ public class PHP_ViewForm{
 	static Tabla tabla;
 	
 	public PHP_ViewForm(String path_proyect, Tabla tabla_){
-		path_view=path_proyect+"proyect/...";
+		path_view=path_proyect+"_form.php";
 		tabla=tabla_;
 	}
 	
@@ -44,42 +44,65 @@ public class PHP_ViewForm{
 	}
 	
 	//GENERA LOS USE, PARA IMPORTAR LOS WIDGETS A UTILIZAR
-	public static void genUses(){
+	public static String genUses(){
 		//DEFAULT
-		uses.add("use yii\\helpers\\Html;\n");
-		uses.add("use yii\\widgets\\ActiveForm;\n");
+		String uses=" ";
+		uses=uses+"use yii\\helpers\\Html;\n";
+		uses=uses+"use yii\\widgets\\ActiveForm;\n";
 		
 		//WIDGETS PARA ATRIBUTOS
 		for(Atributo a : tabla.getAtributos()){
 			if(a.getTypeModel().equals("date_time")){ //SI EN EL MODELO HAY UN ATRIBUTO TIPO DATETIME
-				uses.add("use kartik\\datetime\\DateTimePicker;");
+				uses=uses+"use kartik\\datetime\\DateTimePicker;\n";
 			}
 		}
+		return uses;
 	}
 
 	//ESCRITURA DE LA VISTA
 	public void write() throws IOException{
 		genUses();
 		form="<?php\n\n";
-		for(String use : uses){ //CARGA LOS USES
-			form=form+use;
-		}
+		form=form+genUses();
 		form=form+"/* @var $this yii\\web\\View */\n";
 		form=form+"/* @var $model app\\models\\"+tabla.getNombre()+" */\n";
 		form=form+"/* @var $form yii\\widgets\\ActiveForm */\n";
 		form=form+"?>\n\n";
-		
+
+		form=form+"<div class=\"archivos-form\">\n";
+		form=form+"    <?php $form = ActiveForm::begin(); ?>\n";
+
 		
 		
 		//LECTURA DE ATRIBUTOS		
-		//..... seguir con el resto de la vista
-		//si el atributo es de tipo datetime
-		//si el atributo es de tipo time
-		//si el atributo es de tipo date
-		//si el atributo es de tipo passwd
-		//si el atributo es de tipo file
-		//si el atributo es de tipo img
-
+		for(Atributo atributo : tabla.getAtributos()){
+			form=form+"\n";
+			//si el atributo es de tipo datetime
+			if(atributo.getType().equals("datetime")){//campo para fecha y hora
+				form=form+"					<?php\n";   
+				form=form+"						// Usage with model and Active Form (with no default initial value)\n";
+				form=form+"						echo $form->field($model, '"+atributo.getNombre()+"')->widget(DateTimePicker::classname(), [\n";
+				form=form+"							'options' => ['placeholder' => 'Enter event time ...'],\n";
+				form=form+"							'pluginOptions' => [\n";
+				form=form+"								'autoclose' => true\n";
+				form=form+"							]\n";
+				form=form+"						]);?>\n";
+			}
+			//si el atributo es de tipo time
+			//si el atributo es de tipo date
+			//si el atributo es de tipo passwd
+			//si el atributo es de tipo file
+			//si el atributo es de tipo img
+			else{
+				form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n";
+			}
+		}
+		
+		form=form+"\n\n		 <div class=\"form-group\">\n";
+		form=form+"	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>\n";
+		form=form+"	    </div>\n";
+		form=form+"	    <?php ActiveForm::end(); ?>\n";
+		form=form+"	</div>\n";
 
 		//ESCRITURA DE LA VISTA CON LAS MODIFICACIONES
 		FileWriter fichero = null;
