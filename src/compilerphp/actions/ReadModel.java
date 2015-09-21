@@ -33,6 +33,7 @@ public class ReadModel{
 				int x_attribute_type=line.indexOf("dataType=");//IDENTIFICA EL TIPO DE ATRIBUTO
 				int x_attribute_pk=line.indexOf("PrimaryKey=");//IDENTIFICA LLAVE PRIMARIA
 				int x_attribute_formula=line.indexOf("formula=");//IDENTIFICA FORMULA SQL DEL ATRIBUTO DERIVADO PARA CREAR UNA VISTA
+				int x_attribute_required=line.indexOf("inTheForm=\"not_required\"");
 				int x_relation=line.indexOf("hasRelationClass name=");//IDENTIFICA UNA RELACION
 				int x_relation_name=line.indexOf("name=");//IDENTIFICA EL NOMBRE DE UNA RELACION PARA CREAR LLAVE FORANEA
 				int x_relation_destination=line.indexOf("Attribute_Destination");
@@ -64,10 +65,12 @@ public class ReadModel{
 			        int stop_type=substr_type.indexOf("\"");
 			        
 			        boolean pk=false;
-			        
+			        boolean requiered=true;
 			        if(x_attribute_pk != -1){
-			        	System.out.println("->FK True");
 			        	pk=true;
+			        }
+			        if(x_attribute_required !=-1){
+			        	requiered=false;
 			        }
 			        
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
@@ -81,7 +84,7 @@ public class ReadModel{
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
 			        //System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
-			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model);
+			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
 			        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
 				}
 				
@@ -135,9 +138,9 @@ public class ReadModel{
 			//AGREGAR TABLAS DASHBOARD
 			Tabla dashboard=new Tabla();
 			dashboard.setNombre("Dashboard");
-			Atributo id=new Atributo("id", true, false, "autoincremental", "autoincremental");
-			Atributo nombre=new Atributo("nombre", false, false, "varchar(50)", "varchar50");
-			Atributo vista=new Atributo("vista", false, false, "boolean", "boolean");
+			Atributo id=new Atributo("id", true, false, "autoincremental", "autoincremental", false);
+			Atributo nombre=new Atributo("nombre", false, false, "varchar(50)", "varchar50", true);
+			Atributo vista=new Atributo("vista", false, false, "boolean", "boolean", true);
 			dashboard.addAtributo(id);
 			dashboard.addAtributo(nombre);
 			dashboard.addAtributo(vista);

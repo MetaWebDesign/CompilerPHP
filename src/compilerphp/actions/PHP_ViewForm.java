@@ -84,34 +84,36 @@ public class PHP_ViewForm{
 			
 		//LECTURA DE ATRIBUTOS
 		 for(Atributo atributo : atributos){
-			form=form+"\n";
-			//si el atributo es de tipo datetime
-			if(atributo.getTypeModel().equals("date_time")){//campo para fecha y hora
-				form=form+"					<?php\n";   
-				form=form+"						// Usage with model and Active Form (with no default initial value)\n";
-				form=form+"						echo $form->field($model, '"+atributo.getNombre()+"')->widget(DateTimePicker::classname(), [\n";
-				form=form+"							'options' => ['placeholder' => 'Enter event time ...'],\n";
-				form=form+"							'pluginOptions' => [\n";
-				form=form+"								'autoclose' => true\n";
-				form=form+"							]\n";
-				form=form+"						]);?>\n";
+			if(atributo.getRequired()){//SI EL ATRIBUTO ES REQUERIDO EN EL FORMULARIO
+				form=form+"\n";
+				//si el atributo es de tipo datetime
+				if(atributo.getTypeModel().equals("date_time")){//campo para fecha y hora
+					form=form+"					<?php\n"; 	  
+					form=form+"						// Usage with model and Active Form (with no default initial value)\n";
+					form=form+"						echo $form->field($model, '"+atributo.getNombre()+"')->widget(DateTimePicker::classname(), [\n";
+					form=form+"							'options' => ['placeholder' => 'Enter event time ...'],\n";
+					form=form+"							'pluginOptions' => [\n";
+					form=form+"								'autoclose' => true\n";
+					form=form+"							]\n";
+					form=form+"						]);?>\n";
+				}
+				//si el atributo es de tipo time
+				if(atributo.getTypeModel().equals("time")){
+					form=form+"				<?php\n";
+					form=form+"				$form = ActiveForm::begin();\n";
+					form=form+"				echo $form->field($model, '"+atributo.getNombre()+"')->widget(TimePicker::classname(), []);\n";
+					form=form+"				?>\n";
+				}
+				//si el atributo es de tipo date
+				//si el atributo es de tipo passwd
+				//si el atributo es de tipo file
+				//si el atributo es de tipo img
+				else{
+					form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n";
+				}
 			}
-			//si el atributo es de tipo time
-			if(atributo.getTypeModel().equals("time")){
-				form=form+"				$form = ActiveForm::begin();\n";
-				form=form+"				echo $form->field($model, '"+atributo.getNombre()+"')->widget(TimePicker::classname(), []);\n";
-			}
-			//si el atributo es de tipo date
-			//si el atributo es de tipo passwd
-			//si el atributo es de tipo file
-			//si el atributo es de tipo img
-			else{
-				form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n";
-			}
-		}
-		 
-		//LLAVES FORANEAS (igual que atributos, por lo general son comobox a otra tabla)
-		 
+			//LLAVES FORANEAS (igual que atributos, por lo general son comobox a otra tabla)
+		}	
 	    for(ForeignKey fk : foreignKeys){
 	    	Tabla destino=model.getTablaByInt(fk.getDestination());
 	    	Atributo destino_pk=destino.getPrimaryKey();

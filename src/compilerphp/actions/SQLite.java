@@ -43,13 +43,14 @@ public class SQLite{
 			    	if (atributo.getType().equals("autoincremental")){
 			    		linea_sql=linea_sql+" integer primary key not null";
 			    	}
-			    	/*
+			    	
 			    	if (!atributo.getType().equals("autoincremental")){
 			    		linea_sql=linea_sql+" "+atributo.getType();
+			    		/*
 			    		if(atributo.getPrimaryKey() == true){
 			    			linea_sql=linea_sql+" PRIMARY KEY";
-			    		}
-			    	}*/
+			    		}*/
+			    	}
 			    	coma++;
 			    }
 			    
