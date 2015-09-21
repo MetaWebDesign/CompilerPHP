@@ -48,9 +48,10 @@ public class PHP_ViewForm{
 	//GENERA LOS USE, PARA IMPORTAR LOS WIDGETS A UTILIZAR
 	public static String genUses(){
 		//DEFAULT
-		String uses=" ";
+		String uses="namespace app\\models;";
 		uses=uses+"use yii\\helpers\\Html;\n";
 		uses=uses+"use yii\\widgets\\ActiveForm;\n";
+		uses=uses+"use yii\\helpers\\ArrayHelper;\n";
 		
 		//WIDGETS PARA ATRIBUTOS
 		for(Atributo a : tabla.getAtributos()){
@@ -58,6 +59,7 @@ public class PHP_ViewForm{
 				uses=uses+"use kartik\\datetime\\DateTimePicker;\n";
 			}
 		}
+		
 		return uses;
 	}
 
@@ -102,6 +104,7 @@ public class PHP_ViewForm{
 		}
 		 
 		//LLAVES FORANEAS (igual que atributos, por lo general son comobox a otra tabla)
+		 
 	    for(ForeignKey fk : foreignKeys){
 	    	Tabla destino=model.getTablaByInt(fk.getDestination());
 	    	Atributo destino_pk=destino.getPrimaryKey();

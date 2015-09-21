@@ -31,7 +31,7 @@ public class ReadModel{
 				int x_attribute_derived=line.indexOf("metawebdesign:Derived");//IDENTIFICA UN ATRIBUTO DERIVADO
 				int x_attribute_name=line.indexOf("name=");//POSICION DEL NOMBRE DEL ATRIBUTO
 				int x_attribute_type=line.indexOf("dataType=");//IDENTIFICA EL TIPO DE ATRIBUTO
-				int x_attribute_pk=line.indexOf("primaryKey=");//IDENTIFICA LLAVE PRIMARIA
+				int x_attribute_pk=line.indexOf("PrimaryKey=");//IDENTIFICA LLAVE PRIMARIA
 				int x_attribute_formula=line.indexOf("formula=");//IDENTIFICA FORMULA SQL DEL ATRIBUTO DERIVADO PARA CREAR UNA VISTA
 				int x_relation=line.indexOf("hasRelationClass name=");//IDENTIFICA UNA RELACION
 				int x_relation_name=line.indexOf("name=");//IDENTIFICA EL NOMBRE DE UNA RELACION PARA CREAR LLAVE FORANEA
@@ -66,6 +66,7 @@ public class ReadModel{
 			        boolean pk=false;
 			        
 			        if(x_attribute_pk != -1){
+			        	System.out.println("->FK True");
 			        	pk=true;
 			        }
 			        

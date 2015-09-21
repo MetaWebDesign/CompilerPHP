@@ -101,7 +101,6 @@ public class PHP{
 		obj.executeCommand(comando);
 		//BORRAR BASH
 		
-		System.out.println("LOAD PLUGINS O EXTECIONES PARA FORMULRIOS");
 		//LOAD PLUGINS O EXTECIONES PARA FORMULRIOS
 		for(Tabla tabla : modelo.getTablas()){
 			
