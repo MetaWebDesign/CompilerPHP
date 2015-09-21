@@ -47,4 +47,14 @@ public class Tabla{
 		}
 		return null;
 	}
+	
+	public String findNameAttribute(){
+		String name="";
+		for (Atributo a: this.atributos){
+			if(a.getNombre().indexOf("name") != -1 || a.getNombre().indexOf("nombre") != -1){
+				name=a.getNombre();
+			}
+		}
+		return name;
+	}
 }

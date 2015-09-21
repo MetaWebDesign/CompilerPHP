@@ -106,7 +106,7 @@ public class PHP{
 		for(Tabla tabla : modelo.getTablas()){
 			
 			try {
-				PHP_ViewForm form = new PHP_ViewForm(path_proyect+"proyect/views/"+tabla.getNombre().toLowerCase()+"/", tabla);
+				PHP_ViewForm form = new PHP_ViewForm(path_proyect+"proyect/views/"+tabla.getNombre().toLowerCase()+"/", tabla, modelo);
 				form.write();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

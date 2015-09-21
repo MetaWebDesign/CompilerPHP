@@ -42,4 +42,8 @@ public class SQL{
 		return null;
 	}
 	
+	public Tabla getTablaByInt(int table_position){
+		return this.tablas.get(table_position);
+	}
+	
 }

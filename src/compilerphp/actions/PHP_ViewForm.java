@@ -11,10 +11,12 @@ public class PHP_ViewForm{
 	static List <String> uses = new ArrayList<String>();//LISTA CON LOS USE DE LOS WIDGETS A UTILIZAR
 	static String path_view; //RUTA DE LA VISTA
 	static Tabla tabla;
+	static SQL model;
 	
-	public PHP_ViewForm(String path_proyect, Tabla tabla_){
+	public PHP_ViewForm(String path_proyect, Tabla tabla_, SQL model_){
 		path_view=path_proyect+"_form.php";
 		tabla=tabla_;
+		model=model_;
 	}
 	
 	
@@ -101,7 +103,10 @@ public class PHP_ViewForm{
 		 
 		//LLAVES FORANEAS (igual que atributos, por lo general son comobox a otra tabla)
 	    for(ForeignKey fk : foreignKeys){
-	    	form=form+"				 <?= $form->field($model, '"+fk.getNombre()+"')->textInput() ?>\n"; //parche, remplazar por comobox
+	    	Tabla destino=model.getTablaByInt(fk.getDestination());
+	    	Atributo destino_pk=destino.getPrimaryKey();
+			form=form+"<label class=\"control-label\" for=\""+tabla.getNombre()+"-"+fk.getNombre()+"\">"+destino.getNombre()+": </label>\n";
+			form=form+"<?= Html::activeDropDownList($model, '"+fk.getNombre()+"', ArrayHelper::map("+destino.getNombre()+"::find()->all(), '"+destino_pk.getNombre()+"', '"+destino.findNameAttribute()+"')) ?>\n";
 	    }
 		
 		form=form+"\n\n		 <div class=\"form-group\">\n";
