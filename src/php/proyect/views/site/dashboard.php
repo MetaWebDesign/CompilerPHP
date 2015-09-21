@@ -4,6 +4,9 @@ namespace app\models;
 
 use yii\helpers\Html;
 
+use app\assets\DashboardAsset;
+DashboardAsset::register($this);
+
 $this->title = 'Dashboard';
 $this->params['breadcrumbs'][] = $this->title;
 

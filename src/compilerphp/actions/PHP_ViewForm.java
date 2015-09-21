@@ -78,7 +78,7 @@ public class PHP_ViewForm{
 		for(Atributo atributo : tabla.getAtributos()){
 			form=form+"\n";
 			//si el atributo es de tipo datetime
-			if(atributo.getType().equals("datetime")){//campo para fecha y hora
+			if(atributo.getTypeModel().equals("date_time")){//campo para fecha y hora
 				form=form+"					<?php\n";   
 				form=form+"						// Usage with model and Active Form (with no default initial value)\n";
 				form=form+"						echo $form->field($model, '"+atributo.getNombre()+"')->widget(DateTimePicker::classname(), [\n";
