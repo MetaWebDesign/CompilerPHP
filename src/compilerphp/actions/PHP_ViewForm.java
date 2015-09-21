@@ -62,6 +62,8 @@ public class PHP_ViewForm{
 	//ESCRITURA DE LA VISTA
 	public void write() throws IOException{
 		genUses();
+		List <Atributo> atributos=tabla.getAtributos();
+		List <ForeignKey> foreignKeys=tabla.getForeignKeys();
 		form="<?php\n\n";
 		form=form+genUses();
 		form=form+"/* @var $this yii\\web\\View */\n";
@@ -72,10 +74,9 @@ public class PHP_ViewForm{
 		form=form+"<div class=\"archivos-form\">\n";
 		form=form+"    <?php $form = ActiveForm::begin(); ?>\n";
 
-		
-		
-		//LECTURA DE ATRIBUTOS		
-		for(Atributo atributo : tabla.getAtributos()){
+			
+		//LECTURA DE ATRIBUTOS
+		 for(Atributo atributo : atributos){
 			form=form+"\n";
 			//si el atributo es de tipo datetime
 			if(atributo.getTypeModel().equals("date_time")){//campo para fecha y hora
@@ -97,6 +98,11 @@ public class PHP_ViewForm{
 				form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n";
 			}
 		}
+		 
+		//LLAVES FORANEAS (igual que atributos, por lo general son comobox a otra tabla)
+	    for(ForeignKey fk : foreignKeys){
+	    	form=form+"				 <?= $form->field($model, '"+fk.getNombre()+"')->textInput() ?>\n"; //parche, remplazar por comobox
+	    }
 		
 		form=form+"\n\n		 <div class=\"form-group\">\n";
 		form=form+"	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>\n";
