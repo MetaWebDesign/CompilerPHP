@@ -58,6 +58,9 @@ public class PHP_ViewForm{
 			if(a.getTypeModel().equals("date_time")){ //SI EN EL MODELO HAY UN ATRIBUTO TIPO DATETIME
 				uses=uses+"use kartik\\datetime\\DateTimePicker;\n";
 			}
+			if(a.getTypeModel().equals("time")){
+				uses=uses+"use kartik\\time\\TimePicker;\n";
+			}
 		}
 		
 		return uses;
@@ -94,6 +97,9 @@ public class PHP_ViewForm{
 				form=form+"						]);?>\n";
 			}
 			//si el atributo es de tipo time
+			if(atributo.getTypeModel().equals("time")){
+				
+			}
 			//si el atributo es de tipo date
 			//si el atributo es de tipo passwd
 			//si el atributo es de tipo file
