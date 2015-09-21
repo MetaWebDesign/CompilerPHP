@@ -98,7 +98,8 @@ public class PHP_ViewForm{
 			}
 			//si el atributo es de tipo time
 			if(atributo.getTypeModel().equals("time")){
-				
+				form=form+"				$form = ActiveForm::begin();\n";
+				form=form+"				echo $form->field($model, '"+atributo.getNombre()+"')->widget(TimePicker::classname(), []);\n";
 			}
 			//si el atributo es de tipo date
 			//si el atributo es de tipo passwd
