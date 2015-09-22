@@ -61,6 +61,9 @@ public class PHP_ViewForm{
 			if(a.getTypeModel().equals("time")){
 				uses=uses+"use kartik\\time\\TimePicker;\n";
 			}
+			if(a.getTypeModel().equals("date")){
+				uses=uses+"use kartik\\date\\DatePicker;\n";
+			}
 		}
 		
 		return uses;
@@ -109,7 +112,18 @@ public class PHP_ViewForm{
 					auto=false;
 				}
 				//si el atributo es de tipo date
-				
+				if(atributo.getTypeModel().equals("date")){
+					form=form+"									<?php\n";
+					form=form+"											// Usage with model and Active Form (with no default initial value)\n";
+					form=form+"										echo $form->field($model, 'fecha')->widget(DatePicker::classname(), [\n";
+					form=form+"											    'options' => ['placeholder' => 'Enter birth date ...'],\n";
+					form=form+"											    'pluginOptions' => [\n";
+					form=form+"											        'autoclose'=>true\n";
+					form=form+"											    ]\n";
+					form=form+"											]);\n";
+					form=form+"											?>\n";
+				   auto=false;
+				}
 				//si el atributo es de tipo passwd
 				//si el atributo es de tipo file
 				//si el atributo es de tipo img
