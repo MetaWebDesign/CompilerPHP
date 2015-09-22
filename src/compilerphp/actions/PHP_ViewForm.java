@@ -48,7 +48,7 @@ public class PHP_ViewForm{
 	//GENERA LOS USE, PARA IMPORTAR LOS WIDGETS A UTILIZAR
 	public static String genUses(){
 		//DEFAULT
-		String uses="namespace app\\models;";
+		String uses="namespace app\\models;\n\n";
 		uses=uses+"use yii\\helpers\\Html;\n";
 		uses=uses+"use yii\\widgets\\ActiveForm;\n";
 		uses=uses+"use yii\\helpers\\ArrayHelper;\n";
@@ -83,8 +83,6 @@ public class PHP_ViewForm{
 
 			
 		//LECTURA DE ATRIBUTOS
-		System.out.println(tabla.getNombre()+"view For");
-		
 		int cont=0;
 		 for(Atributo atributo : atributos){
 			 boolean auto=true; //EVITAR QUE SE CUMPLAN DOS CASOS A LA VEZ, SE QUEDA CON EL PRIMERO
@@ -92,7 +90,6 @@ public class PHP_ViewForm{
 				form=form+"\n";
 				//si el atributo es de tipo datetime
 				if(atributo.getTypeModel().equals("date_time")){//campo para fecha y hora
-					System.out.println("-->DATETIME - "+cont);
 					form=form+"					<?php\n"; 	  
 					form=form+"						// Usage with model and Active Form (with no default initial value)\n";
 					form=form+"						echo $form->field($model, '"+atributo.getNombre()+"')->widget(DateTimePicker::classname(), [\n";
@@ -105,7 +102,6 @@ public class PHP_ViewForm{
 				}
 				//si el atributo es de tipo time
 				if(atributo.getTypeModel().equals("time")){
-					System.out.println("-->TIME - "+cont);
 					form=form+"				<?php\n";
 					form=form+"				$form = ActiveForm::begin();\n";
 					form=form+"				echo $form->field($model, '"+atributo.getNombre()+"')->widget(TimePicker::classname(), []);\n";
@@ -113,12 +109,12 @@ public class PHP_ViewForm{
 					auto=false;
 				}
 				//si el atributo es de tipo date
+				
 				//si el atributo es de tipo passwd
 				//si el atributo es de tipo file
 				//si el atributo es de tipo img
 				else{
 					if(auto){
-						System.out.println("-->DEFAULT - "+cont);
 						form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n\n";
 					}
 				}
