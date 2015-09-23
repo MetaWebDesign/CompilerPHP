@@ -107,6 +107,8 @@ public class SQLite{
 				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla()+view.getNombre().toLowerCase()+"view', 'true');";
 				dataBase.add(dash_table);
 			}
+			//DASHBOARD TABLA USUARIO DEFECTO
+			//DASHBOARD ROL POR DEFECTO SISTEMA (ROLES DEL MODELO MWD: ADMIN, )
 			
 		return dataBase;
 	}

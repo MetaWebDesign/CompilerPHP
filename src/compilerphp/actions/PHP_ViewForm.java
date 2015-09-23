@@ -129,13 +129,14 @@ public class PHP_ViewForm{
 				//si el atributo es de tipo passwd
 				if(atributo.getTypeModel().equals("passwd")){
 					form=form+"					<?= $form->field($model, '"+atributo.getNombre()+"')->passwordInput() ?>\n";
+					auto=false;
 				}
 				//si el atributo es de tipo file
-				if(atributo.getTypeModel().equals("date") || atributo.getTypeModel().equals("img")){
+				if(atributo.getTypeModel().equals("file") || atributo.getTypeModel().equals("img")){
 					form=form+"					<?php\n";
 					form=form+"							// Usage with ActiveForm and model\n";
 					form=form+"							echo $form->field($model, '"+atributo.getNombre()+"')->widget(FileInput::classname(), [\n";
-					form=form+"							    'options' => ['accept' => 'image/*'],\n";
+					form=form+"							    'options' => ['accept' => 'upload/*'],\n";
 					form=form+"							]);\n";
 					form=form+"							?>\n";
 					auto=false;
