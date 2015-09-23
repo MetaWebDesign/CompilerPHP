@@ -97,18 +97,28 @@ public class SQLite{
 			 * Dashboard
 			 * Inserción de datos requeridos para la construcción del Dashboard
 			 */
+			
 			//DASHBOARD TABLAS
 			for(Tabla tabla : tablas){
 				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+tabla.getNombre().toLowerCase()+"', 'false');";
 				dataBase.add(dash_table);
 			}
+			
 			//DASHBOARD VISTAS
 			for(View view : views){
 				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla()+view.getNombre().toLowerCase()+"view', 'true');";
 				dataBase.add(dash_table);
+			
 			}
-			//DASHBOARD TABLA USUARIO DEFECTO
-			//DASHBOARD ROL POR DEFECTO SISTEMA (ROLES DEL MODELO MWD: ADMIN, )
+			//DASHBOARD ROLES POR DEFECTO (ROLES DEL MODELO MWD: ADMIN, AUTHENTICATED, ANONYMUS, ANY)
+			dataBase.add("INSERT INTO Roles (rolname) values ('admin');");
+			dataBase.add("INSERT INTO Roles (rolname) values ('authenticated');");
+			//ANONYMUS: es un usuario no autentificado
+			//ANY: es indiferente al rol para acceder 
+			
+			//DASHBOARD USUARIOS POR DEFECTO
+			dataBase.add("INSERT INTO Users (username, passwd, id_rol) values ('mwd', 'mwd123', 1);"); //USUARIO POR DEFECTO DEL SISTEMA
+			//DASHBOARD VISITAS
 			
 		return dataBase;
 	}
