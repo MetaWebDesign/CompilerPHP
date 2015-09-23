@@ -86,7 +86,6 @@ public class PHP_ViewForm{
 
 			
 		//LECTURA DE ATRIBUTOS
-		int cont=0;
 		 for(Atributo atributo : atributos){
 			 boolean auto=true; //EVITAR QUE SE CUMPLAN DOS CASOS A LA VEZ, SE QUEDA CON EL PRIMERO
 			if(atributo.getRequired()){//SI EL ATRIBUTO ES REQUERIDO EN EL FORMULARIO
@@ -132,7 +131,6 @@ public class PHP_ViewForm{
 						form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n\n";
 					}
 				}
-				cont++;
 			}
 			//LLAVES FORANEAS (igual que atributos, por lo general son comobox a otra tabla)
 		}	

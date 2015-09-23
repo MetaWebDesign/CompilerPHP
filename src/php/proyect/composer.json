@@ -21,7 +21,8 @@
         "kartik-v/yii2-widget-datetimepicker": "*",
         "kartik-v/yii2-widget-timepicker": "*",
         "kartik-v/yii2-widget-datepicker": "*",
-        "kartik-v/yii2-field-range": "*"
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-widget-fileinput": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
