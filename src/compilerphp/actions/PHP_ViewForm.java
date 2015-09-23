@@ -64,6 +64,9 @@ public class PHP_ViewForm{
 			if(a.getTypeModel().equals("date")){
 				uses=uses+"use kartik\\date\\DatePicker;\n";
 			}
+			if(a.getTypeModel().equals("file") || a.getTypeModel().equals("img")){
+				uses=uses+"use kartik\\file\\FileInput;\n";
+			}			
 		}
 		
 		return uses;
@@ -114,7 +117,7 @@ public class PHP_ViewForm{
 				if(atributo.getTypeModel().equals("date")){
 					form=form+"									<?php\n";
 					form=form+"											// Usage with model and Active Form (with no default initial value)\n";
-					form=form+"										echo $form->field($model, 'fecha')->widget(DatePicker::classname(), [\n";
+					form=form+"										echo $form->field($model, '"+atributo.getNombre()+"')->widget(DatePicker::classname(), [\n";
 					form=form+"											    'options' => ['placeholder' => 'Enter birth date ...'],\n";
 					form=form+"											    'pluginOptions' => [\n";
 					form=form+"											        'autoclose'=>true\n";
@@ -124,8 +127,19 @@ public class PHP_ViewForm{
 				   auto=false;
 				}
 				//si el atributo es de tipo passwd
+				if(atributo.getTypeModel().equals("passwd")){
+					form=form+"					<?= $form->field($model, '"+atributo.getNombre()+"')->passwordInput() ?>\n";
+				}
 				//si el atributo es de tipo file
-				//si el atributo es de tipo img
+				if(atributo.getTypeModel().equals("date") || atributo.getTypeModel().equals("img")){
+					form=form+"					<?php\n";
+					form=form+"							// Usage with ActiveForm and model\n";
+					form=form+"							echo $form->field($model, '"+atributo.getNombre()+"')->widget(FileInput::classname(), [\n";
+					form=form+"							    'options' => ['accept' => 'image/*'],\n";
+					form=form+"							]);\n";
+					form=form+"							?>\n";
+					auto=false;
+				}
 				else{
 					if(auto){
 						form=form+"				 <?= $form->field($model, '"+atributo.getNombre()+"')->textInput() ?>\n\n";
