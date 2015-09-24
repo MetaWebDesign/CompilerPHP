@@ -58,8 +58,9 @@ echo $model->name;
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
+              <!-- ERRORES -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="index.php?r=dashboard-error/">
                         <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
@@ -302,16 +303,19 @@ echo $model->name;
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Nueva Página</a>
+                                    <a href="index.php?r=views/create">Nueva Página</a>
                                 </li>
                                 <li>
-                                    <a href="#">Paginas</a>
+                                    <a href="index.php?r=views/index">Paginas</a>
                                 </li>
                                 <li>
                                     <a href="#">Widgets</a>
                                 </li>
                                 <li>
-                                    <a href="#">Menús</a>
+                                    <a href="index.php?r=dashboard/index">Menús Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="#">Menu Web</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -320,10 +324,10 @@ echo $model->name;
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Configuración<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">General</a>
+                                    <a href="index.php?r=dashboard-conf/index">General</a>
                                 </li>
                                 <li>
-                                    <a href="#">Respaldar</a>
+                                    <a href="index.php?r=dashboard-error/">Reporte de Errores</a>
                                 </li>
                                 <li>
                                     <a href="#">Temas <span class="fa arrow"></span></a>
@@ -431,11 +435,11 @@ echo $model->name;
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div>Soporte</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="index.php?r=dashboard-error/">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
