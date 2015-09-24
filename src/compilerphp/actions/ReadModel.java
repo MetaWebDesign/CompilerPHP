@@ -77,11 +77,6 @@ public class ReadModel{
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type_model=substr_type.substring(0, stop_type);
 			        
-			        //ADATA EL DATA TYPE DEL ATRIBUTO DEL MODELO A UN DATA TYPE ACEPTADO POR SQL (DATA TYPE = VARCHAR)
-			        //if(atributo_type.indexOf("varchar")!= -1){
-			        	//atributo_type=typeAtributeVarChar(atributo_type);
-			        //}
-			        
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
 			        //System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
@@ -136,52 +131,6 @@ public class ReadModel{
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
-			
-			//AGREGAR TABLAS DASHBOARD
-			/*
-			Tabla dashboard=new Tabla();
-			dashboard.setNombre("Dashboard");
-			Atributo id=new Atributo("id", true, false, "autoincremental", "autoincremental", false);
-			Atributo nombre=new Atributo("nombre", false, false, "varchar(50)", "varchar50", true);
-			Atributo vista=new Atributo("vista", false, false, "boolean", "boolean", true);
-			dashboard.addAtributo(id);
-			dashboard.addAtributo(nombre);
-			dashboard.addAtributo(vista);
-			sql.addTabla(dashboard);
-			*/
-			//cont_tabla++;
-			
-			//DASHBOARD CONFIG WEB
-			/*
-			Tabla dashboard_conf=new Tabla();
-			dashboard_conf.setNombre("DashboardConf");
-			Atributo idconf=new Atributo("id", true, false, "autoincremental", "autoincremental", false);
-			Atributo sitetitle=new Atributo("sitetitle", false, false, "varchar(50)", "varchar50", true);
-			Atributo tagline=new Atributo("tagline", false, false, "varchar(50)", "varchar50", true);
-			Atributo admin_email=new Atributo("admin_email", true, false, "varchar(50)", "varchar50", true);
-			dashboard_conf.addAtributo(idconf);
-			dashboard_conf.addAtributo(sitetitle);
-			dashboard_conf.addAtributo(tagline);
-			dashboard_conf.addAtributo(admin_email);
-			sql.addTabla(dashboard_conf);
-			cont_tabla++;
-			*/
-			//VIEWS (LISTA DE LAS VIASTAS / PAGUINAS DEL SITIO WEB)
-			/*
-			Tabla views= new Tabla();
-			views.setNombre("Views");
-			Atributo idview=new Atributo("idview", true, false, "autoincremental", "autoincremental", false);
-			Atributo title=new Atributo("title", false, false, "varchar(50)", "varchar50", true);
-			Atributo id_rol=new Atributo("id_rol", false, false, "integer", "integer", true);
-			Atributo content=new Atributo("content", false, false, "text", "text", true);
-			//ForeignKey fk_id_rol=new ForeignKey("id_rol", sql.getIDTabla("Roles"), 0);
-			views.addAtributo(idview);
-			views.addAtributo(title);
-			views.addAtributo(id_rol);
-			views.addAtributo(content);
-			//views.addForeignKey(fk_id_rol);
-			cont_tabla++;
-			*/
 			
 			SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
 			return sql;
