@@ -7,7 +7,7 @@ public class PHP_Views{
 		web_name=web_name_;
 	}
 	
-	public void index(){
+	public static void index(){
 		String title=web_name+" Home";
 		String content="<div class=\"site-index\">\n";
 		content=content+"	    <div class=\"jumbotron\">\n";

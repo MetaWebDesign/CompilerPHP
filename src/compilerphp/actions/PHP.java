@@ -156,5 +156,15 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.executeCommand("chmod 777 -R "+path_proyect);
 	}
+	
+	//GENERA LAS VISTAS POR DEFECTO
+	/*
+	 * index
+	 * about
+	 * contact
+	 */
+	public void genViewsDefault(){
+		PHP_Views.index();
+	}
 
 }

@@ -102,6 +102,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		bar.updateProgress(77, "Creando Proyecto PHP - Generado Modelos Controladores Vistas");
 		php.genCRUDView();//GENERA LOS CONTROLADORES DE LAS VISTAS
 		php.execPermisos();//PERIMISOS PARA QUE APACHE U OTRO PUEDA EJECUTAR EL SITIO WEB
+		bar.updateProgress(85, "Creando Proyecto PHP - Generado Vistas por defecto");
+		php.genViewsDefault();//GENERA LAS VISTAS INDEX, ABOUT, CONTACT
 		php.configureBD_Apache(name_proyect+".db");
 		bar.updateProgress(100, "Proyecto PHP creado!");
 		windowMensajeInfo("Compilado con exito!");
