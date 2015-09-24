@@ -238,7 +238,7 @@ public class SQLite{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		FileWriter script_insertView = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
 		String name_script=title.replaceAll("\\s+","");
-		String sql_line="INSERT INTO Views (title, content) values ('"+title+"', 'lala');";
+		String sql_line="INSERT INTO Views (title, content) values ('"+title+"', '"+content+"');";
 		script_insertView = new FileWriter(path_db+"/PHP/"+name_script+".sh");
 		script_insertView.write("sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+sql_line+"\"\n");
 		script_insertView.close();
