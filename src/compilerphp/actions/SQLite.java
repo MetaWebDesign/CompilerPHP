@@ -118,8 +118,27 @@ public class SQLite{
 			
 			//DASHBOARD USUARIOS POR DEFECTO
 			dataBase.add("INSERT INTO Users (username, passwd, id_rol) values ('mwd', 'mwd123', 1);"); //USUARIO POR DEFECTO DEL SISTEMA
+			//DASHBOARD CONFIGURACION
+			dataBase.add("CREATE TABLE dashboard_web (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50));");
 			//DASHBOARD VISITAS
-			
+			dataBase.add("CREATE TABLE view(id_view integer primary key not null, title varchar(50), id_rol integer, content text, FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
+			dataBase.add("CREATE TABLE typePresentation (id_presentation integer primary key not null, presentationname varchar(50));");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('string');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('table');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('combobox');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('radiobuttom');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('itemList');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('form_email');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('form_password');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('form_file');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('table_striped');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('table_hover');");
+			dataBase.add("INSERT INTO typePresentation (presentationname) values ('img');");
+			dataBase.add("CREATE TABLE view_attribute(id_view_attribute integer primary key not null, id_view integer, id_tabla integer, id_atributo_tabla integer, pos_x varchar(10), pos_y integer, id_presentation integer, FOREIGN KEY(id_view) REFERENCES view (id_view), FOREIGN KEY(id_presentation) REFERENCES typePresentation(id_presentation));");
+			//DASHBOARD ERROR
+			dataBase.add("create table Dashboard_Error (id_error integer primery key not null, error_titulo varchar(50), descrip text);");
+			//DASHBOARD MENU
+			//MENU
 		return dataBase;
 	}
 	
