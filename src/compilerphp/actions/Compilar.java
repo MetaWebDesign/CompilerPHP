@@ -73,7 +73,9 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		else{
 			String proyecto=windowListOptions(obj.getProyects());
 			path=currentDirectory+proyecto;
-			file=getCurrentFile(path);
+			name_proyect=getCurrentFile(path);
+			file=getCurrentFile(path)+".metawebdesign";
+			bar.updateProgress(3, "Leyendo "+file);
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println(path+"/"+file);
