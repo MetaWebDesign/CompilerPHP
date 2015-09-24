@@ -33,6 +33,7 @@ public class SQL{
 		return this.views;
 	}
 	
+	//BUSCA UNA TABLA POR NOMBRE
 	public Tabla getTabla(String tabla_name){
 		for(Tabla t : this.tablas) {
 			if(t.getNombre().equals(tabla_name)){
@@ -42,8 +43,21 @@ public class SQL{
 		return null;
 	}
 	
+	//BUSCA UNA TABLA SEGUN SU ID O NUMERO EN LA LISTA
 	public Tabla getTablaByInt(int table_position){
 		return this.tablas.get(table_position);
 	}
 	
+	//ENTREGA EL ID O NUMERO DE LISTA DE UNA TABLA
+	public int getIDTabla(String table_name){
+		int cont=0;
+		List <Tabla> tablas = this.getTablas();
+		while(tablas.size() > cont){
+			if (tablas.get(cont).getNombre().equals(table_name)){
+				return cont;
+			}
+			cont++;
+		}
+		return cont;
+	}
 }

@@ -97,6 +97,8 @@ public class SQLite{
 			 * Dashboard
 			 * Inserción de datos requeridos para la construcción del Dashboard
 			 */
+			//DASHBOARD MENU
+			dataBase.add("CREATE TABLE Dashboard (id integer primary key not null, nombre varchar(50), vista boolean);");
 			
 			//DASHBOARD TABLAS
 			for(Tabla tabla : tablas){
@@ -110,6 +112,7 @@ public class SQLite{
 				dataBase.add(dash_table);
 			
 			}
+			
 			//DASHBOARD ROLES POR DEFECTO (ROLES DEL MODELO MWD: ADMIN, AUTHENTICATED, ANONYMUS, ANY)
 			dataBase.add("INSERT INTO Roles (rolname) values ('admin');");
 			dataBase.add("INSERT INTO Roles (rolname) values ('authenticated');");
@@ -119,24 +122,26 @@ public class SQLite{
 			//DASHBOARD USUARIOS POR DEFECTO
 			dataBase.add("INSERT INTO Users (username, passwd, id_rol) values ('mwd', 'mwd123', 1);"); //USUARIO POR DEFECTO DEL SISTEMA
 			//DASHBOARD CONFIGURACION
-			dataBase.add("CREATE TABLE dashboard_web (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50));");
+			dataBase.add("CREATE TABLE DashboardConf (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50));");
 			//DASHBOARD VISITAS
-			dataBase.add("CREATE TABLE view(id_view integer primary key not null, title varchar(50), id_rol integer, content text, FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
-			dataBase.add("CREATE TABLE typePresentation (id_presentation integer primary key not null, presentationname varchar(50));");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('string');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('table');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('combobox');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('radiobuttom');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('itemList');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('form_email');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('form_password');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('form_file');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('table_striped');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('table_hover');");
-			dataBase.add("INSERT INTO typePresentation (presentationname) values ('img');");
-			dataBase.add("CREATE TABLE view_attribute(id_view_attribute integer primary key not null, id_view integer, id_tabla integer, id_atributo_tabla integer, pos_x varchar(10), pos_y integer, id_presentation integer, FOREIGN KEY(id_view) REFERENCES view (id_view), FOREIGN KEY(id_presentation) REFERENCES typePresentation(id_presentation));");
+			
+			dataBase.add("CREATE TABLE Views(id_view integer primary key not null, title varchar(50), id_rol integer, content text, FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
+			dataBase.add("CREATE TABLE TypePresentation (id_presentation integer primary key not null, presentationname varchar(50));");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('string');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('combobox');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('radiobuttom');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('itemList');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_email');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_password');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_file');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table_striped');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table_hover');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('img');");
+			dataBase.add("CREATE TABLE ViewAttribute(id_view_attribute integer primary key not null, id_view integer, id_tabla integer, id_atributo_tabla integer, pos_x varchar(10), pos_y integer, id_presentation integer, FOREIGN KEY(id_view) REFERENCES view (id_view), FOREIGN KEY(id_presentation) REFERENCES typePresentation(id_presentation));");
+			
 			//DASHBOARD ERROR
-			dataBase.add("create table Dashboard_Error (id_error integer primery key not null, error_titulo varchar(50), descrip text);");
+			dataBase.add("create table DashboardError (id_error integer primery key not null, error_titulo varchar(50), descrip text);");
 			//DASHBOARD MENU
 			//MENU
 		return dataBase;
@@ -180,6 +185,13 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
 		}
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
+		script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=TypePresentation --modelClass=TypePresentation --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");		
 		script_model.close();
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
@@ -188,6 +200,13 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
 		}
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\TypePresentation  --controllerClass=\\\\app\\\\controllers\\\\TypePresentationController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController\n");
 		script_crud.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
