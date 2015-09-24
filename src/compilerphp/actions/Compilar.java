@@ -88,7 +88,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		
 		//GENERACION DE CODIGO PHP
 		bar.updateProgress(60, "Creando Proyecto PHP");
-		PHP php=new PHP(path, modelo);
+		PHP php=new PHP(path, modelo, name_proyect);
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
 		bar.updateProgress(64, "Creando Proyecto PHP - Configurando Base de Datos");

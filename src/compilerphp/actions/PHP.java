@@ -10,15 +10,17 @@ public class PHP{
 	static String path_proyect;//RUTA DONDE ESTA EL CODIGO DEL PROYECTO PHP A GENERAR
 	static String path_down_proyect;// RUTA UN NIVEL MÁS ABAJO DEL PROYECTO EN LOS DIRECTORIOS
 	static SQL modelo;
+	static String web_name;
 	
 	/*
 	 * CONSTRUCTOR DE LA CLASE
 	 *  path : direccion del proyecto PHP
 	 */
-	public PHP(String path, SQL model){
+	public PHP(String path, SQL model, String web_name_){
 		path_proyect=path+"/PHP/"; // RUTA DEL PROYECTO PHP
 		path_down_proyect=path;
 		modelo=model;//MODELO DE LA BASE DE DATOS
+		web_name=web_name_;
 	}
 	
 	//DESPLIEGA EL CODIGO BASE PHP EN LA CARPETA DEL PROYECTO PHP
@@ -154,17 +156,5 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.executeCommand("chmod 777 -R "+path_proyect);
 	}
-	
 
-	
-	//GENERA VISTAS PARA EL CRUD DE LAS VISTAS
-	/*
-	public void genCRUDViews(){
-		
-	}*/
-	
-	//public void genExtencion()
-	
-	//public void configure()
-	
 }

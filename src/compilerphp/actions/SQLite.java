@@ -12,6 +12,9 @@ import java.util.List;
 
 public class SQLite{
 	
+	static String name_db; 
+	static String path_db;
+	
 	//ESCRIBRE EN TEXTO PLANO LAS SENTENCIAS SQL
 	public static List<String> genSQL(SQL sql, String path){
 		List <View> views = sql.getViews();
@@ -129,6 +132,7 @@ public class SQLite{
 			//DASHBOARD VISITAS
 			
 			dataBase.add("CREATE TABLE Views(id_view integer primary key not null, title varchar(50), id_rol integer, content text, FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
+			
 			dataBase.add("CREATE TABLE TypePresentation (id_presentation integer primary key not null, presentationname varchar(50));");
 			
 			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('string');");
@@ -173,7 +177,8 @@ public class SQLite{
 		
 		int stop=file.indexOf(".");
 		String nombreScriptBD=file.substring(0, stop);
-		
+		name_db=nombreScriptBD; //SETEO EL NOMBRE DE LA BASE DE DATOS
+		path_db=path;//SETEO LA RUTA DE DONDE SE ENCUENTRA LA BDD
 		//CREO LA CARPETA DEL PROYECTO
 		obj.executeCommand("mkdir "+path+"/PHP");
 		
@@ -191,8 +196,8 @@ public class SQLite{
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
 		}
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
 		
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
 		script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0\n");
 		script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n");
 		script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");
@@ -208,7 +213,6 @@ public class SQLite{
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
 		}
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
-		
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController\n");
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController\n");
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController\n");
@@ -222,6 +226,18 @@ public class SQLite{
 		
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
+	}
+
+	//INSERCIÓN DATOS SQL DE VISTAS POR DEFECTO
+	/*
+	 * INDEX
+	 * ABOUT
+	 * CONTACTO
+	 */
+	public static void insertView(String title, String content){
+		ExecuteShellComand obj= new ExecuteShellComand();
+		String sql_line="INSERT INTO Views (title, content) values ('"+title+"', '"+content+"');";
+		obj.executeCommand("sqlite3 "+path_db+"/PHP/"+name_db+".db \""+sql_line+"\"\n");
 	}
 	
 }
