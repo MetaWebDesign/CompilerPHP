@@ -10,7 +10,7 @@ public class PHP_Views{
 	}
 	
 	public void index() throws IOException{
-		String title=web_name+" Home";
+		String title="index";
 		String content="<div class=\\\"site-index\\\">\n";
 		content=content+"	    <div class=\\\"jumbotron\\\">\n";
 		content=content+"	        <h1>Congratulations!</h1>\n";

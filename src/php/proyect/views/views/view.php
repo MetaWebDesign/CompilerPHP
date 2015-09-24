@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="views-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php /*<h1><?= Html::encode($this->title) ?></h1> */ ?>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_view], ['class' => 'btn btn-primary']) ?>
@@ -25,14 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id_view',
-            'title',
-            'id_rol',
-            'content:ntext',
-        ],
-    ]) ?>
+    <?php
+    echo $model->content;
+    ?>
+
 
 </div>
