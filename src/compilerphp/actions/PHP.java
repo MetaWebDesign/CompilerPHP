@@ -164,7 +164,13 @@ public class PHP{
 	 * contact
 	 */
 	public void genViewsDefault(){
-		PHP_Views.index();
+		PHP_Views views_dafault= new PHP_Views(web_name);
+		try {
+			 views_dafault.index();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -234,10 +234,18 @@ public class SQLite{
 	 * ABOUT
 	 * CONTACTO
 	 */
-	public static void insertView(String title, String content){
+	public static void insertView(String title, String content) throws IOException{
 		ExecuteShellComand obj= new ExecuteShellComand();
-		String sql_line="INSERT INTO Views (title, content) values ('"+title+"', '"+content+"');";
-		obj.executeCommand("sqlite3 "+path_db+"/PHP/"+name_db+".db \""+sql_line+"\"\n");
+		FileWriter script_insertView = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
+		String name_script=title.replaceAll("\\s+","");
+		String sql_line="INSERT INTO Views (title, content) values ('"+title+"', 'lala');";
+		script_insertView = new FileWriter(path_db+"/PHP/"+name_script+".sh");
+		script_insertView.write("sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+sql_line+"\"\n");
+		script_insertView.close();
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path_db+"/PHP/"+name_script+".sh");
 	}
 	
 }

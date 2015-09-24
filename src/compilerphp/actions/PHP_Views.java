@@ -1,5 +1,7 @@
 package compilerphp.actions;
 
+import java.io.IOException;
+
 public class PHP_Views{
 	static String web_name;
 	
@@ -7,7 +9,7 @@ public class PHP_Views{
 		web_name=web_name_;
 	}
 	
-	public static void index(){
+	public void index() throws IOException{
 		String title=web_name+" Home";
 		String content="<div class=\"site-index\">\n";
 		content=content+"	    <div class=\"jumbotron\">\n";
