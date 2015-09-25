@@ -164,13 +164,16 @@ public class PHP{
 	 * contact
 	 */
 	public void genViewsDefault(){
-		PHP_Views views_dafault= new PHP_Views(web_name);
+		PHP_Views views_default= new PHP_Views(web_name);
 		try {
-			 views_dafault.index();
+			 views_default.index();
+			 views_default.about();
+			 views_default.contact();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	//Carga configuración del sitio web por defecto (Tabla : Dashboard-conf)
