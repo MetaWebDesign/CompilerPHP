@@ -1,8 +1,11 @@
 <?php
 
+namespace app\models;
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Views */
@@ -15,7 +18,8 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_rol')->textInput() ?>
+    <label class="control-label" for="Users-id_rol">Roles: </label>
+    <?= Html::activeDropDownList($model, 'id_rol', ArrayHelper::map(Roles::find()->all(), 'id_rol', 'rolname')) ?>
 
     <?= $form->field($model, 'content')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
