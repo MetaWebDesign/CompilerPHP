@@ -40,7 +40,7 @@ public class PHP_Layouts{
 		layouts=layouts+"						<div class=\"wrap\">\n";
 		layouts=layouts+"						    <?php\n";
 		layouts=layouts+"						    NavBar::begin([\n";
-		layouts=layouts+"						        ''brandLabel' => $conf->sitetitle,\n";
+		layouts=layouts+"						        'brandLabel' => $conf->sitetitle.\" <small>\".$conf->tagline.\"</small>\",\n";
 		layouts=layouts+"						        'brandUrl' => Yii::$app->homeUrl,\n";
 		layouts=layouts+"						        'options' => [\n";
 		layouts=layouts+"						            'class' => 'navbar-inverse navbar-fixed-top',\n";
