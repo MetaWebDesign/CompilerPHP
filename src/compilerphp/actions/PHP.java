@@ -175,8 +175,17 @@ public class PHP{
 	
 	//Carga configuración del sitio web por defecto (Tabla : Dashboard-conf)
 	public void configureWeb(){
+		//INSERTAR CONFIGURACION
 		try {
 			SQLite.insertConfWeb(web_name, " ", " ", 1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//ESCRITURA DEL LAYOUTS DE LA CONFIGURACIÓN
+		PHP_Layouts layouts = new PHP_Layouts(web_name, path_proyect+"proyect/views/layouts/main.php");
+		try {
+			layouts.write();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
