@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
     <?= Html::activeDropDownList($model, 'id_index', ArrayHelper::map(Views::find()->all(), 'id_view', 'title')) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php  Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'])  ?>
     </div>
 
     <?php ActiveForm::end(); ?>

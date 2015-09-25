@@ -172,5 +172,15 @@ public class PHP{
 			e.printStackTrace();
 		}
 	}
+	
+	//Carga configuración del sitio web por defecto (Tabla : Dashboard-conf)
+	public void configureWeb(){
+		try {
+			SQLite.insertConfWeb(web_name, " ", " ", 1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

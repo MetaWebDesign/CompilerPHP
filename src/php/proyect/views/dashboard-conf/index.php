@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Dashboard Conf', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php /*<?= Html::a('Create Dashboard Conf', ['create'], ['class' => 'btn btn-success']) ?>*/ ?>
     </p>
 
     <?= GridView::widget([
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_web',
+            /*'id_web',*/
             'sitetitle',
             'tagline',
             'admin_mail',

@@ -248,4 +248,18 @@ public class SQLite{
 		obj.executeCommand("bash "+path_db+"/PHP/"+name_script+".sh");
 	}
 	
+	public static void insertConfWeb(String site_title, String tagline, String admin_mail, int id_index) throws IOException{
+		ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter script_conf_web = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
+		//String name_script=site_title.replaceAll("\\s+","");
+		String name_script="conf_web";
+		String sql_line="INSERT INTO DashboardConf (sitetitle,  tagline, admin_mail, id_index ) values ('"+site_title+"', '"+tagline+"', '"+admin_mail+"', '"+id_index+"');";
+		script_conf_web = new FileWriter(path_db+"/PHP/"+name_script+".sh");
+		script_conf_web.write("sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+sql_line+"\"\n");
+		script_conf_web.close();
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path_db+"/PHP/"+name_script+".sh");
+	}
 }
