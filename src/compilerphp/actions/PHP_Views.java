@@ -63,7 +63,9 @@ public class PHP_Views{
 	public void contact() throws IOException{
 		String title="contact";
 		String content="		<div class=\\\"site-contact\\\">\n";
-		
+		content=content+"				    <p>\n";
+		content=content+"				        This is the Contact page. You may modify the following file to customize its content:\n";
+		content=content+"				    </p>\n";
 		content=content+"		</div>\n";
 		SQLite.insertView(title, content);
 
