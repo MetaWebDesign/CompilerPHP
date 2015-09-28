@@ -153,6 +153,13 @@ public class SQLite{
 			//DASHBOARD ERROR
 			dataBase.add("CREATE TABLE DashboardError (id_error integer primary key not null, error_titulo varchar(50), descrip text);");
 			
+			//DASHBOARD MEDIA
+			/*
+			 * Para gestor para subir archivo o fotos al sitio web
+			 */
+			dataBase.add("CREATE TABLE Media (id_media intefer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
+			
+			
 			//DASHBOARD MENU
 			//MENU
 		return dataBase;
@@ -200,11 +207,12 @@ public class SQLite{
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
 		script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0\n");
-		//script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n");
-		//script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");
+		//script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n"); //LO CARGA POR DEFECTO
+		//script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");//LO CARGA POR DEFECTO
 		script_model.write("./yii gii/model --tableName=TypePresentation --modelClass=TypePresentation --interactive=0\n");
 		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
 		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");
+		//script_model.write("./yii gii/model --tableName=DashboardMedia --modelClass=DashboardMedia --interactive=0\n");//LO CARGA POR DEFECTO
 		script_model.close();
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
@@ -215,11 +223,12 @@ public class SQLite{
 		}
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController\n");
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController\n");//LO CARGA POR DEFECTO
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController\n");//LO CARGA POR DEFECTO
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\TypePresentation  --controllerClass=\\\\app\\\\controllers\\\\TypePresentationController\n");
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController\n");
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController\n");
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardMedia --controllerClass=\\\\app\\\\controllers\\\\DashboardMediaController\n");//LO CARGA POR DEFECTO
 		script_crud.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
