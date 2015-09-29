@@ -9,6 +9,7 @@ public class Tabla{
 	private String nombre;
 	private List<Atributo> atributos;
 	private List<ForeignKey> llavesForaneas;
+	private Roles roles;
 	
 	public Tabla(){
 		this.atributos = new ArrayList<Atributo>();
@@ -57,4 +58,13 @@ public class Tabla{
 		}
 		return name;
 	}
+	
+	public Roles getRoles(){
+		return this.roles;
+	}
+	
+	public void setRoles(Roles roles_){
+		this.roles=roles_;
+	}
+	
 }
