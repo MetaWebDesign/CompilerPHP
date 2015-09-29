@@ -297,7 +297,16 @@ echo $model->name;
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                            <a href="index.php?r=dashboard-media/index"><i class="fa fa-edit fa-fw"></i>Media<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="index.php?r=dashboard-media/create">Add</a>
+                                </li>
+                                <li>
+                                    <a href="index.php?r=dashboard-media/index">All</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
