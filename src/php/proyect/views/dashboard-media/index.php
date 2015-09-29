@@ -1,5 +1,5 @@
 <?php
-
+namespace app\models;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -22,9 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_media',
+            //'id_media',
             'filename',
-            'id_autor',
+            //'id_autor',
+            //'autor'=> Users::find()->select('username')->where(['id_user'=>'id_autor'])->one(),
             'Fecha',
             'extencion',
 

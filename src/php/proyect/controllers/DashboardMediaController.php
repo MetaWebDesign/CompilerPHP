@@ -61,29 +61,16 @@ class DashboardMediaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-
-     /*
-    public function actionCreate()
-    {
-        $model = new DashboardMedia();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            return $this->redirect(['view', 'id' => $model->id_media]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }*/
-
     public function actionCreate()
     {
         $model = new DashboardMedia();
 
         if ($model->load(Yii::$app->request->post())){
-            //$model->filename=basename($_FILES['filename']['name']);
+
             $model->filename=UploadedFile::getInstance($model, 'filename');
+            $model->extencion=$model->filename->extension;
+            $model->id_autor=Yii::$app->user->identity->id_user;
+            $model->Fecha=date('Y-m-d H:i:s');
             if( $model->save()) {
 
               $model->filename = UploadedFile::getInstance($model, 'filename');
@@ -111,29 +98,16 @@ class DashboardMediaController extends Controller
      * @param integer $id
      * @return mixed
      */
-     /*
-     public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if (Yii::$app->request->isPost) {
-            $model->filename = UploadedFile::getInstance($model, 'filename');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return $this->redirect(['view', 'id' => $model->id_media]);
-            }
-        }
-
-        return $this->render('update', ['model' => $model]);
-    }*/
-
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())){
-            //$model->filename=basename($_FILES['filename']['name']);
+
             $model->filename=UploadedFile::getInstance($model, 'filename');
+            $model->extencion=$model->filename->extension;
+            $model->id_autor=Yii::$app->user->identity->id_user;
+            $model->Fecha=date('Y-m-d H:i:s');
             if( $model->save()) {
 
               $model->filename = UploadedFile::getInstance($model, 'filename');
