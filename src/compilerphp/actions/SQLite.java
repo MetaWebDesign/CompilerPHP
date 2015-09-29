@@ -157,7 +157,7 @@ public class SQLite{
 			/*
 			 * Para gestor para subir archivo o fotos al sitio web
 			 */
-			dataBase.add("CREATE TABLE Media (id_media intefer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
+			dataBase.add("CREATE TABLE DashboardMedia (id_media integer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
 			
 			
 			//DASHBOARD MENU
@@ -236,7 +236,7 @@ public class SQLite{
 		
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
-	}
+	}	
 
 	//INSERCIÓN DATOS SQL DE VISTAS POR DEFECTO
 	/*
