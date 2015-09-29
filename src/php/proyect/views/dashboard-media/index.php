@@ -19,11 +19,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             //'id_media',
-            'filename',
+            //IMAGEN DEL DOCUMENTO / IMAGEN
+            [
+              'attribute' => 'filename',
+              'format' => 'html',
+              'label' => 'ImageColumnLable',
+              'value' => function ($data) {
+                return Html::img('uploads/' . $data['filename'],
+                ['width' => '100px']);
+              },
+            ],
+
+            //NOMBRE + URL DEL DOCUMENTO / IMAGEN
+            [
+              'label'=>'File',
+              'format' => 'raw',
+              'value'=>function ($data) {
+                  $url="uploads/".$data->filename;
+                  return Html::a($data->filename, $url);
+              },
+            ],
             //'id_autor',
             //'autor'=> Users::find()->select('username')->where(['id_user'=>'id_autor'])->one(),
             'Fecha',
