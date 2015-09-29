@@ -28,12 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_media',
+            //'id_media',
             'filename',
             'id_autor',
             'Fecha',
             'extencion',
         ],
     ]) ?>
+
+    <?php
+    echo "<center><a href=\"uploads/$model->filename\"><img style=\"width:30%\" src=\"uploads/$model->filename\" class=\"img-responsive\"></a></center>";
+     ?>
 
 </div>
