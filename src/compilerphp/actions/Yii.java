@@ -14,7 +14,7 @@ public class Yii{
 		path=path_;
 	}
 	
-	public static void model() throws IOException{
+	public void model() throws IOException{
 		//GENERO EL CODIGO SQL
 		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		ExecuteShellComand obj= new ExecuteShellComand();
@@ -45,7 +45,7 @@ public class Yii{
 		
 	}	
 	
-	public static void crud() throws IOException{
+	public void crud() throws IOException{
 		//GENERO EL CODIGO SQL
 		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
 		ExecuteShellComand obj= new ExecuteShellComand();

@@ -44,7 +44,7 @@ public class ReadModel{
 				int x_roles_fdelete=line.indexOf("functionDelete=");
 				int x_roles_findex=line.indexOf("functionIndex=");
 				int x_roles_fview=line.indexOf("functionView=");
-				int x_roles_fadmin=line.indexOf("functionAdmin=");
+				//int x_roles_fadmin=line.indexOf("functionAdmin=");
 				
 				//BUSQUEDA TABLA
 				if(x_class != -1){

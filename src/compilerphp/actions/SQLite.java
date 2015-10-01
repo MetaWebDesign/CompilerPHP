@@ -171,80 +171,7 @@ public class SQLite{
 	//GENERO LA BASE DE DATOS Y ALGUNAS ESTRUCTURAS PARA EL SITIO PHP
 	/*
 	 * Crea base de datos sqlite
-	 * Crea script para generar modelos de las tablas
-	 * Crea script para generar controladores y vista de los servicios CRUD de c/u de las tablas
 	 */
-	
-	/*
-	public static void createDB(SQL model, String path, String file) throws IOException{
-		//GENERO EL CODIGO SQL
-		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
-		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
-		//List <View> views = model.getViews(); //VISTAS DE LA BDD PARA GENERAR MODELO Y CRUD
-		ExecuteShellComand obj= new ExecuteShellComand();
-		
-		//ARCHIVO A GENERAR
-		FileWriter script_bdd = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
-		FileWriter script_model = null;//SCRIPT PARA CREAR MODELO USANDO YII MVC
-		FileWriter script_crud = null;//SCRIPT PARA CREAR CURD + VISTAS CURD USANDO YII MVC
-		
-		int stop=file.indexOf(".");
-		String nombreScriptBD=file.substring(0, stop);
-		name_db=nombreScriptBD; //SETEO EL NOMBRE DE LA BASE DE DATOS
-		path_db=path;//SETEO LA RUTA DE DONDE SE ENCUENTRA LA BDD
-		//CREO LA CARPETA DEL PROYECTO
-		obj.executeCommand("mkdir "+path+"/PHP");
-		
-		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
-		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
-		for(String sql_line : dataBase){
-			script_bdd.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
-			System.out.println("sqlite3-> "+sql_line);
-		}
-		script_bdd.close();
-		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
-		script_model = new FileWriter(path+"/PHP/model.sh");
-		script_model.write("cd $1/proyect/\n");
-		for(Tabla tabla : tablas) {
-			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
-		}
-		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
-		script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0\n");
-		//script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n"); //LO CARGA POR DEFECTO
-		//script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");//LO CARGA POR DEFECTO
-		script_model.write("./yii gii/model --tableName=TypePresentation --modelClass=TypePresentation --interactive=0\n");
-		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
-		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");
-		//script_model.write("./yii gii/model --tableName=DashboardMedia --modelClass=DashboardMedia --interactive=0\n");//LO CARGA POR DEFECTO
-		script_model.write("./yii gii/model --tableName=DashboardPermisoscrud --modelClass=DashboardPermisoscrud --interactive=0\n");//LO CARGA POR DEFECTO
-		script_model.close();
-		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
-		script_crud = new FileWriter(path+"/PHP/crud.sh");
-		script_crud.write("cd $1/proyect/\n");
-		for(Tabla tabla : tablas) {
-			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
-		}
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController\n");//LO CARGA POR DEFECTO
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController\n");//LO CARGA POR DEFECTO
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\TypePresentation  --controllerClass=\\\\app\\\\controllers\\\\TypePresentationController\n");
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController\n");
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardMedia --controllerClass=\\\\app\\\\controllers\\\\DashboardMediaController\n");//LO CARGA POR DEFECTO
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardPermisoscrud --controllerClass=\\\\app\\\\controllers\\\\DashboardPermisoscrudController\n");//LO CARGA POR DEFECTO
-		script_crud.close();
-		
-		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
-		obj.executeCommand("chmod +x "+path+"/PHP/*");
-		
-		//EJECUTO EL SCRIPT PARA CREAR LA BDD
-		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
-	}*/	
-
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
@@ -311,6 +238,7 @@ public class SQLite{
 		obj.executeCommand("bash "+path_db+"/PHP/"+name_script+".sh");
 	}
 	
+	//INSERTA LOS PERMISOS PARA ACCEDER A LOS SERVICIOS DEL CRUD Y PAGINAS
 	public static void insertPermisos(){
 		List <String> dataBase = new ArrayList<String>();
 		dataBase.add("INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='archivos'), 'create', 1);");
