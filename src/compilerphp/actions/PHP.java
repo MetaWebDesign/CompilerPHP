@@ -211,6 +211,16 @@ public class PHP{
 			e.printStackTrace();
 		}
 	}
+	
+	public void permisosCRUD(){
+		SQLite sqlite = new SQLite();
+		try {
+			sqlite.insertPermisos(modelo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 
 	

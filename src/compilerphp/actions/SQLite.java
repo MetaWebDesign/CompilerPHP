@@ -239,9 +239,28 @@ public class SQLite{
 	}
 	
 	//INSERTA LOS PERMISOS PARA ACCEDER A LOS SERVICIOS DEL CRUD Y PAGINAS
-	public static void insertPermisos(){
-		List <String> dataBase = new ArrayList<String>();
-		dataBase.add("INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='archivos'), 'create', 1);");
+	public void insertPermisos(SQL sql) throws IOException{
+		FileWriter script_permisos = null;//SCRIPT BASH PARA INSERTAR LOS PERMISOS DE ACCESO A LOS SERVICIOS DEL CRUD
+		ExecuteShellComand obj= new ExecuteShellComand();
+		//List <String> dataBase = new ArrayList<String>();
+		String insert_permisos="";
+		List <Tabla> tablas = sql.getTablas();
+		for(Tabla tabla : tablas){
+			Roles r=tabla.getRoles();
+			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'create', (select id_rol from Roles where rolname='"+r.getFCreate()+"'));\n";
+			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'update', (select id_rol from Roles where rolname='"+r.getFUpdate()+"'));\n";
+			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'delete', (select id_rol from Roles where rolname='"+r.getFDelete()+"'));\n";
+			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'index', (select id_rol from Roles where rolname='"+r.getFIndex()+"'));\n";
+			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'view', (select id_rol from Roles where rolname='"+r.getFView()+"'));\n";
+		}
 		
+		script_permisos = new FileWriter(path_db+"/PHP/permisos.sh");
+		script_permisos.write(insert_permisos);
+		script_permisos.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path_db+"/PHP/permisos.sh");
 	}
 }
