@@ -91,6 +91,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		PHP php=new PHP(path, modelo, name_proyect);
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
+		php.yiiExec();//EJECUTA BASH PARA LA GENERACION DE MODELO, CONTROLADORES Y PAGINAS DE LOS SEVICIOS USANDO YII
 		bar.updateProgress(64, "Creando Proyecto PHP - Configurando Base de Datos");
 		php.configureBD_Gii(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
 		bar.updateProgress(68, "Creando Proyecto PHP - Generado Modelos");

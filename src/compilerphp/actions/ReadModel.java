@@ -208,8 +208,8 @@ public class ReadModel{
 			return DataTypeModel;
 		}
 	}
-	
+	/*
 	public static void main(String[] args) throws IOException {
 		loadXML("home/leo/Documentos/github/runtime-EclipseApplication/Elearning/","elearning.metawebdesign" );
-	}
+	}*/
 }

@@ -195,4 +195,21 @@ public class PHP{
 		}
 	}
 
+	//EJECUTA YII PARA LA GENERACIÓN DE MODELOS , CONTROLADORES Y PAGINAS DE LOS SERVICIOS
+	public void yiiExec(){
+		Yii yii = new Yii(modelo, path_proyect);
+		try {
+			yii.model();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			yii.crud();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }
