@@ -37,7 +37,7 @@ public class Yii{
 		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
 		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");
 		//script_model.write("./yii gii/model --tableName=DashboardMedia --modelClass=DashboardMedia --interactive=0\n");//LO CARGA POR DEFECTO
-		script_model.write("./yii gii/model --tableName=DashboardPermisoscrud --modelClass=DashboardPermisoscrud --interactive=0\n");//LO CARGA POR DEFECTO
+		//script_model.write("./yii gii/model --tableName=DashboardPermisoscrud --modelClass=DashboardPermisoscrud --interactive=0\n");//LO CARGA POR DEFECTO
 		script_model.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
@@ -67,7 +67,7 @@ public class Yii{
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController\n");
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController\n");
 		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardMedia --controllerClass=\\\\app\\\\controllers\\\\DashboardMediaController\n");//LO CARGA POR DEFECTO
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardPermisoscrud --controllerClass=\\\\app\\\\controllers\\\\DashboardPermisoscrudController\n");//LO CARGA POR DEFECTO
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardPermisoscrud --controllerClass=\\\\app\\\\controllers\\\\DashboardPermisoscrudController\n");//LO CARGA POR DEFECTO
 		script_crud.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN

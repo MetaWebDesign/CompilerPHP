@@ -1,4 +1,5 @@
 <?php
+namespace app\models;
 
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -22,12 +23,31 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_permiso',
-            'id_dash',
-            'id_rol',
+            //'id_permiso',
+            //'id_dash',
+            [                      // the owner name of the model
+                'label' => 'Clase',
+                'value' => function ($data) {
+                    $nombre_pag=Dashboard::find()->select('nombre')->where(['id'=>$data->id_dash])->one();
+                    return $nombre_pag->nombre;
+                },
+            ],
+            //'id_rol',
+            [                      // the owner name of the model
+                'label' => 'Clase',
+                'value' => function ($data) {
+                    $nombre_rol=Roles::find()->select('rolname')->where(['id_rol'=>$data->id_rol])->one();
+                    return $nombre_rol->rolname;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+<?php
+  $nombre_pag=Dashboard::find()->select('nombre')->where(['id'=>1])->one();
+  echo "<h2>$nombre_pag->nombre</h2>";
+?>
 
 </div>
