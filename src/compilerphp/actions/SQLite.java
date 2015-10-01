@@ -159,7 +159,7 @@ public class SQLite{
 			 */
 			dataBase.add("CREATE TABLE DashboardMedia (id_media integer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
 			//PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS VISTAS
-			dataBase.add("CREATE TABLE DashboardPermisosCRUD (id_permiso integer primary key not null, id_dash integer, id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
+			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
 			//DASHBOARD MENU
 			//MENU
@@ -214,7 +214,7 @@ public class SQLite{
 		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
 		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");
 		//script_model.write("./yii gii/model --tableName=DashboardMedia --modelClass=DashboardMedia --interactive=0\n");//LO CARGA POR DEFECTO
-		script_model.write("./yii gii/model --tableName=DashboardPermisosCRUD --modelClass=DashboardPermisosCRUD --interactive=0\n");//LO CARGA POR DEFECTO
+		script_model.write("./yii gii/model --tableName=DashboardPermisoscrud --modelClass=DashboardPermisoscrud --interactive=0\n");//LO CARGA POR DEFECTO
 		script_model.close();
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
@@ -231,6 +231,7 @@ public class SQLite{
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController\n");
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController\n");
 		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardMedia --controllerClass=\\\\app\\\\controllers\\\\DashboardMediaController\n");//LO CARGA POR DEFECTO
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardPermisoscrud --controllerClass=\\\\app\\\\controllers\\\\DashboardPermisoscrudController\n");//LO CARGA POR DEFECTO
 		script_crud.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
