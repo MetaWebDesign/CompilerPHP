@@ -95,7 +95,7 @@ public class PHP{
 	}
 	
 	/*
-	 * GENERA EL CRUD CON LAS VISTAS DE LOS SERVICIOS
+	 * GENERA EL CRUD CON LAS PAGINAS DE LOS SERVICIOS
 	 */
 	public void genCRUD(){
 		ExecuteShellComand obj= new ExecuteShellComand();
@@ -116,7 +116,7 @@ public class PHP{
 		}
 	}
 	
-	//public static void genModelView(SQL model){
+	//GENERA LOS MODELOS PARA LAS VISTAS
 	public void genModelView(){
 		ExecuteShellComand obj= new ExecuteShellComand();
 		List <View> views=modelo.getViews();

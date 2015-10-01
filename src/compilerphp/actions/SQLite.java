@@ -123,17 +123,18 @@ public class SQLite{
 			dataBase.add("INSERT INTO Roles (rolname) values ('authenticated');");
 			dataBase.add("INSERT INTO Roles (rolname) values ('any');");
 			//ANONYMUS: es un usuario no autentificado
-			
+		
 			
 			//DASHBOARD USUARIOS POR DEFECTO
 			dataBase.add("INSERT INTO Users (username, passwd, id_rol) values ('mwd', 'mwd123', 1);"); //USUARIO POR DEFECTO DEL SISTEMA
 			
-			//DASHBOARD VISITAS
+			//DASHBOARD PAGINAS
 			dataBase.add("CREATE TABLE Views(id_view integer primary key not null, title varchar(50), id_rol integer, content text, FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
 			//DASHBOARD CONFIGURACION
 			dataBase.add("CREATE TABLE DashboardConf (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50), id_index integer, FOREIGN KEY(id_index) REFERENCES Views(id_view)); );");
 			
+			//TIPOS DE CAMPOS PARA LA GENERACIÓN DE FOMRULARIOS DESDE EL EDITOR DE MODELOS
 			dataBase.add("CREATE TABLE TypePresentation (id_presentation integer primary key not null, presentationname varchar(50));");
 			
 			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('string');");
@@ -158,9 +159,10 @@ public class SQLite{
 			 * Para gestor para subir archivo o fotos al sitio web
 			 */
 			dataBase.add("CREATE TABLE DashboardMedia (id_media integer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
-			//PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS VISTAS
-			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
+			// DASHBIARD PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS PAGINAS
+			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, service varchar(50) ,id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
+				
 			//DASHBOARD MENU
 			//MENU
 		return dataBase;
@@ -172,6 +174,8 @@ public class SQLite{
 	 * Crea script para generar modelos de las tablas
 	 * Crea script para generar controladores y vista de los servicios CRUD de c/u de las tablas
 	 */
+	
+	/*
 	public static void createDB(SQL model, String path, String file) throws IOException{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
@@ -239,13 +243,103 @@ public class SQLite{
 		
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
-	}	
+	}*/	
 
+	public static void createDB(SQL model, String path, String file) throws IOException{
+		//GENERO EL CODIGO SQL
+		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
+		ExecuteShellComand obj= new ExecuteShellComand();
+		
+		//ARCHIVO A GENERAR
+		FileWriter script_bdd = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
+		
+		int stop=file.indexOf(".");
+		String nombreScriptBD=file.substring(0, stop);
+		name_db=nombreScriptBD; //SETEO EL NOMBRE DE LA BASE DE DATOS
+		path_db=path;//SETEO LA RUTA DE DONDE SE ENCUENTRA LA BDD
+		//CREO LA CARPETA DEL PROYECTO
+		obj.executeCommand("mkdir "+path+"/PHP");
+		
+		//ESCRITURA DEL SCRIPT BASH PARA LA CREACION DE LA BDD
+		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
+		for(String sql_line : dataBase){
+			script_bdd.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
+			System.out.println("sqlite3-> "+sql_line);
+		}
+		script_bdd.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path+"/PHP/*");
+		
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path+"/PHP/"+nombreScriptBD+".sh");
+	}
+	
+	public static void yiiCRUD(SQL model, String path) throws IOException{
+		//GENERO EL CODIGO SQL
+		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
+		ExecuteShellComand obj= new ExecuteShellComand();
+		
+		//ARCHIVO A GENERAR
+		FileWriter script_crud = null;//SCRIPT PARA CREAR CURD + VISTAS CURD USANDO YII MVC
+		
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD
+		script_crud = new FileWriter(path+"/PHP/crud.sh");
+		script_crud.write("cd $1/proyect/\n");
+		for(Tabla tabla : tablas) {
+			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller\n");
+		}
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController\n");
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController\n");//LO CARGA POR DEFECTO
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController\n");//LO CARGA POR DEFECTO
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\TypePresentation  --controllerClass=\\\\app\\\\controllers\\\\TypePresentationController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController\n");
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController\n");
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardMedia --controllerClass=\\\\app\\\\controllers\\\\DashboardMediaController\n");//LO CARGA POR DEFECTO
+		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardPermisoscrud --controllerClass=\\\\app\\\\controllers\\\\DashboardPermisoscrudController\n");//LO CARGA POR DEFECTO
+		script_crud.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path+"/PHP/*");		
+	}
+	
+	public static void yiiModel(SQL model, String path) throws IOException{
+		//GENERO EL CODIGO SQL
+		List <Tabla> tablas = model.getTablas();//TABLAS DE LA BDD PARA GENERAR MODELO Y CRUD
+		ExecuteShellComand obj= new ExecuteShellComand();
+		
+		//ARCHIVO A GENERAR
+		FileWriter script_model = null;//SCRIPT PARA CREAR MODELO USANDO YII MVC
+		
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS
+		script_model = new FileWriter(path+"/PHP/model.sh");
+		script_model.write("cd $1/proyect/\n");
+		for(Tabla tabla : tablas) {
+			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
+		}
+		
+		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
+		script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0\n");
+		//script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n"); //LO CARGA POR DEFECTO
+		//script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");//LO CARGA POR DEFECTO
+		script_model.write("./yii gii/model --tableName=TypePresentation --modelClass=TypePresentation --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
+		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");
+		//script_model.write("./yii gii/model --tableName=DashboardMedia --modelClass=DashboardMedia --interactive=0\n");//LO CARGA POR DEFECTO
+		script_model.write("./yii gii/model --tableName=DashboardPermisoscrud --modelClass=DashboardPermisoscrud --interactive=0\n");//LO CARGA POR DEFECTO
+		script_model.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path+"/PHP/*");
+		
+	}	
+	
 	//INSERCIÓN DATOS SQL DE VISTAS POR DEFECTO
-	/*
-	 * INDEX
-	 * ABOUT
-	 * CONTACTO
+	/* Usado para generar:
+	 * - INDEX
+	 * - ABOUT
+	 * - CONTACTO
 	 */
 	public static void insertView(String title, String content) throws IOException{
 		ExecuteShellComand obj= new ExecuteShellComand();
@@ -274,5 +368,11 @@ public class SQLite{
 		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path_db+"/PHP/"+name_script+".sh");
+	}
+	
+	public static void insertPermisos(){
+		List <String> dataBase = new ArrayList<String>();
+		dataBase.add("INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='archivos'), 'create', 1);");
+		
 	}
 }
