@@ -105,6 +105,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		php.configureBD_Apache(name_proyect+".db");
 		bar.updateProgress(95, "Configurando sitio web");
 		php.configureWeb();//CARGA LA CONFIGURACION DEL SITIO WEB
+		php.permisosCRUD();//CARGA LOS PERMISOS SOBRE LOS SERVICIOS DEL CRUD EN LA BDD
 		bar.updateProgress(100, "Proyecto PHP creado!");
 		windowMensajeInfo("Compilado con exito!");
 	}

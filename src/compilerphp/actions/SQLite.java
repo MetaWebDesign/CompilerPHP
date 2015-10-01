@@ -122,8 +122,7 @@ public class SQLite{
 			dataBase.add("INSERT INTO Roles (rolname) values ('admin');");
 			dataBase.add("INSERT INTO Roles (rolname) values ('authenticated');");
 			dataBase.add("INSERT INTO Roles (rolname) values ('any');");
-			//ANONYMUS: es un usuario no autentificado
-		
+			dataBase.add("INSERT INTO Roles (rolname) values ('anonymous');");
 			
 			//DASHBOARD USUARIOS POR DEFECTO
 			dataBase.add("INSERT INTO Users (username, passwd, id_rol) values ('mwd', 'mwd123', 1);"); //USUARIO POR DEFECTO DEL SISTEMA
@@ -247,11 +246,11 @@ public class SQLite{
 		List <Tabla> tablas = sql.getTablas();
 		for(Tabla tabla : tablas){
 			Roles r=tabla.getRoles();
-			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'create', (select id_rol from Roles where rolname='"+r.getFCreate()+"'));\n";
-			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'update', (select id_rol from Roles where rolname='"+r.getFUpdate()+"'));\n";
-			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'delete', (select id_rol from Roles where rolname='"+r.getFDelete()+"'));\n";
-			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'index', (select id_rol from Roles where rolname='"+r.getFIndex()+"'));\n";
-			insert_permisos=insert_permisos+"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'view', (select id_rol from Roles where rolname='"+r.getFView()+"'));\n";
+			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'create', (select id_rol from Roles where rolname='"+r.getFCreate()+"'));\"\n";
+			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'update', (select id_rol from Roles where rolname='"+r.getFUpdate()+"'));\"\n";
+			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'delete', (select id_rol from Roles where rolname='"+r.getFDelete()+"'));\"\n";
+			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'index', (select id_rol from Roles where rolname='"+r.getFIndex()+"'));\"\n";
+			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'view', (select id_rol from Roles where rolname='"+r.getFView()+"'));\"\n";
 		}
 		
 		script_permisos = new FileWriter(path_db+"/PHP/permisos.sh");
