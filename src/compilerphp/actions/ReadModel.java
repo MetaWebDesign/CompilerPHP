@@ -87,7 +87,7 @@ public class ReadModel{
 			        }
 			        
 			        if(x_roles_findex != -1){//INDEX
-			        	String substr_findex=line.substring(x_roles_findex+16	, line.length());
+			        	String substr_findex=line.substring(x_roles_findex+15	, line.length());
 			        	int stop_findex=substr_findex.indexOf("\"");
 			        	System.out.println("ROLES- "+tabla+" =>"+substr_findex.substring(0, stop_findex));
 			        	r.setFIndex(substr_findex.substring(0, stop_findex));
@@ -95,7 +95,7 @@ public class ReadModel{
 			        }
 			        
 			        if(x_roles_fview != -1){//VIEW
-			        	String substr_fview=line.substring(x_roles_fview+16	, line.length());
+			        	String substr_fview=line.substring(x_roles_fview+14	, line.length());
 			        	int stop_fview=substr_fview.indexOf("\"");
 			        	System.out.println("ROLES- "+tabla+" =>"+substr_fview.substring(0, stop_fview));
 			        	r.setFView(substr_fview.substring(0, stop_fview));
