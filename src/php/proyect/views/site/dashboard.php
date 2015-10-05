@@ -335,8 +335,11 @@ echo $model->name;
                                 <li>
                                     <a href="index.php?r=dashboard-conf/index">General</a>
                                 </li>
-                                <li>
+                                <!--<li>
                                     <a href="index.php?r=dashboard-error/">Reporte de Errores</a>
+                                </li>-->
+                                <li>
+                                    <a href="index.php?r=dashboard-permisoscrud/index">Permisos Servicios</a>
                                 </li>
                                 <li>
                                     <a href="#">Temas <span class="fa arrow"></span></a>
