@@ -27,16 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         'id_dash',
-
         [                      // the owner name of the model
-            'label' => 'Clase',
+            'label' => 'clase',
             'value' => function ($data) {
                 $nombre_pag=Dashboard::find()->select('nombre')->where(['id'=>$data->id_dash])->one();
                 return $nombre_pag->nombre;
             },
         ],
         'id_rol',
-
         [                      // the owner name of the model
             'label' => 'Rol',
             'value' => function ($data) {
@@ -44,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return $nombre_rol->rolname;
             },
         ],
+        'service',
         //'orderAmount',
         ['class' => 'yii\grid\ActionColumn'],
     ]
