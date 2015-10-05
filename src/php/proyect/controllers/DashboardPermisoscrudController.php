@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\DashboardPermisoscrud;
-use yii\data\ActiveDataProvider;
+use app\models\DashboardPermisoscrudSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,11 +32,11 @@ class DashboardPermisoscrudController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => DashboardPermisoscrud::find(),
-        ]);
+        $searchModel = new DashboardPermisoscrudSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

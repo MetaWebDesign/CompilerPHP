@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id_permiso
  * @property integer $id_dash
+ * @property string $service
  * @property integer $id_rol
  *
  * @property Roles $idRol
@@ -30,7 +31,8 @@ class DashboardPermisoscrud extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_dash', 'id_rol'], 'integer']
+            [['id_dash', 'id_rol'], 'integer'],
+            [['service'], 'string', 'max' => 50]
         ];
     }
 
@@ -42,6 +44,7 @@ class DashboardPermisoscrud extends \yii\db\ActiveRecord
         return [
             'id_permiso' => 'Id Permiso',
             'id_dash' => 'Id Dash',
+            'service' => 'Service',
             'id_rol' => 'Id Rol',
         ];
     }
@@ -60,5 +63,14 @@ class DashboardPermisoscrud extends \yii\db\ActiveRecord
     public function getIdDash()
     {
         return $this->hasOne(Dashboard::className(), ['id' => 'id_dash']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return DashboardPermisoscrudQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new DashboardPermisoscrudQuery(get_called_class());
     }
 }
