@@ -30,7 +30,7 @@ public class Yii{
 		}
 		
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
-		script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0  --generateQuery=1 --generateRelations=1 --overwrite=1 \n");
+		//script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0  --generateQuery=1 --generateRelations=1 --overwrite=1 \n");
 		//script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n"); //LO CARGA POR DEFECTO
 		//script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");//LO CARGA POR DEFECTO
 		script_model.write("./yii gii/model --tableName=TypePresentation --modelClass=TypePresentation --interactive=0\n");
@@ -60,7 +60,7 @@ public class Yii{
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+"Search\n");
 		}
 		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
-		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardSearch\n");
+		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardSearch\n");
 		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardConfSearch\n");//LO CARGA POR DEFECTO
 		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController--overwrite=1 --searchModelClass=\\\\app\\\\models\\\\ViewsSearch\n");//LO CARGA POR DEFECTO
 		script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\TypePresentation  --controllerClass=\\\\app\\\\controllers\\\\TypePresentationController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\TypePresentationSearch\n");
