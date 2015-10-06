@@ -99,7 +99,7 @@ public class PHP_CRUDView{
 			controler=controler+"{\n";
 			controler=controler+"    $model = $this->findModel($id);\n";
 			controler=controler+"    if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
-			controler=controler+"        return $this->redirect(['view', 'id' => $model->"+pk+"]);\n";//OJO, LLAVE PRIMARIA!!!
+			controler=controler+"        return $this->redirect(['view', 'id' => $model->"+pk.getNombre()+"]);\n";//OJO, LLAVE PRIMARIA!!!
 			controler=controler+"    } else {\n";
 			controler=controler+"        return $this->render('update', [\n";
 			controler=controler+"            'model' => $model,\n";

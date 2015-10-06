@@ -12,7 +12,10 @@ class Access{
 
   public function validate($id_user_rol, $clase_name, $service){
     $vista = Dashboard::find()->where(['nombre'=>$clase_name])->one();
-    $dash_crud = DashboardPermisoscrud::find()->where(['id_dash'=>$vista->id, 'service'=>'view'])->one();
+    $dash_crud = DashboardPermisoscrud::find()->where(['id_dash'=>$vista->id, 'service'=>$service])->one();
+    if($id_user_rol == 1){
+      return true;
+    }
     if($id_user_rol == $dash_crud->id_rol){
       return true;
     }

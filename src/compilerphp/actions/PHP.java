@@ -6,7 +6,6 @@ import java.util.List;
 
 public class PHP{
 	
-	//String path_php="/CompilerPHP/src/php/";//RUTA DONDE ESTA EL CODIGO PHP BASE DEL SITIO WEB 
 	static String path_proyect;//RUTA DONDE ESTA EL CODIGO DEL PROYECTO PHP A GENERAR
 	static String path_down_proyect;// RUTA UN NIVEL MÁS ABAJO DEL PROYECTO EN LOS DIRECTORIOS
 	static SQL modelo;
@@ -57,7 +56,7 @@ public class PHP{
 		obj.executeCommand("mv "+path_proyect+db_name+" "+path_proyect+"proyect/config/");
 	}
 	
-	//EJECUTA YII PARA LA GENERACIÓN DE MODELOS , CONTROLADORES Y PAGINAS DE LOS SERVICIOS
+	//EJECUTA YII PARA LA GENERACIÓN DE MODELOS , CONTROLADORES Y PAGINAS DE LOS SERVICIOS POR DEFECTO
 	public void yiiExec(){
 		Yii yii = new Yii(modelo, path_proyect);
 		try {
@@ -112,13 +111,28 @@ public class PHP{
 	}
 	
 	/*
-	 * GENERA EL CRUD CON LAS PAGINAS DE LOS SERVICIOS
+	 * GENERA LOS CONTROLADORES JUNTO CON LAS VISTAS DE LOS SERVICIOS
 	 */
 	public void genCRUD(){
 		ExecuteShellComand obj= new ExecuteShellComand();
 		String comando="bash "+path_proyect+"crud.sh "+path_proyect;
+		List <Tabla>tablas=modelo.getTablas();
 		obj.executeCommand(comando);
 		//BORRAR BASH
+		
+		//CONFIGURACION DEL CONTROLADOR SERVICIOS / PERMISOS DE ACCESO
+		for(Tabla tabla : tablas){
+			try {
+				System.out.println("CONTROLADOR ::"+tabla.getNombre());
+				PHP_CRUD crud = new PHP_CRUD(tabla, modelo, path_proyect+"proyect/controllers/");
+				crud.write();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//obj.move(path_proyect+"*Controller.php" , path_proyect+"proyect/controllers/"); //MUEVE LOS CONTROLADOR GENERADOR A LA CARPETA DE CONTROLADORES
+		
 		
 		//LOAD PLUGINS O EXTECIONES PARA FORMULRIOS
 		for(Tabla tabla : modelo.getTablas()){
@@ -137,7 +151,6 @@ public class PHP{
 	public void genModelView(){
 		ExecuteShellComand obj= new ExecuteShellComand();
 		List <View> views=modelo.getViews();
-		
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 			try {
@@ -173,7 +186,7 @@ public class PHP{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.executeCommand("chmod 777 -R "+path_proyect);
 	}
-	
+		
 	//GENERA LAS VISTAS POR DEFECTO
 	/*
 	 * index
