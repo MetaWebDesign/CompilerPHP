@@ -8,24 +8,40 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ViewsController implements the CRUD actions for Views model.
  */
 class ViewsController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
+  public function behaviors()
+  {
+      return [
+          'access'=>[
+              'class'=>AccessControl::className(),
+              'rules'=>[
+                  [
+                      'actions'=>[
+                          'index',
+                          'create',
+                          'update',
+                          'delete',
+                          'view'
+                      ],
+                      'allow'=>true,
+                      'roles' => ['@'],
+                  ],
+              ],
+          ],
+          'verbs' => [
+              'class' => VerbFilter::className(),
+              'actions' => [
+                  'delete' => ['post'],
+              ],
+          ],
+      ];
+  }
     /**
      * Lists all Views models.
      * @return mixed

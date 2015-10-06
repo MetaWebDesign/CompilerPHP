@@ -252,7 +252,6 @@ public class SQLite{
 			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'index', (select id_rol from Roles where rolname='"+r.getFIndex()+"'));\"\n";
 			insert_permisos=insert_permisos+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO DashboardPermisoscrud (id_dash, service, id_rol) VALUES ((select id from Dashboard where nombre='"+tabla.getNombre().toLowerCase()+"'), 'view', (select id_rol from Roles where rolname='"+r.getFView()+"'));\"\n";
 		}
-		
 		script_permisos = new FileWriter(path_db+"/PHP/permisos.sh");
 		script_permisos.write(insert_permisos);
 		script_permisos.close();

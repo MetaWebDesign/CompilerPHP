@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\filters\AccessControl;
 
 use yii\web\UploadedFile; //new
 use app\models\UploadForm;//new
@@ -17,17 +18,33 @@ use app\models\UploadForm;//new
  */
 class DashboardMediaController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+  public function behaviors()
+  {
+      return [
+          'access'=>[
+              'class'=>AccessControl::className(),
+              'rules'=>[
+                  [
+                      'actions'=>[
+                          'index',
+                          'create',
+                          'update',
+                          'delete',
+                          'view'
+                      ],
+                      'allow'=>true,
+                      'roles' => ['@'],
+                  ],
+              ],
+          ],
+          'verbs' => [
+              'class' => VerbFilter::className(),
+              'actions' => [
+                  'delete' => ['post'],
+              ],
+          ],
+      ];
+  }
 
     /**
      * Lists all DashboardMedia models.
