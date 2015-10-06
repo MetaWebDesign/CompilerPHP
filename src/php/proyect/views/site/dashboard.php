@@ -2,26 +2,14 @@
 namespace app\models;
 /* @var $this yii\web\View */
 
+use Yii;
 use yii\helpers\Html;
-
 use app\assets\DashboardAsset;
-DashboardAsset::register($this);
 
+if(!Yii::$app->user->isGuest){
+DashboardAsset::register($this);
 $this->title = 'Dashboard';
 $this->params['breadcrumbs'][] = $this->title;
-
-
-/*
-$criteria = new CDbCriteria;
-$criteria->condition = '';
-$results = DashModel::model()->findAll($criteria);
-foreach($results AS $model){
-echo $model->name;
-//echo $model->_cosa;
-}
-*/
-
-
 
 ?>
 <!DOCTYPE html>
@@ -477,3 +465,25 @@ echo $model->name;
 </body>
 
 </html>
+<?php
+}
+else{
+?>
+<div class="site-error">
+
+    <h1>Forbidden (#403)</h1>
+
+    <div class="alert alert-danger">
+        You are not allowed to perform this action.    </div>
+
+    <p>
+        The above error occurred while the Web server was processing your request.
+    </p>
+    <p>
+        Please contact us if you think this is a server error. Thank you.
+    </p>
+
+</div>
+<?php
+}
+ ?>
