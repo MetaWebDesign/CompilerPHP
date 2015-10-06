@@ -123,7 +123,6 @@ public class PHP{
 		//CONFIGURACION DEL CONTROLADOR SERVICIOS / PERMISOS DE ACCESO
 		for(Tabla tabla : tablas){
 			try {
-				System.out.println("CONTROLADOR ::"+tabla.getNombre());
 				PHP_CRUD crud = new PHP_CRUD(tabla, modelo, path_proyect+"proyect/controllers/");
 				crud.write();
 			} catch (IOException e) {
@@ -131,7 +130,6 @@ public class PHP{
 				e.printStackTrace();
 			}
 		}
-		//obj.move(path_proyect+"*Controller.php" , path_proyect+"proyect/controllers/"); //MUEVE LOS CONTROLADOR GENERADOR A LA CARPETA DE CONTROLADORES
 		
 		
 		//LOAD PLUGINS O EXTECIONES PARA FORMULRIOS
@@ -149,37 +147,32 @@ public class PHP{
 	
 	//GENERA LOS MODELOS PARA LAS VISTAS
 	public void genModelView(){
-		ExecuteShellComand obj= new ExecuteShellComand();
 		List <View> views=modelo.getViews();
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 			try {
-				PHP_ModelView model_view=new PHP_ModelView(view, modelo.getTabla(view.getTabla()), path_proyect);
+				PHP_ModelView model_view=new PHP_ModelView(view, modelo.getTabla(view.getTabla()), path_proyect+"proyect/models/");
 				model_view.Write();//ESCRIBE EL MODELO DE UNA VISTA
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		obj.move(path_proyect+"*view.php" , path_proyect+"proyect/models/");
 	}
 	
 	public void genCRUDView(){
-		ExecuteShellComand obj= new ExecuteShellComand();
 		List <View> views=modelo.getViews();
 		
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 			try {
-				//genCRUDView_(view);//ESCRIBE EL CRUD PARA LA VISTA
-				PHP_CRUDView curd_view= new PHP_CRUDView(view, modelo, path_proyect);
+				PHP_CRUDView curd_view= new PHP_CRUDView(view, modelo, path_proyect+"proyect/controllers/");
 				curd_view.write();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}//GENERO UN MODELO PARA UNA VISTAS DE LA BDD
 		}
-		obj.move(path_proyect+"*Controller.php" , path_proyect+"proyect/controllers/");
 	}
 	
 	public void execPermisos(){

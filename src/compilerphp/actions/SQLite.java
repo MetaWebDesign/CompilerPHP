@@ -84,7 +84,7 @@ public class SQLite{
 		    	}
 		    	
 		    	linea_sql=linea_sql+");";
-		    	System.out.println(linea_sql);
+		    	//System.out.println(linea_sql);
 		    	dataBase.add(linea_sql);
 	        }
 			

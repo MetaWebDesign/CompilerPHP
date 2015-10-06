@@ -190,7 +190,6 @@ public class PHP_CRUD{
 			
 		    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
 		    php_crud_view = new FileWriter(path_proyect+this.tabla.getNombre()+"Controller.php");
-		    System.out.println("CONTROLADOR :::"+path_proyect+this.tabla.getNombre()+"Controller.php");
 		    php_crud_view.write(controler);
 		    php_crud_view.close();
 		}
