@@ -9,12 +9,12 @@ public class Roles{
 	protected String functionAdmin; 
 	
 	public Roles(){
-		this.functionCreate="any";
-		this.functionUpdate="any";
-		this.functionDelete="any";
-		this.functionIndex="any";
-		this.functionView="any";
-		this.functionAdmin="any";
+		this.functionCreate="authenticated";
+		this.functionUpdate="authenticated";
+		this.functionDelete="authenticated";
+		this.functionIndex="authenticated";
+		this.functionView="authenticated";
+		this.functionAdmin="authenticated";
 	}
 	
 	public void setFCreate(String rol){

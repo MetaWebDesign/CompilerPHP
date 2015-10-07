@@ -121,8 +121,8 @@ public class SQLite{
 			//DASHBOARD ROLES POR DEFECTO (ROLES DEL MODELO MWD: ADMIN, AUTHENTICATED, ANONYMUS, ANY)
 			dataBase.add("INSERT INTO Roles (rolname) values ('admin');");
 			dataBase.add("INSERT INTO Roles (rolname) values ('authenticated');");
-			dataBase.add("INSERT INTO Roles (rolname) values ('any');");
-			dataBase.add("INSERT INTO Roles (rolname) values ('anonymous');");
+			//dataBase.add("INSERT INTO Roles (rolname) values ('any');");
+			//dataBase.add("INSERT INTO Roles (rolname) values ('anonymous');");
 			
 			//DASHBOARD USUARIOS POR DEFECTO
 			dataBase.add("INSERT INTO Users (username, passwd, id_rol) values ('mwd', 'mwd123', 1);"); //USUARIO POR DEFECTO DEL SISTEMA
