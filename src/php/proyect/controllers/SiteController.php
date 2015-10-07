@@ -96,4 +96,9 @@ class SiteController extends Controller
     {
         return $this->render('dashboard');
     }
+
+    public function actionPermisos()
+    {
+        return $this->render('permisos');
+    }
 }

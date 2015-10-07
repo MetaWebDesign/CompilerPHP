@@ -327,7 +327,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <a href="index.php?r=dashboard-error/">Reporte de Errores</a>
                                 </li>-->
                                 <li>
-                                    <a href="index.php?r=dashboard-permisoscrud/index">Permisos Servicios</a>
+                                    <a href="index.php?r=site/permisos">Permisos Servicios</a>
                                 </li>
                                 <li>
                                     <a href="#">Temas <span class="fa arrow"></span></a>

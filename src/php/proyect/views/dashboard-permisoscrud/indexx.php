@@ -5,7 +5,6 @@ namespace app\models;
 use Yii;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,23 +21,12 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
     </p>
 
     <?php
-    $results= DashboardPermisoscrud::find()->where(['id_dash'=>'1']);
-    /*
-    $resultsProvider=array();
-    foreach($results AS $model){
-      array_push($resultsProvider, $model);
-    }*/
-
-    $resultsProvider = new ActiveDataProvider([
-        'query' => $results,
-    ]);
-
+    $results= DashboardPermisoscrud::find()->groupBy('id_dash')->all();
     echo GridView::widget([
-    //'dataProvider' => $dataProvider,
-    'dataProvider' => $resultsProvider,
+    'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        //['class' => 'yii\grid\SerialColumn'],
+        ['class' => 'yii\grid\SerialColumn'],
         'id_dash',
         [                      // the owner name of the model
             'label' => 'clase',
@@ -61,9 +49,6 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
     ]
 ]);
     ?>
-
-
-
 
 <?php
 }else{
