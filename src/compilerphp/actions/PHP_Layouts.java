@@ -51,7 +51,8 @@ public class PHP_Layouts{
 		layouts=layouts+"						        'items' => [\n";
 		layouts=layouts+"						            ['label' => 'Home', 'url' => ['/site/index']],\n";
 		layouts=layouts+"						            ['label' => 'About', 'url' => ['/site/about']],\n";
-		layouts=layouts+"									['label' => 'Dashboard', 'url' => ['/site/dashboard']],\n";
+		layouts=layouts+"		!Yii::$app->user->isGuest ?\n";
+		layouts=layouts+"				['label' => 'Dashboard', 'url' => ['/site/dashboard']]:\n";
 		layouts=layouts+"						            ['label' => 'Contact', 'url' => ['/site/contact']],\n";
 		layouts=layouts+"						            Yii::$app->user->isGuest ?\n";
 		layouts=layouts+"						                ['label' => 'Login', 'url' => ['/site/login']] :\n";

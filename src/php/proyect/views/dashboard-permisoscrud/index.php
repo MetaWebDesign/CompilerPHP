@@ -2,17 +2,17 @@
 namespace app\models;
 
 //use kartik\grid\GridView; //new
-
+use Yii;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Dashboard Permisoscruds';
-$this->params['breadcrumbs'][] = $this->title;
+if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
+  $this->title = 'Dashboard Permisoscruds';
+  $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="dashboard-permisoscrud-index">
+  <div class="dashboard-permisoscrud-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -86,3 +86,24 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 </div>
+<?php
+}else{
+ ?>
+ <div class="site-error">
+
+     <h1>Forbidden (#403)</h1>
+
+     <div class="alert alert-danger">
+         You are not Admin to perform this action.    </div>
+
+     <p>
+         The above error occurred while the Web server was processing your request.
+     </p>
+     <p>
+         Please contact us if you think this is a server error. Thank you.
+     </p>
+
+ </div>
+<?php
+}
+ ?>
