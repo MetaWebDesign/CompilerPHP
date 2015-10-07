@@ -39,7 +39,8 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
                     <td>$cont</td>\n
                     <td>$dash->nombre</td>\n
                     <td>";
-                    echo Html::a('ver', ['/dashboard-permisoscrud/index'], ['class'=>'btn btn-primary']);
+                      $link="index.php?r=dashboard-permisoscrud/index&id=$model->id_dash";
+                      echo "<a class=\"btn btn-primary\" href=\"$link\">ver</a>";
             echo"  </td>
                   </tr>";
             $cont++;

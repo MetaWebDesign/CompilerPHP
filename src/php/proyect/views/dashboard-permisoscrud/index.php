@@ -7,11 +7,22 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
   $this->title = 'Dashboard Permisoscruds';
   $this->params['breadcrumbs'][] = $this->title;
+
+
+  $request = Yii::$app->request;
+  $id_dash = $request->get('id');
+
+  if($id_dash== null){
+    $id_dash=0;
+  }
+  echo "<h2>ID: $id_dash</h2>";
+
 ?>
   <div class="dashboard-permisoscrud-index">
 
@@ -22,7 +33,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
     </p>
 
     <?php
-    $results= DashboardPermisoscrud::find()->where(['id_dash'=>'1']);
+    $results= DashboardPermisoscrud::find()->where(['id_dash'=>$id_dash]);
     /*
     $resultsProvider=array();
     foreach($results AS $model){
