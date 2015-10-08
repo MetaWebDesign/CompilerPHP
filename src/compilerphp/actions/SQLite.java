@@ -90,9 +90,11 @@ public class SQLite{
 			
 			//ESCRIVO LAS VISTAS
 			for(View view : views){
-				String vista="CREATE VIEW "+view.getTabla()+view.getNombre()+" as ";
-				vista=vista+"select * from "+view.getTabla();
-				vista=vista+", ("+view.getFormula()+") as derived";
+				Tabla tabla_=sql.getTabla(view.getTabla());
+				String vista="CREATE VIEW "+tabla_.getNombre()+view.getNombre()+" as ";
+				vista=vista+"SELECT * FROM "+tabla_.getNombre();
+				vista=vista+", ("+view.getFormula()+") as view";
+				vista=vista+" WHERE "+tabla_.getNombre()+"."+tabla_.getPrimaryKey().getNombre()+"=view.pk";
 				dataBase.add(vista);
 			}
 			
@@ -113,7 +115,7 @@ public class SQLite{
 			//DASHBOARD VISTAS
 			
 			for(View view : views){
-				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla()+view.getNombre().toLowerCase()+"', 'true');";
+				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla().toLowerCase()+view.getNombre().toLowerCase()+"', 'true');";
 				dataBase.add(dash_table);
 			
 			}

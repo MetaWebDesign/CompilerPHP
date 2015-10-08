@@ -33,7 +33,7 @@ public class PHP_CRUDView{
 		controler=controler+"namespace app\\controllers;\n";
 		controler=controler+"\n";
 		controler=controler+"use Yii;\n";
-		controler=controler+"use app\\models\\"+this.tabla.getNombre()+";\n";
+		controler=controler+"use app\\models\\"+this.tabla.getNombre()+this.view.getNombre()+";\n";
 		controler=controler+"use app\\models\\"+this.tabla.getNombre()+"Search;\n";
 		controler=controler+"use yii\\web\\Controller;\n";
 		controler=controler+"use yii\\web\\NotFoundHttpException;\n";
@@ -221,7 +221,7 @@ public class PHP_CRUDView{
 		index=index+"						    <h1><?= Html::encode($this->title) ?></h1>\n";
 		index=index+"\n";
 		index=index+"						    <p>\n";
-		index=index+"						        <?= Html::a('Create Dashboard Permisoscrud', ['create'], ['class' => 'btn btn-success']) ?>\n";
+		index=index+"						        <?= Html::a('Create "+this.tabla.getNombre()+" "+this.view.getNombre()+"', ['create'], ['class' => 'btn btn-success']) ?>\n";
 		index=index+"						    </p>\n";
 		index=index+"						    <?php\n";
 		index=index+"						    $results= "+this.tabla.getNombre()+this.view.getNombre()+"::find();\n";
