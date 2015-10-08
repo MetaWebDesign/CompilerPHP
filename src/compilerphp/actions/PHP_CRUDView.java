@@ -235,6 +235,9 @@ public class PHP_CRUDView{
 												for(Atributo a : this.tabla.getAtributos()){
 		index=index+"						        '"+a.getNombre()+"',\n";
 												}
+												for(ForeignKey fk : this.tabla.getForeignKeys()){
+		index=index+"						        '"+fk.getNombre()+"',\n";
+												}
 		index=index+"						        '"+this.view.getNombre()+"',\n";
 		index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
 		index=index+"						    ]\n";
