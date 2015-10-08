@@ -18,6 +18,7 @@ public class PHP_CRUDView{
 		this.modelo=modelo_;
 		this.path_proyect_controller=path_proyect_+"proyect/controllers/";
 		this.path_proyect_view=path_proyect_+"proyect/views/";
+		this.tabla=this.modelo.getTabla(view.getTabla());
 		
 	}
 
@@ -26,9 +27,7 @@ public class PHP_CRUDView{
 		//ExecuteShellComand obj= new ExecuteShellComand();
 		FileWriter php_crud = null;
 		//DEBE USAR LA TABLA NO LA VISTA!, PARA LOS SERVIVIOS DEL CRUD
-		this.tabla=this.modelo.getTabla(view.getTabla());
 		Atributo pk=this.tabla.getPrimaryKey();
-
 		String controler="<?php\n\n";
 		controler=controler+"\n";
 		controler=controler+"namespace app\\controllers;\n";
@@ -42,7 +41,7 @@ public class PHP_CRUDView{
 		controler=controler+"\n";
 		controler=controler+"use yii\\filters\\AccessControl;\n";
 		controler=controler+"\n";
-		controler=controler+"class "+this.tabla.getNombre()+"Controller extends Controller\n";
+		controler=controler+"class "+this.tabla.getNombre()+this.view.getNombre()+"Controller extends Controller\n";
 		controler=controler+"{\n";
 		controler=controler+"		    protected $roles_= array();\n";
 		controler=controler+"\n";
@@ -195,11 +194,9 @@ public class PHP_CRUDView{
 		controler=controler+"			        }\n";
 		controler=controler+"		    }\n";
 		controler=controler+"}\n";
-		System.out.println(this.path_proyect_controller+this.view.getTabla()+this.view.getNombre()+"Controller.php");
+
 		//ESCRITURA DEL CONTROLADOR DE LA VISTA
-		
-		
-		php_crud = new FileWriter(path_proyect_controller+view.getTabla()+view.getNombre()+"Controller.php");
+		php_crud = new FileWriter(path_proyect_controller+this.view.getTabla()+this.view.getNombre()+"Controller.php");
 		php_crud.write(controler);
 		php_crud.close();
 	}
@@ -216,10 +213,10 @@ public class PHP_CRUDView{
 		index=index+"use yii\\data\\ActiveDataProvider;\n";
 		index=index+"\n";
 		index=index+"if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){\n";
-		index=index+"						  $this->title = '"+tabla.getNombre()+view.getNombre()+"';\n";
+		index=index+"						  $this->title = '"+this.tabla.getNombre()+this.view.getNombre()+"';\n";
 		index=index+"						  $this->params['breadcrumbs'][] = $this->title;\n";
 		index=index+"				?>\n";
-		index=index+"						  <div class=\""+tabla.getNombre()+view.getNombre()+"-index\">\n";
+		index=index+"						  <div class=\""+this.tabla.getNombre()+this.view.getNombre()+"-index\">\n";
 		index=index+"\n";
 		index=index+"						    <h1><?= Html::encode($this->title) ?></h1>\n";
 		index=index+"\n";
@@ -227,7 +224,7 @@ public class PHP_CRUDView{
 		index=index+"						        <?= Html::a('Create Dashboard Permisoscrud', ['create'], ['class' => 'btn btn-success']) ?>\n";
 		index=index+"						    </p>\n";
 		index=index+"						    <?php\n";
-		index=index+"						    $results= "+tabla.getNombre()+view.getNombre()+"::find();\n";
+		index=index+"						    $results= "+this.tabla.getNombre()+this.view.getNombre()+"::find();\n";
 		index=index+"				    $resultsProvider = new ActiveDataProvider([\n";
 		index=index+"						        'query' => $results,\n";
 		index=index+"						    ]);\n";
@@ -235,10 +232,10 @@ public class PHP_CRUDView{
 		index=index+"						    'dataProvider' => $resultsProvider,\n";
 		index=index+"						    'filterModel' => $searchModel,\n";
 		index=index+"						    'columns' => [\n";
-												for(Atributo a : tabla.getAtributos()){
+												for(Atributo a : this.tabla.getAtributos()){
 		index=index+"						        '"+a.getNombre()+"',\n";
 												}
-		index=index+"						        '"+view.getNombre()+"',\n";
+		index=index+"						        '"+this.view.getNombre()+"',\n";
 		index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
 		index=index+"						    ]\n";
 		index=index+"						]);\n";
@@ -267,9 +264,9 @@ public class PHP_CRUDView{
 
 		
 		//ESCRITURA DE LA VISTA INDEX
-		String ruta=path_proyect_view+tabla.getNombre().toLowerCase()+view.getNombre().toLowerCase();
+		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
 		obj.executeCommand("mkdir "+ruta);
-		php_crud_view = new FileWriter(path_proyect_view+view.getTabla()+view.getNombre()+"Controller.php");
+		php_crud_view = new FileWriter(ruta+"/index.php");
 		php_crud_view.write(index);
 		php_crud_view.close();
 		

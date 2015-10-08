@@ -27,18 +27,18 @@ public class PHP_ModelView{
 		model_view=model_view+"namespace app\\models;\n\n";
 		model_view=model_view+"use Yii;\n";
 		model_view=model_view+"/**\n";
-		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"view\".\n";
+		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"\".\n";
 		model_view=model_view+" *\n";
 		for(Atributo atributo : atributos) {
 			model_view=model_view+" * @property "+atributo.getType()+" "+atributo.getNombre()+"\n";
 		}
 		model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
 		model_view=model_view+" */\n";
-		model_view=model_view+"class Ramosview extends \\yii\\db\\ActiveRecord\n";
+		model_view=model_view+"class "+view.getTabla()+view.getNombre()+" extends \\yii\\db\\ActiveRecord\n";
 		model_view=model_view+"{\n";
 		model_view=model_view+"public static function tableName()\n";
 		model_view=model_view+"{\n";
-		model_view=model_view+"    return '"+view.getTabla()+view.getNombre()+"view';\n";
+		model_view=model_view+"    return '"+view.getTabla()+view.getNombre()+"';\n";
 		model_view=model_view+"}\n";
 		model_view=model_view+"public function rules()\n";
 		model_view=model_view+"{\n";
@@ -47,21 +47,26 @@ public class PHP_ModelView{
 			if(!atributo.getType().equals("autoincremental")){
 				String typeData=atributo.getType();
 				if(typeData.equals("varchar(10)")){
-					typeData="'string', 'max' => 10";
+					//typeData="'string', 'max' => 10";
+					model_view=model_view+"        [['"+atributo.getNombre()+"'], 'string', 'max' => 10],\n";
 				}
 				if(typeData.equals("varchar(30)")){
-					typeData="'string', 'max' => 30";
+					//typeData="'string', 'max' => 30";
+					model_view=model_view+"        [['"+atributo.getNombre()+"'], 'string', 'max' => 30],\n";
 				}
 				if(typeData.equals("varchar(50)")){
-					typeData="'string', 'max' => 50";
+					//typeData="'string', 'max' => 50";
+					model_view=model_view+"        [['"+atributo.getNombre()+"'], 'string', 'max' => 50],\n";
 				}
 				if(typeData.equals("text")){
-					typeData="'string'";
+					//typeData="'string'";
+					model_view=model_view+"        [['"+atributo.getNombre()+"'], 'string'],\n";
 				}
 				else{
-					typeData="'"+typeData+"'";
+					//typeData="'"+typeData+"'";
+					model_view=model_view+"        [['"+atributo.getNombre()+"'], '"+typeData+"'],\n";
 				}
-				model_view=model_view+"        [['"+atributo.getNombre()+"'], "+typeData+"],\n";
+				
 			}
 		}
 		model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
@@ -81,7 +86,7 @@ public class PHP_ModelView{
 	    model_view=model_view+"}\n";
 	   
 	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-	    php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"view.php");
+	    php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+".php");
 	    php_model_view.write(model_view);
 	    php_model_view.close();
 	}
