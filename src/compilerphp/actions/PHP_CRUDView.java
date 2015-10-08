@@ -7,33 +7,27 @@ public class PHP_CRUDView{
 	
 	private View view;
 	private SQL modelo;
-	private String path_proyect;
+	private String path_proyect_controller;
+	private String path_proyect_view;
 	private Tabla tabla;
+	//static String controler;
+	//static String index;
 	
 	public PHP_CRUDView(View view_, SQL modelo_, String path_proyect_){
 		this.view=view_;
 		this.modelo=modelo_;
-		this.path_proyect=path_proyect_;
+		this.path_proyect_controller=path_proyect_+"proyect/controllers/";
+		this.path_proyect_view=path_proyect_+"proyect/views/";
 		
 	}
-	
-	public void write() throws IOException{ 
-		FileWriter php_crud_view = null;		
-		String controler=controlador();
-		
-		//ESCRITURA DEL CONTROLADOR DE LA VISTA
-		php_crud_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+"Controller.php");
-		php_crud_view.write(controler);
-		php_crud_view.close();
-		
-		//ESCRITURA DE LA VISTA INDEX
-	}
-	
-	
-	public String controlador(){
+
+
+	public void writeControlador() throws IOException{
+		//ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter php_crud = null;
 		//DEBE USAR LA TABLA NO LA VISTA!, PARA LOS SERVIVIOS DEL CRUD
 		this.tabla=this.modelo.getTabla(view.getTabla());
-		Atributo pk=tabla.getPrimaryKey();
+		Atributo pk=this.tabla.getPrimaryKey();
 
 		String controler="<?php\n\n";
 		controler=controler+"\n";
@@ -201,9 +195,83 @@ public class PHP_CRUDView{
 		controler=controler+"			        }\n";
 		controler=controler+"		    }\n";
 		controler=controler+"}\n";
+		System.out.println(this.path_proyect_controller+this.view.getTabla()+this.view.getNombre()+"Controller.php");
+		//ESCRITURA DEL CONTROLADOR DE LA VISTA
 		
-		return controler;
+		
+		php_crud = new FileWriter(path_proyect_controller+view.getTabla()+view.getNombre()+"Controller.php");
+		php_crud.write(controler);
+		php_crud.close();
 	}
 	
-	
+	public void writeIndex() throws IOException{
+		ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter php_crud_view = null;
+		String index="<?php\n";
+		index=index+"namespace app\\models;\n";
+		index=index+"\n";
+		index=index+"use Yii;\n";
+		index=index+"use yii\\helpers\\Html;\n";
+		index=index+"use yii\\grid\\GridView;\n";
+		index=index+"use yii\\data\\ActiveDataProvider;\n";
+		index=index+"\n";
+		index=index+"if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){\n";
+		index=index+"						  $this->title = '"+tabla.getNombre()+view.getNombre()+"';\n";
+		index=index+"						  $this->params['breadcrumbs'][] = $this->title;\n";
+		index=index+"				?>\n";
+		index=index+"						  <div class=\""+tabla.getNombre()+view.getNombre()+"-index\">\n";
+		index=index+"\n";
+		index=index+"						    <h1><?= Html::encode($this->title) ?></h1>\n";
+		index=index+"\n";
+		index=index+"						    <p>\n";
+		index=index+"						        <?= Html::a('Create Dashboard Permisoscrud', ['create'], ['class' => 'btn btn-success']) ?>\n";
+		index=index+"						    </p>\n";
+		index=index+"						    <?php\n";
+		index=index+"						    $results= "+tabla.getNombre()+view.getNombre()+"::find();\n";
+		index=index+"				    $resultsProvider = new ActiveDataProvider([\n";
+		index=index+"						        'query' => $results,\n";
+		index=index+"						    ]);\n";
+		index=index+"						    echo GridView::widget([\n";
+		index=index+"						    'dataProvider' => $resultsProvider,\n";
+		index=index+"						    'filterModel' => $searchModel,\n";
+		index=index+"						    'columns' => [\n";
+												for(Atributo a : tabla.getAtributos()){
+		index=index+"						        '"+a.getNombre()+"',\n";
+												}
+		index=index+"						        '"+view.getNombre()+"',\n";
+		index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
+		index=index+"						    ]\n";
+		index=index+"						]);\n";
+		index=index+"						    ?>\n";
+		index=index+"						<?php\n";
+		index=index+"						}else{\n";
+		index=index+"						 ?>\n";
+		index=index+"						 <div class=\"site-error\">\n";
+		index=index+"\n";
+		index=index+"						     <h1>Forbidden (#403)</h1>\n";
+		index=index+"\n";
+		index=index+"						     <div class=\"alert alert-danger\">\n";
+		index=index+"						         You are not Admin to perform this action.    </div>\n";
+		index=index+"\n";
+		index=index+"						     <p>\n";
+		index=index+"						         The above error occurred while the Web server was processing your request.\n";
+		index=index+"						     </p>\n";
+		index=index+"						     <p>\n";
+		index=index+"						         Please contact us if you think this is a server error. Thank you.\n";
+		index=index+"						     </p>\n";
+		index=index+"\n";
+		index=index+"						 </div>\n";
+		index=index+"						<?php\n";
+		index=index+"						}\n";
+		index=index+"						 ?>\n";
+
+		
+		//ESCRITURA DE LA VISTA INDEX
+		String ruta=path_proyect_view+tabla.getNombre().toLowerCase()+view.getNombre().toLowerCase();
+		obj.executeCommand("mkdir "+ruta);
+		php_crud_view = new FileWriter(path_proyect_view+view.getTabla()+view.getNombre()+"Controller.php");
+		php_crud_view.write(index);
+		php_crud_view.close();
+		
+	}
 }

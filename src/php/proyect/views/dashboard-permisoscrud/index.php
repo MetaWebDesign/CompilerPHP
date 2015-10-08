@@ -21,7 +21,6 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
   if($id_dash== null){
     $id_dash=0;
   }
-  echo "<h2>ID: $id_dash</h2>";
 
 ?>
   <div class="dashboard-permisoscrud-index">
@@ -34,11 +33,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
 
     <?php
     $results= DashboardPermisoscrud::find()->where(['id_dash'=>$id_dash]);
-    /*
-    $resultsProvider=array();
-    foreach($results AS $model){
-      array_push($resultsProvider, $model);
-    }*/
+
 
     $resultsProvider = new ActiveDataProvider([
         'query' => $results,
@@ -49,7 +44,6 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
     'dataProvider' => $resultsProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        //['class' => 'yii\grid\SerialColumn'],
         'id_dash',
         [                      // the owner name of the model
             'label' => 'clase',

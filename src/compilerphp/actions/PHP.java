@@ -166,8 +166,9 @@ public class PHP{
 		//ESCRITURA DEL PHP CON EL MODELO DE LAS VISTAS
 		for(View view : views) {
 			try {
-				PHP_CRUDView curd_view= new PHP_CRUDView(view, modelo, path_proyect+"proyect/controllers/");
-				curd_view.write();
+				PHP_CRUDView crud_view= new PHP_CRUDView(view, modelo, path_proyect);
+				crud_view.writeControlador();
+				//crud_view.writeIndex();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
