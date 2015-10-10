@@ -10,15 +10,19 @@ public class PHP_CRUDView{
 	private String path_proyect_controller;
 	private String path_proyect_view;
 	private Tabla tabla;
+	private String ruta;
 	//static String controler;
 	//static String index;
 	
 	public PHP_CRUDView(View view_, SQL modelo_, String path_proyect_){
+		ExecuteShellComand obj= new ExecuteShellComand();
 		this.view=view_;
 		this.modelo=modelo_;
 		this.path_proyect_controller=path_proyect_+"proyect/controllers/";
 		this.path_proyect_view=path_proyect_+"proyect/views/";
 		this.tabla=this.modelo.getTabla(view.getTabla());
+		this.ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
+		obj.executeCommand("mkdir "+ruta);
 		
 	}
 
@@ -154,7 +158,7 @@ public class PHP_CRUDView{
 		controler=controler+"\n";
 		controler=controler+"		    public function actionCreate()\n";
 		controler=controler+"		    {\n";
-		controler=controler+"		        $model = new "+this.tabla.getNombre()+"();\n";
+		controler=controler+"		        $model = new "+this.tabla.getNombre()+this.view.getNombre()+"();\n";
 		controler=controler+"\n";
 		controler=controler+"		        if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
 		controler=controler+"		            return $this->redirect(['view', 'id' => $model->"+pk.getNombre()+"]);\n";
@@ -202,7 +206,6 @@ public class PHP_CRUDView{
 	}
 	
 	public void writeIndex() throws IOException{
-		ExecuteShellComand obj= new ExecuteShellComand();
 		FileWriter php_crud_view = null;
 		String index="<?php\n";
 		index=index+"namespace app\\models;\n";
@@ -239,7 +242,7 @@ public class PHP_CRUDView{
 		index=index+"						        '"+fk.getNombre()+"',\n";
 												}
 		index=index+"						        '"+this.view.getNombre()+"',\n";
-		index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
+		//index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
 		index=index+"						    ]\n";
 		index=index+"						]);\n";
 		index=index+"						    ?>\n";
@@ -265,13 +268,50 @@ public class PHP_CRUDView{
 		index=index+"						}\n";
 		index=index+"						 ?>\n";
 
-		
 		//ESCRITURA DE LA VISTA INDEX
-		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
-		obj.executeCommand("mkdir "+ruta);
 		php_crud_view = new FileWriter(ruta+"/index.php");
 		php_crud_view.write(index);
 		php_crud_view.close();
 		
 	}
+	
+	
+	public void create() throws IOException{
+		FileWriter php_crud_create = null;
+		String create="<?php\n";
+		create=create+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/create'));\n";
+		create=create+"?>\n";
+		//ESCRITURA DE LA VISTA INDEX
+		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
+		php_crud_create = new FileWriter(ruta+"/create.php");
+		php_crud_create.write(create);
+		php_crud_create.close();
+	}
+	/*
+	public void update() throws IOException{
+		FileWriter php_crud_update = null;
+		String update="<?php\n";
+		update=update+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/update'));\n";
+		update=update+"?>\n";
+		//ESCRITURA DE LA VISTA INDEX
+		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
+		php_crud_update = new FileWriter(ruta+"/update.php");
+		php_crud_update.write(update);
+		php_crud_update.close();
+	}
+	
+	public void view() throws IOException{
+		FileWriter php_crud_view = null;
+		String view="<?php\n";
+		view=view+"  $request = Yii::$app->request;\n";
+		view=view+"$id = $request->get('id');\n";
+		view=view+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/view', ,'id'=>$id));\n";
+		view=view+"?>\n";
+		//ESCRITURA DE LA VISTA INDEX
+		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
+		php_crud_view = new FileWriter(ruta+"/view.php");
+		php_crud_view.write(view);
+		php_crud_view.close();
+	}
+	*/
 }
