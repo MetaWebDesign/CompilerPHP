@@ -170,8 +170,6 @@ public class PHP{
 				crud_view.writeControlador();
 				crud_view.writeIndex();//vista del index
 				crud_view.create();
-				//crud_view.update();
-				//crud_view.view();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

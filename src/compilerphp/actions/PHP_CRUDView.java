@@ -287,31 +287,5 @@ public class PHP_CRUDView{
 		php_crud_create.write(create);
 		php_crud_create.close();
 	}
-	/*
-	public void update() throws IOException{
-		FileWriter php_crud_update = null;
-		String update="<?php\n";
-		update=update+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/update'));\n";
-		update=update+"?>\n";
-		//ESCRITURA DE LA VISTA INDEX
-		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
-		php_crud_update = new FileWriter(ruta+"/update.php");
-		php_crud_update.write(update);
-		php_crud_update.close();
-	}
-	
-	public void view() throws IOException{
-		FileWriter php_crud_view = null;
-		String view="<?php\n";
-		view=view+"  $request = Yii::$app->request;\n";
-		view=view+"$id = $request->get('id');\n";
-		view=view+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/view', ,'id'=>$id));\n";
-		view=view+"?>\n";
-		//ESCRITURA DE LA VISTA INDEX
-		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
-		php_crud_view = new FileWriter(ruta+"/view.php");
-		php_crud_view.write(view);
-		php_crud_view.close();
-	}
-	*/
+
 }
