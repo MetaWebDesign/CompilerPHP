@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'content')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
-        'preset' => 'basic'
+        'preset' => 'full'
     ]) ?>
 
     <div class="form-group">
