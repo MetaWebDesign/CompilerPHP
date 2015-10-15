@@ -13,10 +13,16 @@ use yii\helpers\ArrayHelper;
 ?>
 
 <div class="views-form">
+  <?php
+    $url="index.php?r=view-advance/index&id=$model->id_view";
+    echo "<a href=\"$url\" class=\"btn btn-info\" role=\"button\">Advance Settings</a>"; ?>
+
+    <p><p>
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
 
     <label class="control-label" for="Users-id_rol">Roles: </label>
     <?= Html::activeDropDownList($model, 'id_rol', ArrayHelper::map(Roles::find()->all(), 'id_rol', 'rolname')) ?>

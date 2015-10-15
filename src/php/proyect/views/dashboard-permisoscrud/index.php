@@ -56,8 +56,12 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
         [                      // the owner name of the model
             'label' => 'Rol',
             'value' => function ($data) {
+              if($data->id_rol){
                 $nombre_rol=Roles::find()->select('rolname')->where(['id_rol'=>$data->id_rol])->one();
                 return $nombre_rol->rolname;
+              }else {
+                return "none";
+              }
             },
         ],
         'service',
