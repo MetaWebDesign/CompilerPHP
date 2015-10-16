@@ -71,4 +71,10 @@ class ViewAdvance extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Views::className(), ['id_view' => 'id_vista']);
     }
+
+
+    public function getAtributo($id){
+      $data = ClassAtributo::find()->where(['id_clase'=>$id])->select(['id', 'nombre AS name'])->asArray()->all();
+      return $data;
+    }
 }

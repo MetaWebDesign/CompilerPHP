@@ -135,6 +135,9 @@ public class SQLite{
 			//DASHBOARD PAGINAS (ADVANCE) VISTAS MODELADAS
 			dataBase.add("CREATE TABLE ViewAdvance (id integer primary key not null, id_vista integer, id_clase integer, atributo varchar(50), typePresentation varchar(50), x_position varchar(20), y_position integer, FOREIGN KEY(id_vista) REFERENCES Views(id_view), FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");
 			
+			//DASHBOARD ATRIBUTOS CLASES
+			dataBase.add("CREATE TABLE ClassAtributo (id integer primary key not null, nombre varchar(50), id_clase integer, FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");
+			
 			//DASHBOARD CONFIGURACION
 			dataBase.add("CREATE TABLE DashboardConf (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50), id_index integer, FOREIGN KEY(id_index) REFERENCES Views(id_view)); );");
 			
@@ -152,7 +155,7 @@ public class SQLite{
 			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_file');");
 			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table_striped');");
 			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table_hover');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('img');");
+			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('img');;
 			
 			dataBase.add("CREATE TABLE ViewAttribute(id_view_attribute integer primary key not null, id_view integer, id_tabla integer, id_atributo_tabla integer, pos_x varchar(10), pos_y integer, id_presentation integer, FOREIGN KEY(id_view) REFERENCES Views(id_view), FOREIGN KEY(id_presentation) REFERENCES TypePresentation(id_presentation));");
 			

@@ -118,4 +118,32 @@ class ViewAdvanceController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    // THE CONTROLLER
+    public function actionSubcat() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                //echo "<h2>$cat_id</H2>";
+                //$out = self::getSubCatList($cat_id);
+                //$out = self::getSubCatList(ArrayHelper::map(ClassAtributo::find()->where(['id_clase'=>$cat_id])->all(), 'id', 'nombre'));
+                //$out = ArrayHelper::map(ClassAtributo::find()->where(['id_clase'=>$cat_id])->all(), 'id', 'nombre');
+                $out=ViewAdvance::getAtributo($cat_id);
+                // the getSubCatList function will query the database based on the
+                // cat_id and return an array like below:
+                // [
+                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
+                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
+                // ]
+                echo json_encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo json_encode(['output'=>'', 'selected'=>'']);
+    }
+
+
 }
