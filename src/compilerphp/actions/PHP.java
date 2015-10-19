@@ -7,7 +7,6 @@ import java.util.List;
 public class PHP{
 	
 	static String path_proyect;//RUTA DONDE ESTA EL CODIGO DEL PROYECTO PHP A GENERAR
-	static String path_down_proyect;// RUTA UN NIVEL MÁS ABAJO DEL PROYECTO EN LOS DIRECTORIOS
 	static SQL modelo;
 	static String web_name;
 	
@@ -17,7 +16,6 @@ public class PHP{
 	 */
 	public PHP(String path, SQL model, String web_name_){
 		path_proyect=path+"/PHP/"; // RUTA DEL PROYECTO PHP
-		path_down_proyect=path;
 		modelo=model;//MODELO DE LA BASE DE DATOS
 		web_name=web_name_;
 	}
@@ -28,6 +26,7 @@ public class PHP{
 		//obj.clean_proyect(path_down_proyect);//en caso de existir un proyecto anterior lo respalda
 		obj.start_proyect(path_proyect);
 	}
+	
 	
 	/*
 	 * CONFIGURA LA BASE DE DATOS

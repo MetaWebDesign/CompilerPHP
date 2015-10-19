@@ -49,6 +49,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		SQL modelo=new SQL();//MODELO SQL DE LA BASE DE DATOS (ESTRUCTURA DE LOS DATOS)
 		bar.updateProgress(1, "Buscando Proyecto(s)");
 		int num_pro=obj.countProyects();
+		
 		//Hay solo un proyecto (modelo)
 		if(num_pro ==1){
 			
@@ -84,7 +85,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		}
 		
 		//GENERACION DE CODIGO PHP
-		bar.updateProgress(60, "Creando Proyecto PHP");
+		bar.updateProgress(40, "Creando Proyecto PHP");
 		PHP php=new PHP(path, modelo, name_proyect);
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP

@@ -184,6 +184,8 @@ public class SQLite{
 		//GENERO EL CODIGO SQL
 		List <String> dataBase=SQLite.genSQL(model, path);//CREO UN STRING CON LA SINTAXIS SQL PARA CREAR LAS TABLAS, VISTAS Y LLAVES (PK Y FK)
 		ExecuteShellComand obj= new ExecuteShellComand();
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.clean_proyect(path+"/PHP/");//en caso de existir un proyecto anterior lo respalda
 		
 		//ARCHIVO A GENERAR
 		FileWriter script_bdd = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
@@ -201,9 +203,7 @@ public class SQLite{
 			script_bdd.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
 			System.out.println("sqlite3-> "+sql_line);
 		}
-		script_bdd.close();
-		
-		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		script_bdd.close();	
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
 		
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
