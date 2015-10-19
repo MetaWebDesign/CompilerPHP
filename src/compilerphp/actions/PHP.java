@@ -177,10 +177,11 @@ public class PHP{
 		}
 	}
 	
+	/*
 	public void execPermisos(){
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.executeCommand("chmod 777 -R "+path_proyect);
-	}
+	}*/
 		
 	//GENERA LAS VISTAS POR DEFECTO
 	/*
@@ -224,6 +225,20 @@ public class PHP{
 		SQLite sqlite = new SQLite();
 		try {
 			sqlite.insertPermisos(modelo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * ISERTAR ATRIBUTO DE LAS CLASES
+	 * - usado para la edición de vistas modeladas.
+	 */
+	public void insertClassAtributo(){
+		SQLite sqlite = new SQLite();
+		try {
+			sqlite.insertAtributosClases(modelo);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

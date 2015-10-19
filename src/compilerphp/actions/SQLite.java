@@ -270,4 +270,31 @@ public class SQLite{
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path_db+"/PHP/permisos.sh");
 	}
+	
+	/*
+	 * INSERTAR ATRIBUTOS DE LAS CLASES
+	 * - para editar las vistas modeladas desde la plataforma web
+	 * - insertar datos en ClassAtributo
+	 */
+	public void insertAtributosClases(SQL sql) throws IOException{
+		ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter script_atributo = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
+		int cont=1;
+		String insert_atributo="";
+		for(Tabla tabla: sql.getTablas()){
+			for (Atributo atributo : tabla.getAtributos()){
+				insert_atributo=insert_atributo+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"insert into ClassAtributo (nombre, id_clase) values ('"+atributo.getNombre()+"', "+cont+");\"";
+			}
+			cont++;
+		}
+		script_atributo = new FileWriter(path_db+"/PHP/classAtributo.sh");
+		script_atributo.write(insert_atributo);
+		script_atributo.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path_db+"/PHP/classAtributo.sh");
+	}
+	
 }
