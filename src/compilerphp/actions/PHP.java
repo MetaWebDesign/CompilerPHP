@@ -178,10 +178,14 @@ public class PHP{
 	}
 	
 	/*
+	 * Permisos de ejcución del sitio web
+	 * - Assets
+	 * - runtime
+	 */
 	public void execPermisos(){
 		ExecuteShellComand obj= new ExecuteShellComand();
 		obj.executeCommand("chmod 777 -R "+path_proyect);
-	}*/
+	}
 		
 	//GENERA LAS VISTAS POR DEFECTO
 	/*

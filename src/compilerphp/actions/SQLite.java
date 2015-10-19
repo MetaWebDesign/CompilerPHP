@@ -283,7 +283,7 @@ public class SQLite{
 		String insert_atributo="";
 		for(Tabla tabla: sql.getTablas()){
 			for (Atributo atributo : tabla.getAtributos()){
-				insert_atributo=insert_atributo+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"insert into ClassAtributo (nombre, id_clase) values ('"+atributo.getNombre()+"', "+cont+");\"";
+				insert_atributo=insert_atributo+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"insert into ClassAtributo (nombre, id_clase) values ('"+atributo.getNombre()+"', "+cont+");\"\n";
 			}
 			cont++;
 		}
