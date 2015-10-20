@@ -247,5 +247,13 @@ public class PHP{
 			e.printStackTrace();
 		}
 	}
+	/*
+	 * INSERTAR PAGE MODELADAS
+	 * - inserta las vistas modeladas en la BDD
+	 */
+	public void insertPages(List <Page> pages){
+		SQLite sqlite = new SQLite();
+		
+	}
 	
 }

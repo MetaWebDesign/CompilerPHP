@@ -77,7 +77,7 @@ public class ReadModel{
 			        tabla=substr.substring(0, stop);
 			        t.setNombre(tabla);//AGREGO EL NOMBRE A LA TABLA
 			        
-			        //ROLES
+			        //ROLES -ACCESO A LOS SERVICIOS
 			        if(x_roles_fcreate != -1){//CREATE
 			        	String substr_fcreate=line.substring(x_roles_fcreate+16	, line.length());
 			        	int stop_fcreate=substr_fcreate.indexOf("\"");

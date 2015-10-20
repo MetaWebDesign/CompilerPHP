@@ -24,9 +24,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
  */
 public class Compilar implements IWorkbenchWindowActionDelegate {
 	private static IWorkbenchWindow window;
-	private static String path;
-	private static String file;
-	private static String name_proyect;
+	protected String path;
+	protected String file;
+	protected String name_proyect;
+	protected SQL sql=new SQL();//MODELO SQL DE LA BASE DE DATOS (ESTRUCTURA DE LOS DATOS)
 	static ProgressMonitor monitor;
 	static int progress;
 	/**
@@ -42,47 +43,48 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
+		
 		Locate l=new Locate();//OBTITNE LA POSICION DEL PROYECTO EN LOS DIRECTORIOS
 		String currentDirectory=l.getPath()+"/runtime-EclipseApplication/";
 		ProgressBar bar=new ProgressBar("Prueba de barra");//BARRA DE PROGRESO
 		ExecuteShellComand obj= new ExecuteShellComand();
-		SQL modelo=new SQL();//MODELO SQL DE LA BASE DE DATOS (ESTRUCTURA DE LOS DATOS)
+		
 		bar.updateProgress(1, "Buscando Proyecto(s)");
 		int num_pro=obj.countProyects();
+		ReadModel m = new ReadModel();
 		
 		//Hay solo un proyecto (modelo)
 		if(num_pro ==1){
-			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
-			name_proyect=getCurrentFile(path);
-			file=name_proyect+".metawebdesign";
-			bar.updateProgress(3, "Leyendo "+file);
+			this.path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
+			this.name_proyect=getCurrentFile(this.path);
+			this.file=this.name_proyect+".metawebdesign";
+			bar.updateProgress(3, "Leyendo "+this.file);
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
-				System.out.println(path+"/"+file);
+				System.out.println(this.path+"/"+this.file);
 				//modelo=ReadModel.loadXML(path, file);
-				ReadModel m = new ReadModel();
-				m.loadXML(path,file);
-				modelo = m.getSQL();
+				m.loadXML(this.path,this.file);
+				this.sql = m.getSQL();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
+		
 		//hay más de un proyecto (modelo)
 		else{
 			String proyecto=windowListOptions(obj.getProyects());
-			path=currentDirectory+proyecto;
-			name_proyect=getCurrentFile(path);
-			file=getCurrentFile(path)+".metawebdesign";
-			bar.updateProgress(3, "Leyendo "+file);
+			this.path=currentDirectory+proyecto;
+			this.name_proyect=getCurrentFile(this.path);
+			this.file=getCurrentFile(this.path)+".metawebdesign";
+			bar.updateProgress(3, "Leyendo "+this.file);
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
-				System.out.println(path+"/"+file);
+				//System.out.println(this.path+"/"+this.file);
 				//modelo=ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
-				ReadModel m = new ReadModel();
-				m.loadXML(path,file);
-				modelo = m.getSQL();
+				m.loadXML(this.path,this.file);
+				this.sql = m.getSQL();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -91,7 +93,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		
 		//GENERACION DE LA BDD EN SQLite
 		try {
-			SQLite.createDB(modelo, path, file);
+			SQLite.createDB(this.sql, this.path, this.file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,12 +102,12 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		
 		//GENERACION DE CODIGO PHP
 		bar.updateProgress(40, "Creando Proyecto PHP");
-		PHP php=new PHP(path, modelo, name_proyect);
+		PHP php=new PHP(this.path, this.sql, this.name_proyect);
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
 		php.yiiExec();//EJECUTA BASH PARA LA GENERACION DE MODELO, CONTROLADORES Y PAGINAS DE LOS SEVICIOS USANDO YII
 		bar.updateProgress(64, "Creando Proyecto PHP - Configurando Base de Datos");
-		php.configureBD_Gii(name_proyect+".db");//CONFIGURA LA BASE DE DATOS
+		php.configureBD_Gii(this.name_proyect+".db");//CONFIGURA LA BASE DE DATOS
 		bar.updateProgress(68, "Creando Proyecto PHP - Generado Modelos");
 		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
 		bar.updateProgress(70, "Creando Proyecto PHP - Generado Controladores");
@@ -117,17 +119,16 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		php.execPermisos();//PERIMISOS PARA QUE APACHE U OTRO PUEDA EJECUTAR EL SITIO WEB
 		bar.updateProgress(85, "Creando Proyecto PHP - Generado Vistas por defecto");
 		php.genViewsDefault();//GENERA LAS VISTAS INDEX, ABOUT, CONTACT
-		php.configureBD_Apache(name_proyect+".db");
+		php.configureBD_Apache(this.name_proyect+".db");
 		bar.updateProgress(89, "Configurando sitio web");
 		php.configureWeb();//CARGA LA CONFIGURACION DEL SITIO WEB
 		bar.updateProgress(90, "Configurando acceso a servicios");
 		php.permisosCRUD();//CARGA LOS PERMISOS SOBRE LOS SERVICIOS DEL CRUD EN LA BDD
 		bar.updateProgress(95, "Cargando atributos clases");
 		php.insertClassAtributo();//CARGA LOS ATRIBUTOS DE LAS CLASES PARA EDICIÓN DE VISTAS MODELADAS
+		php.insertPages(m.getPages());
 		bar.updateProgress(100, "Proyecto PHP creado!");
-		
 		windowMensajeInfo("Compilado con exito!");
-		
 	}
 
 	/**
