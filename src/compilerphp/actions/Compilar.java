@@ -52,7 +52,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		
 		//Hay solo un proyecto (modelo)
 		if(num_pro ==1){
-			
 			path=currentDirectory+obj.getProyects()[0];//OBTIENE LA RUTA + NOMBRE DEL PRIMER PROYECTO
 			name_proyect=getCurrentFile(path);
 			file=name_proyect+".metawebdesign";
@@ -60,7 +59,10 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println(path+"/"+file);
-				modelo=ReadModel.loadXML(path, file);
+				//modelo=ReadModel.loadXML(path, file);
+				ReadModel m = new ReadModel();
+				m.loadXML(path,file);
+				modelo = m.getSQL();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -77,7 +79,10 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			//LECTURA DE XML Y GENERACIÓN DE LA BASE DE DATOS
 			try {
 				System.out.println(path+"/"+file);
-				modelo=ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
+				//modelo=ReadModel.loadXML(path, file);//LEE EL MODELO Y GENERA LA BASE DE DATOS
+				ReadModel m = new ReadModel();
+				m.loadXML(path,file);
+				modelo = m.getSQL();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

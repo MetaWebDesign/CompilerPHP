@@ -9,13 +9,18 @@ import java.util.List;
 
 public class ReadModel{
 	
-	public static SQL loadXML(String path, String file) throws IOException
+	protected SQL sql = new SQL();
+	List <Page> pages = new ArrayList<Page>();
+	//protected Menu menu = new Menu();
+	
+	//public static SQL loadXML(String path, String file) throws IOException
+	public void loadXML(String path, String file) throws IOException
 	{
-			SQL sql= new SQL();
+			//SQL sql= new SQL();
 			Tabla t=  new Tabla();
 			Roles r= new Roles();
 			
-			List <Page> pages = new ArrayList<Page>();
+			
 			Page p=new Page();
 			
 			//System.out.println("Load XML");
@@ -61,7 +66,7 @@ public class ReadModel{
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
 					if(cont_tabla !=0){
-						sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
+						this.sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
 					}
 					
 					//NUEVA TABLA
@@ -160,7 +165,7 @@ public class ReadModel{
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
 			        View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
-			        sql.addView(v);
+			        this.sql.addView(v);
 				}
 				
 				//BUSQUEDA RELACION
@@ -190,7 +195,7 @@ public class ReadModel{
 				//BUSQUEDA VISTA MODELADA O PAGE
 				if(x_view != -1){
 					if(cont_page!=0){
-						pages.add(p);
+						this.pages.add(p);
 						p = new Page();
 					}
 					if(x_view_title!=-1){
@@ -228,10 +233,9 @@ public class ReadModel{
 				
 			}
 			fr.close();
-			sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
-			pages.add(p);
-			//SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
-			return sql;
+			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
+			this.pages.add(p);
+			//this.sql=sql;
 	}
 	
 	
@@ -257,6 +261,16 @@ public class ReadModel{
 			return DataTypeModel;
 		}
 	}
+	
+	public SQL getSQL(){
+		return this.sql;
+	}
+	
+	public List<Page> getPages(){
+		return this.pages;
+	}
+	
+	
 	/*
 	public static void main(String[] args) throws IOException {
 		loadXML("home/leo/Documentos/github/runtime-EclipseApplication/Elearning/","elearning.metawebdesign" );

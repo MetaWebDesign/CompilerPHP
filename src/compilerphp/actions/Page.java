@@ -32,4 +32,5 @@ public class Page{
 	public String getTypePresentation(){
 		return this.typePresentation;
 	}
+	
 }
