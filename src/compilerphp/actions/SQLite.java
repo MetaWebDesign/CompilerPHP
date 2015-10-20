@@ -141,27 +141,6 @@ public class SQLite{
 			//DASHBOARD CONFIGURACION
 			dataBase.add("CREATE TABLE DashboardConf (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50), id_index integer, FOREIGN KEY(id_index) REFERENCES Views(id_view)); );");
 			
-			//TIPOS DE CAMPOS PARA LA GENERACIÓN DE FOMRULARIOS DESDE EL EDITOR DE MODELOS
-			/*
-			dataBase.add("CREATE TABLE TypePresentation (id_presentation integer primary key not null, presentationname varchar(50));");
-			
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('string');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('combobox');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('radiobuttom');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('itemList');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_email');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_password');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('form_file');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table_striped');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('table_hover');");
-			dataBase.add("INSERT INTO TypePresentation (presentationname) values ('img');;
-			
-			dataBase.add("CREATE TABLE ViewAttribute(id_view_attribute integer primary key not null, id_view integer, id_tabla integer, id_atributo_tabla integer, pos_x varchar(10), pos_y integer, id_presentation integer, FOREIGN KEY(id_view) REFERENCES Views(id_view), FOREIGN KEY(id_presentation) REFERENCES TypePresentation(id_presentation));");
-			
-			//DASHBOARD ERROR
-			dataBase.add("CREATE TABLE DashboardError (id_error integer primary key not null, error_titulo varchar(50), descrip text);");
-			*/
 			//DASHBOARD MEDIA
 			/*
 			 * Para gestor para subir archivo o fotos al sitio web
