@@ -3,6 +3,8 @@ package compilerphp.actions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReadModel{
@@ -12,15 +14,18 @@ public class ReadModel{
 			SQL sql= new SQL();
 			Tabla t=  new Tabla();
 			Roles r= new Roles();
-			System.out.println("Load XML");
 			
+			List <Page> pages = new ArrayList<Page>();;
+			Page p=new Page();
+			
+			System.out.println("Load XML");
+
 			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
 			int cont_tabla=0;//CONTADOR DE TABLAS
-			
+			int cont_page=0;//CONTADOR DE PAGINAS
 			String tabla = null;//NOMBRE DE LA TABLA
-			//int cont_tablas=0;
 		
 			//LECTURA
 			while((line = br.readLine()) != null) {
@@ -44,7 +49,13 @@ public class ReadModel{
 				int x_roles_fdelete=line.indexOf("functionDelete=");
 				int x_roles_findex=line.indexOf("functionIndex=");
 				int x_roles_fview=line.indexOf("functionView=");
-				//int x_roles_fadmin=line.indexOf("functionAdmin=");
+
+				//VISTAS
+				int x_view=line.indexOf("<views ");
+				int x_view_title=line.indexOf("title=");
+				int x_view_component=line.indexOf("<hasViewComponent");
+				int x_view_component_atributte=line.indexOf("getAttribute=");
+				int x_view_component_type_presentation=line.indexOf("typePresentation=");
 				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
@@ -65,7 +76,6 @@ public class ReadModel{
 			        if(x_roles_fcreate != -1){//CREATE
 			        	String substr_fcreate=line.substring(x_roles_fcreate+16	, line.length());
 			        	int stop_fcreate=substr_fcreate.indexOf("\"");
-			        	System.out.println("ROLES- "+tabla+" =>"+substr_fcreate.substring(0, stop_fcreate));
 			        	r.setFCreate(substr_fcreate.substring(0, stop_fcreate));
 			        	cont_tabla++;
 			        }
@@ -73,7 +83,6 @@ public class ReadModel{
 			        if(x_roles_fupdate != -1){//UPDATE
 			        	String substr_fupdate=line.substring(x_roles_fupdate+16	, line.length());
 			        	int stop_fupdate=substr_fupdate.indexOf("\"");
-			        	System.out.println("ROLES- "+tabla+" =>"+substr_fupdate.substring(0, stop_fupdate));
 			        	r.setFUpdate(substr_fupdate.substring(0, stop_fupdate));
 			        	cont_tabla++;
 			        }
@@ -81,7 +90,6 @@ public class ReadModel{
 			        if(x_roles_fdelete != -1){//DELETE
 			        	String substr_fdelete=line.substring(x_roles_fdelete+16	, line.length());
 			        	int stop_fdelete=substr_fdelete.indexOf("\"");
-			        	System.out.println("ROLES- "+tabla+" =>"+substr_fdelete.substring(0, stop_fdelete));
 			        	r.setFDelete(substr_fdelete.substring(0, stop_fdelete));
 			        	cont_tabla++;
 			        }
@@ -89,7 +97,6 @@ public class ReadModel{
 			        if(x_roles_findex != -1){//INDEX
 			        	String substr_findex=line.substring(x_roles_findex+15	, line.length());
 			        	int stop_findex=substr_findex.indexOf("\"");
-			        	System.out.println("ROLES- "+tabla+" =>"+substr_findex.substring(0, stop_findex));
 			        	r.setFIndex(substr_findex.substring(0, stop_findex));
 			        	cont_tabla++;
 			        }
@@ -97,7 +104,6 @@ public class ReadModel{
 			        if(x_roles_fview != -1){//VIEW
 			        	String substr_fview=line.substring(x_roles_fview+14	, line.length());
 			        	int stop_fview=substr_fview.indexOf("\"");
-			        	System.out.println("ROLES- "+tabla+" =>"+substr_fview.substring(0, stop_fview));
 			        	r.setFView(substr_fview.substring(0, stop_fview));
 			        	cont_tabla++;
 			        }
@@ -130,7 +136,6 @@ public class ReadModel{
 			        
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
-			        //System.out.println("Atributo nombre: "+atributo_nombre+" tipo: "+atributo_type);
 			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
 			        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
 				}
@@ -163,12 +168,15 @@ public class ReadModel{
 					//NOMBRE EN LA RELACION
 				     String substr_nombre=line.substring(x_relation_name+6, line.length());
 				     String substr_claseDestino=line.substring(x_relation_destination+32, line.length());
-				     String substr_atributoDestino=line.substring(x_relation_destination+49, line.length());
+				     int start_r_atributo=substr_claseDestino.indexOf("@");
+					 String substr_atributoDestino=line.substring(x_relation_destination+32+start_r_atributo+15, line.length());
+
 				     
 				     //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
 				     int stop_nombre=substr_nombre.indexOf("\"");
 				     int stop_classDestino=substr_claseDestino.indexOf("/");
 				     int stop_atributoDestino=substr_atributoDestino.indexOf("\"");
+				     
 				     
 				     //EXTRACCION DE DATOS DE LA RELACION
 				     String relation_name=substr_nombre.substring(0, stop_nombre);
@@ -178,14 +186,53 @@ public class ReadModel{
 				     ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
 				     t.addForeignKey(f);
 				}
-				//cont_tabla++;
+				
+				//BUSQUEDA VISTA MODELADA O PAGE
+				if(x_view != -1){
+					if(cont_page!=0){
+						pages.add(p);
+						p = new Page();
+					}
+					if(x_view_title!=-1){
+						 String substr_title=line.substring(x_view_title+7, line.length());
+						int title_stop=substr_title.indexOf("\"");
+						System.out.println("Titulo :"+substr_title.substring(0, title_stop));
+						//p.setTitle();
+					}
+				}
+				
+				
+				if(x_view_component!=-1){
+					if(x_view_component_atributte!=-1){
+						
+						String substr_clase=line.substring(x_view_component_atributte+23, line.length());
+						int start_atributo=substr_clase.indexOf("@");
+						String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
+						int clase_stop=substr_clase.indexOf("@");
+						int atributo_stop=substr_atributo.indexOf("\"");
+						System.out.println("Clase :"+substr_clase.substring(0, clase_stop-1));
+						System.out.println("Atributo :"+substr_atributo.substring(0, atributo_stop));
+						//ViewAttribute viewAttribute=new ViewAttribute();
+						//p.setAtributo(viewAttribute);
+					}
+					
+					if(x_view_component_type_presentation != -1){
+						String substr_presentation=line.substring(x_view_component_type_presentation+18, line.length());
+						int presentation_stop=substr_presentation.indexOf("\"");
+						System.out.println("typePresentation :"+substr_presentation.substring(0, presentation_stop));
+						//p.setTypePresentation();
+					}
+				}
+				
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
-			
+			//pages.add(p);
 			SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
 			return sql;
 	}
+	
+	
 	
 	//public static String typeAtributeVarChar(String DataType){
 	public static String typeAdaptAtribute(String DataTypeModel){

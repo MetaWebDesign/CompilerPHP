@@ -85,6 +85,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		}
 		
 		//GENERACION DE CODIGO PHP
+		
 		bar.updateProgress(40, "Creando Proyecto PHP");
 		PHP php=new PHP(path, modelo, name_proyect);
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
@@ -111,7 +112,9 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		bar.updateProgress(95, "Cargando atributos clases");
 		php.insertClassAtributo();//CARGA LOS ATRIBUTOS DE LAS CLASES PARA EDICIÓN DE VISTAS MODELADAS
 		bar.updateProgress(100, "Proyecto PHP creado!");
+		
 		windowMensajeInfo("Compilado con exito!");
+		
 	}
 
 	/**
