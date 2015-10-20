@@ -146,6 +146,7 @@ public class SQLite{
 			 * Para gestor para subir archivo o fotos al sitio web
 			 */
 			dataBase.add("CREATE TABLE DashboardMedia (id_media integer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
+			
 			// DASHBIARD PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS PAGINAS
 			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, service varchar(50) ,id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
@@ -275,5 +276,14 @@ public class SQLite{
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path_db+"/PHP/classAtributo.sh");
 	}
-	
+
+	public void insertPages(List <Page> pages){
+		String insert_page="";
+		for(Page page : pages){
+			for(ViewAttribute atribute : page.getAtributos()){
+				String insert="INSERT INTO ViewAdvance (id_vista, id_clase, atributo, typePresentation, x_position, y_position) VALUES (1, "+atribute.getClase()+", "+atribute.getAtributo()+",'"++"', 'center', 1);";
+				insert_page=insert_page="\n";
+			}	
+		}
+	}
 }
