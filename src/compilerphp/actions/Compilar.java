@@ -84,8 +84,16 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			}
 		}
 		
-		//GENERACION DE CODIGO PHP
+		//GENERACION DE LA BDD EN SQLite
+		try {
+			SQLite.createDB(modelo, path, file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		
+		//GENERACION DE CODIGO PHP
 		bar.updateProgress(40, "Creando Proyecto PHP");
 		PHP php=new PHP(path, modelo, name_proyect);
 		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");

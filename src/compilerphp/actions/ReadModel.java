@@ -15,10 +15,10 @@ public class ReadModel{
 			Tabla t=  new Tabla();
 			Roles r= new Roles();
 			
-			List <Page> pages = new ArrayList<Page>();;
+			List <Page> pages = new ArrayList<Page>();
 			Page p=new Page();
 			
-			System.out.println("Load XML");
+			//System.out.println("Load XML");
 
 			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
@@ -196,8 +196,8 @@ public class ReadModel{
 					if(x_view_title!=-1){
 						 String substr_title=line.substring(x_view_title+7, line.length());
 						int title_stop=substr_title.indexOf("\"");
-						System.out.println("Titulo :"+substr_title.substring(0, title_stop));
-						//p.setTitle();
+						//System.out.println("Titulo :"+substr_title.substring(0, title_stop));
+						p.setTitle(substr_title.substring(0, title_stop));
 					}
 				}
 				
@@ -210,25 +210,27 @@ public class ReadModel{
 						String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
 						int clase_stop=substr_clase.indexOf("@");
 						int atributo_stop=substr_atributo.indexOf("\"");
-						System.out.println("Clase :"+substr_clase.substring(0, clase_stop-1));
-						System.out.println("Atributo :"+substr_atributo.substring(0, atributo_stop));
-						//ViewAttribute viewAttribute=new ViewAttribute();
-						//p.setAtributo(viewAttribute);
+						//System.out.println("Clase :"+substr_clase.substring(0, clase_stop-1));
+						//System.out.println("Atributo :"+substr_atributo.substring(0, atributo_stop));
+						int int_clase= Integer.parseInt(substr_clase.substring(0, clase_stop-1));
+						int int_atributo= Integer.parseInt(substr_atributo.substring(0, atributo_stop));
+						ViewAttribute viewAttribute=new ViewAttribute(int_clase, int_atributo);
+						p.setAtributo(viewAttribute);
 					}
 					
 					if(x_view_component_type_presentation != -1){
 						String substr_presentation=line.substring(x_view_component_type_presentation+18, line.length());
 						int presentation_stop=substr_presentation.indexOf("\"");
-						System.out.println("typePresentation :"+substr_presentation.substring(0, presentation_stop));
-						//p.setTypePresentation();
+						//System.out.println("typePresentation :"+substr_presentation.substring(0, presentation_stop));
+						p.setTypePresentation(substr_presentation.substring(0, presentation_stop));
 					}
 				}
 				
 			}
 			fr.close();
 			sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
-			//pages.add(p);
-			SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
+			pages.add(p);
+			//SQLite.createDB(sql, path, file);//GENERO LA BASE DE DATOS EN SQLITE
 			return sql;
 	}
 	

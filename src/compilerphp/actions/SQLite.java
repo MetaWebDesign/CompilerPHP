@@ -22,8 +22,8 @@ public class SQLite{
 		List <Atributo> atributos;
 		List <ForeignKey> foreignKeys;
 		List <String> dataBase = new ArrayList<String>();
+		
 		//ESCRITURA DE LA NUEVA SENTENCIA
-			
 			//ESCRIVO LAS TABLAS
 			for(Tabla tabla : tablas) {
 				String linea_sql="";

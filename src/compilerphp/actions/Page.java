@@ -1,11 +1,12 @@
 package compilerphp.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Page{
 	protected String title;
-	protected List<ViewAttribute> atributos;
+	protected List<ViewAttribute> atributos = new ArrayList<ViewAttribute>();
 	protected String typePresentation;
 	
 	public void setTitle(String title_){
