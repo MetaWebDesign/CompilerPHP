@@ -284,7 +284,7 @@ public class SQLite{
 		int cont_page=5;
 		for(Page page : pages){
 			//INSERT PAGE
-			String insert_view_page="INSERT INTO Views (id_view, title, content) values ("+cont_page+",'"+page.getTitle()+"', ' ');";
+			String insert_view_page="INSERT INTO Views (id_view, title, content) values ("+cont_page+",'"+page.getTitle()+"', '"+page.getContentHTML()+"');";
 			insert_page=insert_page+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+insert_view_page+"\"\n";
 			for(ViewAttribute atribute : page.getAtributos()){
 				String insert_view_attribute="INSERT INTO ViewAdvance (id_vista, id_clase, atributo, typePresentation, x_position, y_position) VALUES ("+cont_page+", "+atribute.getClase()+", "+atribute.getAtributo()+",'"+atribute.getTypePresentation()+"', '"+atribute.getX_Pos()+"', "+atribute.getY_Pos()+");";

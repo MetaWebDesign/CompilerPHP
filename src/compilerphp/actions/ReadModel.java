@@ -16,15 +16,11 @@ public class ReadModel{
 	//public static SQL loadXML(String path, String file) throws IOException
 	public void loadXML(String path, String file) throws IOException
 	{
-			//SQL sql= new SQL();
 			Tabla t=  new Tabla();
 			Roles r= new Roles();
 			
-			
 			Page p=new Page();
 			
-			//System.out.println("Load XML");
-
 			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
@@ -35,7 +31,6 @@ public class ReadModel{
 			//LECTURA
 			while((line = br.readLine()) != null) {
 				
-				//System.out.println(line);
 				int x_class=line.indexOf("class name="); //IDENTIFICA UNA CLASE
 				int x_attribute=line.indexOf("<hasAttributes");//IDENTIFICA UN ATRIBUTO
 				int x_attribute_not_derived=line.indexOf("metawebdesign:NotDerived");//IDENTIFICA UN ATRIBUTO NO DERIVADO
@@ -58,6 +53,7 @@ public class ReadModel{
 				//VISTAS
 				int x_view=line.indexOf("<views ");
 				int x_view_title=line.indexOf("title=");
+				int x_view_content_html=line.indexOf("Content_HTML=");
 				int x_view_component=line.indexOf("<hasViewComponent");
 				int x_view_component_atributte=line.indexOf("getAttribute=");
 				int x_view_component_type_presentation=line.indexOf("typePresentation=");
@@ -203,9 +199,11 @@ public class ReadModel{
 					}
 					if(x_view_title!=-1){
 						 String substr_title=line.substring(x_view_title+7, line.length());
+						 String substr_html=line.substring( x_view_content_html+14, line.length());
 						int title_stop=substr_title.indexOf("\"");
-						//System.out.println("Titulo :"+substr_title.substring(0, title_stop));
+						int html_stop=substr_html.indexOf("\"");
 						p.setTitle(substr_title.substring(0, title_stop));
+						p.setContentHTML(substr_html.substring(0,html_stop));
 					}
 				}
 				
@@ -232,13 +230,6 @@ public class ReadModel{
 				    String pos_x=substr_x.substring(0, stop_x);
 				    int pos_y=Integer.parseInt(substr_y.substring(0, stop_y));
 				   
-				    System.out.println("Clase :"+substr_clase.substring(0, clase_stop-1));
-				    System.out.println("Atributo :"+substr_atributo.substring(0, atributo_stop));
-				    System.out.println("typePresentation :"+substr_presentation.substring(0, presentation_stop));
-				    System.out.println("X :"+substr_x.substring(0, stop_x));
-				    System.out.println("Y :"+substr_y.substring(0, stop_y));
-				    
-						
 					ViewAttribute viewAttribute=new ViewAttribute(int_clase, int_atributo, typePresentation, pos_x, pos_y);
 					p.setAtributo(viewAttribute);
 					
