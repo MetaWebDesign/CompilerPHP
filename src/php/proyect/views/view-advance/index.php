@@ -42,10 +42,31 @@ if($id_view){
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_vista',
-            'id_clase',
-            'atributo',
+            //'id',
+            //'id_vista',
+            [                      // the owner name of the model
+                'label' => 'Vista',
+                'value' => function ($data) {
+                    $vista=Views::find()->where(['id_view'=>$data->id_vista])->one();
+                    return $vista->title;
+                },
+            ],
+            //'id_clase',
+            [                      // the owner name of the model
+                'label' => 'Clase',
+                'value' => function ($data) {
+                    $clase=Dashboard::find()->where(['id'=>$data->id_clase])->one();
+                    return $clase->nombre;
+                },
+            ],
+            //'atributo',
+            [                      // the owner name of the model
+                'label' => 'Atributo',
+                'value' => function ($data) {
+                    $atributo=ClassAtributo::find()->where(['id'=>$data->atributo])->one();
+                    return $atributo->nombre;
+                },
+            ],
             'typePresentation',
             // 'x_position',
             // 'y_position',
