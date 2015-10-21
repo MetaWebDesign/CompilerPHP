@@ -253,7 +253,12 @@ public class PHP{
 	 */
 	public void insertPages(List <Page> pages){
 		SQLite sqlite = new SQLite();
-		
+		try {
+			sqlite.insertPages(pages);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

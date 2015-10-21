@@ -277,13 +277,27 @@ public class SQLite{
 		obj.executeCommand("bash "+path_db+"/PHP/classAtributo.sh");
 	}
 
-	public void insertPages(List <Page> pages){
+	public void insertPages(List <Page> pages) throws IOException{
+		ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter script_pages = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
 		String insert_page="";
+		int cont_page=5;
 		for(Page page : pages){
+			//INSERT PAGE
+			String insert_view_page="INSERT INTO Views (id_view, title, content) values ("+cont_page+",'"+page.getTitle()+"', ' ');";
+			insert_page=insert_page+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+insert_view_page+"\"\n";
 			for(ViewAttribute atribute : page.getAtributos()){
-				String insert="INSERT INTO ViewAdvance (id_vista, id_clase, atributo, typePresentation, x_position, y_position) VALUES (1, "+atribute.getClase()+", "+atribute.getAtributo()+",'"++"', 'center', 1);";
-				insert_page=insert_page="\n";
+				String insert_view_attribute="INSERT INTO ViewAdvance (id_vista, id_clase, atributo, typePresentation, x_position, y_position) VALUES ("+cont_page+", "+atribute.getClase()+", "+atribute.getAtributo()+",'"+atribute.getTypePresentation()+"', '"+atribute.getX_Pos()+"', "+atribute.getY_Pos()+");";
+				insert_page=insert_page+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+insert_view_attribute+"\"\n";
 			}	
 		}
+		script_pages = new FileWriter(path_db+"/PHP/pages.sh");
+		script_pages.write(insert_page);
+		script_pages.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path_db+"/PHP/pages.sh");
 	}
 }
