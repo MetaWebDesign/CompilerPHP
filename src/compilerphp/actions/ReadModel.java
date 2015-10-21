@@ -54,6 +54,7 @@ public class ReadModel{
 				int x_view=line.indexOf("<views ");
 				int x_view_title=line.indexOf("title=");
 				int x_view_content_html=line.indexOf("Content_HTML=");
+				int x_view_rol=line.indexOf("rolView=");
 				int x_view_component=line.indexOf("<hasViewComponent");
 				int x_view_component_atributte=line.indexOf("getAttribute=");
 				int x_view_component_type_presentation=line.indexOf("typePresentation=");
@@ -200,10 +201,13 @@ public class ReadModel{
 					if(x_view_title!=-1){
 						 String substr_title=line.substring(x_view_title+7, line.length());
 						 String substr_html=line.substring( x_view_content_html+14, line.length());
+						 String substr_rol=line.substring(x_view_rol+9, line.length());
 						int title_stop=substr_title.indexOf("\"");
 						int html_stop=substr_html.indexOf("\"");
+						int rol_stop=substr_rol.indexOf("\"");
 						p.setTitle(substr_title.substring(0, title_stop));
 						p.setContentHTML(substr_html.substring(0,html_stop));
+						p.setRol(substr_rol.substring(0, rol_stop));
 					}
 				}
 				

@@ -8,6 +8,7 @@ public class Page{
 	protected String title;
 	protected List<ViewAttribute> atributos = new ArrayList<ViewAttribute>();
 	protected String html;
+	protected String rol;
 
 	
 	public void setTitle(String title_){
@@ -22,6 +23,10 @@ public class Page{
 		this.html=html;
 	}
 	
+	public void setRol(String rol){
+		this.rol=rol;
+	}
+	
 	public String getTitle(){
 		return this.title;
 	}
@@ -32,5 +37,9 @@ public class Page{
 	
 	public String getContentHTML(){
 		return this.html;
+	}
+	
+	public String getRol(){
+		return this.rol;
 	}
 }
