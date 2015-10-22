@@ -104,7 +104,7 @@ if($id_view){
          [                      // the owner name of the model
              'label' => 'Atributo',
              'value' => function ($data) {
-                 $atributo=ClassAtributo::find()->where(['id'=>$data->atributo])->one();
+                 $atributo=ClassAtributo::find()->where(['id_atributo'=>$data->atributo, 'id_clase'=>$data->id_clase])->one();
                  return $atributo->nombre;
              },
          ],

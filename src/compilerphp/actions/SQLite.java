@@ -49,10 +49,6 @@ public class SQLite{
 			    	
 			    	if (!atributo.getType().equals("autoincremental")){
 			    		linea_sql=linea_sql+" "+atributo.getType();
-			    		/*
-			    		if(atributo.getPrimaryKey() == true){
-			    			linea_sql=linea_sql+" PRIMARY KEY";
-			    		}*/
 			    	}
 			    	coma++;
 			    }
@@ -61,8 +57,6 @@ public class SQLite{
 			    coma=0;
 			    //AGREGO ATRIBUTO DE LAS LLAVES FORANEA
 		    	for(ForeignKey fk : foreignKeys){
-		    		//String tablaDestino=tablas.get(fk.getDestination()).getNombre();
-		    		//String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();
 		    		String typeAtributo=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType();
 	    			linea_sql=linea_sql+", "+fk.getNombre()+" ";
 		    		if(typeAtributo.equals("autoincremental")){
@@ -136,7 +130,7 @@ public class SQLite{
 			dataBase.add("CREATE TABLE ViewAdvance (id integer primary key not null, id_vista integer, id_clase integer, atributo varchar(50), typePresentation varchar(50), x_position varchar(20), y_position integer, FOREIGN KEY(id_vista) REFERENCES Views(id_view), FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");
 			
 			//DASHBOARD ATRIBUTOS CLASES
-			dataBase.add("CREATE TABLE ClassAtributo (id integer primary key not null, nombre varchar(50), id_clase integer, FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");
+			dataBase.add("CREATE TABLE ClassAtributo (id integer primary key not null, nombre varchar(50), id_clase integer, id_atributo integer, FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");
 			
 			//DASHBOARD CONFIGURACION
 			dataBase.add("CREATE TABLE DashboardConf (id_web integer primary key not null, sitetitle varchar(30), tagline varchar(30),admin_mail varchar(50), id_index integer, FOREIGN KEY(id_index) REFERENCES Views(id_view)); );");
@@ -259,13 +253,15 @@ public class SQLite{
 	public void insertAtributosClases(SQL sql) throws IOException{
 		ExecuteShellComand obj= new ExecuteShellComand();
 		FileWriter script_atributo = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
-		int cont=1;
+		int id_tabla=1;
 		String insert_atributo="";
 		for(Tabla tabla: sql.getTablas()){
+			int id_atributo=1;
 			for (Atributo atributo : tabla.getAtributos()){
-				insert_atributo=insert_atributo+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"insert into ClassAtributo (nombre, id_clase) values ('"+atributo.getNombre()+"', "+cont+");\"\n";
+				insert_atributo=insert_atributo+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"insert into ClassAtributo (nombre, id_clase, id_atributo) values ('"+atributo.getNombre()+"', "+id_tabla+", "+id_atributo+");\"\n";
+				id_atributo++;
 			}
-			cont++;
+			id_tabla++;
 		}
 		script_atributo = new FileWriter(path_db+"/PHP/classAtributo.sh");
 		script_atributo.write(insert_atributo);

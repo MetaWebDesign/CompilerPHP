@@ -152,8 +152,7 @@ public class PHP_ViewForm{
 	    for(ForeignKey fk : foreignKeys){
 	    	Tabla destino=model.getTablaByInt(fk.getDestination());
 	    	Atributo destino_pk=destino.getPrimaryKey();
-			form=form+"<label class=\"control-label\" for=\""+tabla.getNombre()+"-"+fk.getNombre()+"\">"+destino.getNombre()+": </label>\n";
-			form=form+"<?= Html::activeDropDownList($model, '"+fk.getNombre()+"', ArrayHelper::map("+destino.getNombre()+"::find()->all(), '"+destino_pk.getNombre()+"', '"+destino.findNameAttribute()+"')) ?>\n";
+	    	form=form+"<?php echo $form->field($model, '"+fk.getNombre()+"')->dropDownList(ArrayHelper::map("+destino.getNombre()+"::find()->all(), '"+destino_pk.getNombre()+"', '"+destino.findNameAttribute()+"'), ['id'=>'"+destino_pk.getNombre()+"']); ?>\n";
 	    }
 		
 		form=form+"\n\n		 <div class=\"form-group\">\n";

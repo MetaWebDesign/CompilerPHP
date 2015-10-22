@@ -185,6 +185,7 @@ public class ReadModel{
 				     
 				     //EXTRACCION DE DATOS DE LA RELACION
 				     String relation_name=substr_nombre.substring(0, stop_nombre);
+				     //+1 por que modelo parte de cero y en la bdd parte de uno el ID
 				     int numClaseDestino= Integer.parseInt(substr_claseDestino.substring(0, stop_classDestino));
 				     int numAtributoDestino= Integer.parseInt(substr_atributoDestino.substring(0, stop_atributoDestino));
 				     
@@ -233,8 +234,8 @@ public class ReadModel{
 					String typePresentation=substr_presentation.substring(0, presentation_stop);
 				    String pos_x=substr_x.substring(0, stop_x);
 				    int pos_y=Integer.parseInt(substr_y.substring(0, stop_y));
-				   
-					ViewAttribute viewAttribute=new ViewAttribute(int_clase, int_atributo, typePresentation, pos_x, pos_y);
+				   //+1 ya que el ID del modelo parte de cero y el de la BDD parte de uno
+					ViewAttribute viewAttribute=new ViewAttribute(int_clase+1, int_atributo+1, typePresentation, pos_x, pos_y);
 					p.setAtributo(viewAttribute);
 					
 					
