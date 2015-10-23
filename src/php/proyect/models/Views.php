@@ -12,7 +12,8 @@ use Yii;
  * @property integer $id_rol
  * @property string $content
  *
- * @property ViewAttribute[] $viewAttributes
+ * @property DashboardConf[] $dashboardConfs
+ * @property ViewAdvance[] $viewAdvances
  * @property Roles $idRol
  */
 class Views extends \yii\db\ActiveRecord
@@ -53,9 +54,17 @@ class Views extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getViewAttributes()
+    public function getDashboardConfs()
     {
-        return $this->hasMany(ViewAttribute::className(), ['id_view' => 'id_view']);
+        return $this->hasMany(DashboardConf::className(), ['id_index' => 'id_view']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getViewAdvances()
+    {
+        return $this->hasMany(ViewAdvance::className(), ['id_vista' => 'id_view']);
     }
 
     /**

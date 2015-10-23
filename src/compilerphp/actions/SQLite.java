@@ -127,7 +127,7 @@ public class SQLite{
 			dataBase.add("CREATE TABLE Views(id_view integer primary key not null, title varchar(50), id_rol integer, content text, FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
 			//DASHBOARD PAGINAS (ADVANCE) VISTAS MODELADAS
-			dataBase.add("CREATE TABLE ViewAdvance (id integer primary key not null, id_vista integer, id_clase integer, atributo varchar(50), typePresentation varchar(50), x_position varchar(20), y_position integer, FOREIGN KEY(id_vista) REFERENCES Views(id_view), FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");
+			dataBase.add("CREATE TABLE ViewAdvance (id integer primary key not null, id_vista integer, id_clase integer, id_atributo integer, typePresentation varchar(50), x_position varchar(20), y_position integer, FOREIGN KEY(id_vista) REFERENCES Views(id_view), FOREIGN KEY(id_clase) REFERENCES Dashboard(id), FOREIGN KEY(id_atributo) REFERENCES ClassAtributo(id) );");
 			
 			//DASHBOARD ATRIBUTOS CLASES
 			dataBase.add("CREATE TABLE ClassAtributo (id integer primary key not null, nombre varchar(50), id_clase integer, id_atributo integer, FOREIGN KEY(id_clase) REFERENCES Dashboard(id));");

@@ -58,6 +58,12 @@ $this->params['breadcrumbs'][] = $this->title;
           array_push($table_striped, $view_advance);
         }
     }
+//SI ES UN STRING
+    if(count($string) > 0){
+       foreach($table_striped AS $dato){
+         echo "";
+       }
+    }
 
 //SI ES UNA TABLA STRIPED
     if(count($table_striped) > 0 || count($itemList) > 0){

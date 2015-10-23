@@ -23,9 +23,8 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
+    <?php echo $form->field($model, 'id_rol')->dropDownList(ArrayHelper::map(Roles::find()->all(), 'id_rol', 'rolname'), ['id'=>'id_rol']); ?>
 
-    <label class="control-label" for="Users-id_rol">Roles: </label>
-    <?= Html::activeDropDownList($model, 'id_rol', ArrayHelper::map(Roles::find()->all(), 'id_rol', 'rolname')) ?>
 
     <?= $form->field($model, 'content')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],

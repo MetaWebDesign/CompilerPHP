@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Views;
-use yii\data\ActiveDataProvider;
+use app\models\ViewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,44 +15,45 @@ use yii\filters\AccessControl;
  */
 class ViewsController extends Controller
 {
-  public function behaviors()
-  {
+    public function behaviors()
+    {
       return [
-          'access'=>[
-              'class'=>AccessControl::className(),
-              'rules'=>[
-                  [
-                      'actions'=>[
-                          'index',
-                          'create',
-                          'update',
-                          'delete',
-                          'view'
-                      ],
-                      'allow'=>true,
-                      'roles' => ['@'],
-                  ],
-              ],
-          ],
-          'verbs' => [
-              'class' => VerbFilter::className(),
-              'actions' => [
-                  'delete' => ['post'],
-              ],
-          ],
-      ];
-  }
+        'access'=>[
+            'class'=>AccessControl::className(),
+            'rules'=>[
+                [
+                    'actions'=>[
+                        'index',
+                        'create',
+                        'update',
+                        'delete',
+                        'view'
+                    ],
+                    'allow'=>true,
+                    'roles' => ['@'],
+                ],
+            ],
+        ],
+        'verbs' => [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'delete' => ['post'],
+            ],
+        ],
+    ];
+    }
+
     /**
      * Lists all Views models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Views::find(),
-        ]);
+        $searchModel = new ViewsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
