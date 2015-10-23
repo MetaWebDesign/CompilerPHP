@@ -33,20 +33,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     //----------------------------------------- Soporte ViewAdvance -------------------------------------//
 
-    $string=array();
-    $table=array();
+    $string=array();//OK
+    $table=array();//OK
     $combobox=array();
     $checkbox=array();
-    $itemList=array();
+    $itemList=array();//OK
     $form_email=array();
     $form_password=array();
     $form_file=array();
     $form_text=array();
     $form_text=array();
-    $table_striped=array();
-    $table_border=array();
-    $table_hover=array();
-    $img=array();
+    $table_striped=array();//OK
+    $table_border=array();//OK
+    $table_hover=array();//OK
+    $img=array();//OK
     $clase="ViewAdvance";
     $results=ViewAdvance::find()->where(['id_vista'=>$model->id_view])->all();
     //$results=$clase::find()->where(['id_vista'=>$model->id_view])->all();
@@ -54,19 +54,37 @@ $this->params['breadcrumbs'][] = $this->title;
         if($view_advance->typePresentation == "string"){
           array_push($string, $view_advance);
         }
-        if($view_advance->typePresentation == "table_striped"){
+        if($view_advance->typePresentation == "table_striped" || $view_advance->typePresentation == "table" || $view_advance->typePresentation == "table_hover" || $view_advance->typePresentation == "table_border" || $view_advance->typePresentation == "itemList" ){
           array_push($table_striped, $view_advance);
+        }
+
+        if($view_advance->typePresentation == "img"){
+          array_push($img, $view_advance);
         }
     }
 //SI ES UN STRING
     if(count($string) > 0){
-       foreach($table_striped AS $dato){
-         echo "";
+
+       foreach($string AS $dato){
+         $clase=Dashboard::find()->where(['id'=>$dato->id_clase])->one();
+         $atributo=ClassAtributo::find()->where(['id_atributo'=>$dato->id_atributo, 'id_clase'=>$dato->id_clase])->one();
+         echo "<h3>$clase->nombre - $atributo->nombre:</h3>";
+         $column=$connection->createCommand("SELECT ".$atributo->nombre." FROM ".$clase->nombre.";'");
+         $results2=$column->queryColumn();
+         $cont_elements=0;
+         foreach ($results2 as $r){
+            if($cont_elements > 0){
+              echo ",";
+            }
+            echo $r;
+            $cont_elements++;
+         }
+         echo ". <br><br>";
        }
     }
 
 //SI ES UNA TABLA STRIPED
-    if(count($table_striped) > 0 || count($itemList) > 0){
+    if(count($table_striped) > 0){
        //IMPRIMO LOS DATOS
        $objs=array();
        $cont_max=0;//cantidad maxima de filas a imprimir
@@ -112,6 +130,19 @@ $this->params['breadcrumbs'][] = $this->title;
         echo"</table>\n";
     }
 
+    if(count($img) > 0){
 
+       foreach($string AS $dato){
+         $clase=Dashboard::find()->where(['id'=>$dato->id_clase])->one();
+         $atributo=ClassAtributo::find()->where(['id_atributo'=>$dato->id_atributo, 'id_clase'=>$dato->id_clase])->one();
+         echo "<h3>$clase->nombre - $atributo->nombre:</h3>";
+         $column=$connection->createCommand("SELECT ".$atributo->nombre." FROM ".$clase->nombre.";'");
+         $results2=$column->queryColumn();
+         foreach ($results2 as $r){
+            echo "<img src=\"$r\" alt="..." class=\"img-thumbnail\">";
+         }
+         echo "<br><br>";
+       }
+    }
 ?>
 </div>

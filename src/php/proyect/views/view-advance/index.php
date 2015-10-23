@@ -22,12 +22,16 @@ $id_view = $request->get('id');
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
         <?= Html::a('Create View Advance', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
 
 <?php
 if($id_view){
+    $url="index.php?r=views/update&id=$id_view";
+    echo "<a href=\"$url\" class=\"btn btn-info\" role=\"button\">Back </a>";
+
+    $url2="index.php?r=views%2Fview&id=$id_view";
+    echo "<a href=\"$url2\" class=\"btn btn-warning\" role=\"button\"> Ver</a>";
 ?>
     <?php
     $results= ViewAdvance::find()->where(['id_vista'=>$id_view]);
@@ -76,6 +80,8 @@ if($id_view){
     ]); ?>
 <?php
 }else{
+  $url="index.php?r=views/index";
+  echo "<a href=\"$url\" class=\"btn btn-info\" role=\"button\">Back </a>";
  ?>
  <?= GridView::widget([
      'dataProvider' => $dataProvider,
@@ -100,13 +106,18 @@ if($id_view){
                  return $clase->nombre;
              },
          ],
-         //'id_atributo',
+         'id_atributo',
 
          [                      // the owner name of the model
              'label' => 'Atributo',
              'value' => function ($data) {
                  $atributo=ClassAtributo::find()->where(['id_atributo'=>$data->id_atributo, 'id_clase'=>$data->id_clase])->one();
-                 return $atributo->nombre;
+                 if($atributo){
+                   return $atributo->nombre;
+                }
+                else{
+                    return "None";
+                }
              },
          ],
          'typePresentation',
