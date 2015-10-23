@@ -119,21 +119,18 @@ class ViewAdvanceController extends Controller
         }
     }
 
-
     // THE CONTROLLER
     public function actionSubcat() {
-        $out = [];
-        if (isset($_POST['depdrop_parents'])) {
-            $parents = $_POST['depdrop_parents'];
-            if ($parents != null) {
-                $cat_id = $parents[0];
-                $out=ViewAdvance::getAtributo($cat_id);
-                echo json_encode(['output'=>$out, 'selected'=>'']);
-                return;
+      $out = [];
+      if (isset($_POST['depdrop_parents'])) {
+          $parents = $_POST['depdrop_parents'];
+          if ($parents != null) {
+              $cat_id = $parents[0];
+              $out=ViewAdvance::getAtributo($cat_id);
+              echo json_encode(['output'=>$out, 'selected'=>'']);
+              return;
             }
-        }
-        echo json_encode(['output'=>'', 'selected'=>'']);
-    }
-
-
+          }
+     echo json_encode(['output'=>'', 'selected'=>'']);
+  }
 }

@@ -59,11 +59,11 @@ if($id_view){
                     return $clase->nombre;
                 },
             ],
-            //'atributo',
+            //'id_atributo',
             [                      // the owner name of the model
                 'label' => 'Atributo',
                 'value' => function ($data) {
-                    $atributo=ClassAtributo::find()->where(['id_atributo'=>$data->atributo, 'id_clase'=>$data->id_clase])->one();
+                    $atributo=ClassAtributo::find()->where(['id_atributo'=>$data->id_atributo, 'id_clase'=>$data->id_clase])->one();
                     return $atributo->nombre;
                 },
             ],
@@ -100,15 +100,15 @@ if($id_view){
                  return $clase->nombre;
              },
          ],
-         'atributo',
-         /*
+         //'id_atributo',
+
          [                      // the owner name of the model
              'label' => 'Atributo',
              'value' => function ($data) {
-                 $atributo=ClassAtributo::find()->where(['id_atributo'=>$data->atributo, 'id_clase'=>$data->id_clase])->one();
+                 $atributo=ClassAtributo::find()->where(['id_atributo'=>$data->id_atributo, 'id_clase'=>$data->id_clase])->one();
                  return $atributo->nombre;
              },
-         ],*/
+         ],
          'typePresentation',
          // 'x_position',
          // 'y_position',

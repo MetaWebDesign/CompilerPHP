@@ -31,8 +31,8 @@ echo $form->field($model, 'id_clase')->dropDownList(ArrayHelper::map(Dashboard::
 
 // Child # 1
 
-echo $form->field($model, 'atributo')->widget(DepDrop::classname(), [
-  'options'=>['id'=>'subcat-atributo'],
+echo $form->field($model, 'id_atributo')->widget(DepDrop::classname(), [
+  'options'=>['id'=>'subcat-id_atributo'],
   //'options'=>ArrayHelper::map(ClassAtributo::find()->where(['id_clase'=>'1'])->all(), 'id', 'nombre'),
   'pluginOptions'=>[
       'depends'=>['id'],

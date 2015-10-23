@@ -18,8 +18,8 @@ class ViewAdvanceSearch extends ViewAdvance
     public function rules()
     {
         return [
-            [['id', 'id_vista', 'id_clase', 'y_position'], 'integer'],
-            [['atributo', 'typePresentation', 'x_position'], 'safe'],
+            [['id', 'id_vista', 'id_clase', 'id_atributo', 'y_position'], 'integer'],
+            [['typePresentation', 'x_position'], 'safe'],
         ];
     }
 
@@ -59,11 +59,11 @@ class ViewAdvanceSearch extends ViewAdvance
             'id' => $this->id,
             'id_vista' => $this->id_vista,
             'id_clase' => $this->id_clase,
+            'id_atributo' => $this->id_atributo,
             'y_position' => $this->y_position,
         ]);
 
-        $query->andFilterWhere(['like', 'atributo', $this->atributo])
-            ->andFilterWhere(['like', 'typePresentation', $this->typePresentation])
+        $query->andFilterWhere(['like', 'typePresentation', $this->typePresentation])
             ->andFilterWhere(['like', 'x_position', $this->x_position]);
 
         return $dataProvider;

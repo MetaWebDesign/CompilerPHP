@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'id_vista',
             'id_clase',
-            'atributo',
+            'id_atributo',
             'typePresentation',
             'x_position',
             'y_position',
