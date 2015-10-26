@@ -30,9 +30,32 @@ $this->params['breadcrumbs'][] = $this->title;
     echo "<center><h2>$model->title</h2></center>";
     echo $model->content;
     echo "<br><br>\n";
+    //----------------------------------------- Soporte ViewAdvance Menu ------------------------------------------//
 
-    //----------------------------------------- Soporte ViewAdvance -------------------------------------//
+    $results= Links::find()->where(['id_menu'=>1])->all();
+    echo "<div id=\"container\">";
+    //echo "<div style=\"float: left; width: 100px;\">\n";
+    echo " <div style=\"float:left;\">\n";
+    //echo "<div id=\"left\">\n";
+    echo "<div class=\"btn-group-vertical\" role=\"group\" aria-label=\"...\">\n";
+    echo "<ul>\n";
 
+    foreach ($results AS $link) {
+      echo "<a target=\"_blank\" href=\"$link->url\" class=\"btn btn-default\" role=\"button\">$link->nombre</a>\n";
+    }
+    echo "</ul> \n";
+    echo "</div>\n";
+    ?>
+
+
+<?php
+
+    echo "</div>\n";
+    echo "<div id=\"right\"></div>\n";
+    //----------------------------------------- Soporte ViewAdvance Atributos -------------------------------------//
+    //echo "<div style=\"float: center; \">\n";
+    //echo "<div id=\"center\">\n";
+    echo "<div style=\"float:right; width:75%\">\n";
     $string=array();//OK
     $table=array();//OK
     $combobox=array();
@@ -145,4 +168,6 @@ $this->params['breadcrumbs'][] = $this->title;
        }
     }
 ?>
+    </div>
+  </div>
 </div>
