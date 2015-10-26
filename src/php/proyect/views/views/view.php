@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $img=array();//OK
     $clase="ViewAdvance";
     $results=ViewAdvance::find()->where(['id_vista'=>$model->id_view])->all();
-    //$results=$clase::find()->where(['id_vista'=>$model->id_view])->all();
+
     foreach($results AS $view_advance){
         if($view_advance->typePresentation == "string"){
           array_push($string, $view_advance);
@@ -139,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
          $column=$connection->createCommand("SELECT ".$atributo->nombre." FROM ".$clase->nombre.";'");
          $results2=$column->queryColumn();
          foreach ($results2 as $r){
-            echo "<img src=\"$r\" alt="..." class=\"img-thumbnail\">";
+            echo "<img src=\"$r\" alt=\"...\" class=\"img-thumbnail\">";
          }
          echo "<br><br>";
        }

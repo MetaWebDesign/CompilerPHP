@@ -55,11 +55,20 @@ public class ReadModel{
 				int x_view_title=line.indexOf("title=");
 				int x_view_content_html=line.indexOf("Content_HTML=");
 				int x_view_rol=line.indexOf("rolView=");
-				int x_view_component=line.indexOf("<hasViewComponent");
+				int x_view_atributo=line.indexOf("metawebdesign:ViewAttribute");
 				int x_view_component_atributte=line.indexOf("getAttribute=");
 				int x_view_component_type_presentation=line.indexOf("typePresentation=");
 				int x_view_component_x=line.indexOf("positionHorizontal=");
 				int x_view_component_y=line.indexOf("postionVertical=");
+				
+				//MENUS
+				int x_view_menu=line.indexOf("metawebdesign:ViewAttribute");
+				int x_view_menu_name=line.indexOf("name=");
+				int x_view_menu_typeMenu=line.indexOf("typeMenu=");
+				int x_view_link_crud=line.indexOf("metawebdesign:LinkViewCRUD");
+				int x_view_link_crud_name=line.indexOf("name=");
+				int x_view_link_crud_service=line.indexOf("service=");
+				int x_view_link_crud_class=line.indexOf("fromClass=");
 				
 				
 				//BUSQUEDA TABLA
@@ -213,8 +222,7 @@ public class ReadModel{
 				}
 				
 				//VIEW ATTRIBUTE - PAGE
-				if(x_view_component!=-1){
-						
+				if(x_view_atributo!=-1){
 					String substr_clase=line.substring(x_view_component_atributte+23, line.length());
 					int start_atributo=substr_clase.indexOf("@");
 					String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
