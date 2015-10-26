@@ -308,11 +308,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <li>
                                     <a href="#">Widgets</a>
                                 </li>
-                                <li>
+                              <!--  <li>
                                     <a href="index.php?r=dashboard/index">Menús Dashboard</a>
-                                </li>
+                                </li>-->
                                 <li>
-                                    <a href="#">Menu Web</a>
+                                    <a href="index.php?r=menu/index">Menus</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
