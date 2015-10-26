@@ -103,30 +103,33 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		//GENERACION DE CODIGO PHP
 		bar.updateProgress(40, "Creando Proyecto PHP");
 		PHP php=new PHP(this.path, this.sql, this.name_proyect);
-		bar.updateProgress(62, "Creando Proyecto PHP - Codigo base");
+		bar.updateProgress(45, "Creando Proyecto PHP - Codigo base");
 		php.start();//IMPORTA EL CODIGO BASE AL PROYECTO PHP
 		php.yiiExec();//EJECUTA BASH PARA LA GENERACION DE MODELO, CONTROLADORES Y PAGINAS DE LOS SEVICIOS USANDO YII
-		bar.updateProgress(64, "Creando Proyecto PHP - Configurando Base de Datos");
+		bar.updateProgress(50, "Creando Proyecto PHP - Configurando Base de Datos");
 		php.configureBD_Gii(this.name_proyect+".db");//CONFIGURA LA BASE DE DATOS
-		bar.updateProgress(68, "Creando Proyecto PHP - Generado Modelos");
+		bar.updateProgress(55, "Creando Proyecto PHP - Generado Modelos");
 		php.genModel();//GENERA LOS MODELOS DE LAS TABLAS
-		bar.updateProgress(70, "Creando Proyecto PHP - Generado Controladores");
+		bar.updateProgress(57, "Creando Proyecto PHP - Generado Controladores");
 		php.genCRUD();//GENERA SERVICIOS Y VISTAS DE LAS TABLAS
-		bar.updateProgress(73, "Creando Proyecto PHP - Generado Modelos Vistas");
+		bar.updateProgress(60, "Creando Proyecto PHP - Generado Modelos Vistas");
 		php.genModelView();//GENERA LOS MODELOS DE LAS VISTAS
-		bar.updateProgress(77, "Creando Proyecto PHP - Generado Modelos Controladores Vistas");
+		bar.updateProgress(65, "Creando Proyecto PHP - Generado Modelos Controladores Vistas");
 		php.genCRUDView();//GENERA LOS CONTROLADORES DE LAS VISTAS
 		php.execPermisos();//PERIMISOS PARA QUE APACHE U OTRO PUEDA EJECUTAR EL SITIO WEB
-		bar.updateProgress(85, "Creando Proyecto PHP - Generado Vistas por defecto");
+		bar.updateProgress(70, "Creando Proyecto PHP - Generado Vistas por defecto");
 		php.genViewsDefault();//GENERA LAS VISTAS INDEX, ABOUT, CONTACT
 		php.configureBD_Apache(this.name_proyect+".db");
-		bar.updateProgress(89, "Configurando sitio web");
+		bar.updateProgress(75, "Configurando sitio web");
 		php.configureWeb();//CARGA LA CONFIGURACION DEL SITIO WEB
-		bar.updateProgress(90, "Configurando acceso a servicios");
+		bar.updateProgress(80, "Configurando acceso a servicios");
 		php.permisosCRUD();//CARGA LOS PERMISOS SOBRE LOS SERVICIOS DEL CRUD EN LA BDD
-		bar.updateProgress(95, "Cargando atributos clases");
+		bar.updateProgress(85, "Cargando atributos clases");
 		php.insertClassAtributo();//CARGA LOS ATRIBUTOS DE LAS CLASES PARA EDICIÓN DE VISTAS MODELADAS
+		bar.updateProgress(90, "Cargando vistas modeladas");
 		php.insertPages(m.getPages());
+		bar.updateProgress(95, "Cargando menus");
+		php.insertMenus(m.getMenus());
 		bar.updateProgress(100, "Proyecto PHP creado!");
 		windowMensajeInfo("Compilado con exito!");
 	}

@@ -261,4 +261,14 @@ public class PHP{
 		}
 	}
 	
+	public void insertMenus(List <Menu> menus){
+		SQLite sqlite = new SQLite();
+		try {
+			sqlite.insertMenus(menus, modelo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

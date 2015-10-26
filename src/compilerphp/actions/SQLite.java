@@ -143,9 +143,12 @@ public class SQLite{
 			// DASHBIARD PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS PAGINAS
 			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, service varchar(50) ,id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
-				
-			//DASHBOARD MENU
 			//MENU
+			
+			dataBase.add("CREATE TABLE Menu (id integer primary key not null, nombre varchar(50), type varchar(50));");
+			dataBase.add("CREATE TABLE Links (id integer primary key not null, nombre varchar(50), url varchar(70));");
+			dataBase.add("CREATE TABLE MenuLinks (id integer primary key not null, id_menu integer, id_link integer,  FOREIGN KEY (id_menu) REFERENCES Menu(id), FOREIGN KEY (id_link) REFERENCES Links(id));");
+			
 		return dataBase;
 	}
 	
@@ -296,5 +299,31 @@ public class SQLite{
 		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
 		//EJECUTO EL SCRIPT PARA CREAR LA BDD
 		obj.executeCommand("bash "+path_db+"/PHP/pages.sh");
+	}
+	
+	public void insertMenus(List <Menu> menus, SQL sql) throws IOException{
+		ExecuteShellComand obj= new ExecuteShellComand();
+		FileWriter script_menu = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
+		String insert_menu="";
+		int cont_menu=1;
+		int cont_link=1;
+		for(Menu menu : menus){
+			insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+"INSERT INTO Menu(nombre , type) VALUES ('"+menu.getName()+"', '"+menu.getTypeMenu()+"');\n";
+			for(LinkCRUD link_crud : menu.getLinksCRUD()){
+				Tabla tabla=sql.getTablaByInt(link_crud.getClase());
+				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+"INSERT INTO Links (nombre, url) VALUES ('"+link_crud.getName()+"', 'index.php?r="+tabla.getNombre().toLowerCase()+"/"+link_crud.getService()+"');\n";
+				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+"INSERT INTO MenuLinks (id_menu, id_link) VALUES ("+cont_menu+","+cont_link+");\n";
+				cont_link++;
+			}
+			cont_menu++;
+		}
+		script_menu = new FileWriter(path_db+"/PHP/menus.sh");
+		script_menu.write(insert_menu);
+		script_menu.close();
+		
+		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
+		obj.executeCommand("chmod +x "+path_db+"/PHP/*");
+		//EJECUTO EL SCRIPT PARA CREAR LA BDD
+		obj.executeCommand("bash "+path_db+"/PHP/menus.sh");
 	}
 }

@@ -253,6 +253,7 @@ public class ReadModel{
 				}
 				
 				//MENU
+				
 				if(x_view_menu != -1){
 					if(cont_menu!=0){
 						this.menus.add(m);
@@ -264,11 +265,14 @@ public class ReadModel{
 					int stop_menu_name=substr_menu_name.indexOf("\"");
 					int stop_menu_type=substr_typeMenu.indexOf("\"");
 					
-					System.out.println("Menu name:"+substr_menu_name.substring(0, stop_menu_name));
-					System.out.println("Menu TypeMenu:"+substr_typeMenu.substring(0, stop_menu_type));
+					//System.out.println("Menu name:"+substr_menu_name.substring(0, stop_menu_name));
+					//System.out.println("Menu TypeMenu:"+substr_typeMenu.substring(0, stop_menu_type));
+					m.setName(substr_menu_name.substring(0, stop_menu_name));
+					m.setTypeMenu(substr_typeMenu.substring(0, stop_menu_type));
 				}
 				
 				//LINKS CRUD
+				
 				if(x_view_link_crud !=-1){
 					String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
 					String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
@@ -278,17 +282,21 @@ public class ReadModel{
 					int stop_crud_service=substr_crud_service.indexOf("\"");
 					int stop_crud_clase=substr_crud_clase.indexOf("\"");
 					
-					System.out.println("Link CRUD name:"+substr_crud_name.substring(0, stop_crud_name));
-					System.out.println("Link CRUD service:"+substr_crud_service.substring(0, stop_crud_service));
-					System.out.println("Link CRUD clase:"+substr_crud_clase.substring(0, stop_crud_clase));
-					
+					//System.out.println("Link CRUD name:"+substr_crud_name.substring(0, stop_crud_name));
+					//System.out.println("Link CRUD service:"+substr_crud_service.substring(0, stop_crud_service));
+					//System.out.println("Link CRUD clase:"+substr_crud_clase.substring(0, stop_crud_clase));
+					String linkc_name=substr_crud_name.substring(0, stop_crud_name);
+					String linkc_service=substr_crud_service.substring(0, stop_crud_service);
+					int linkc_clase=Integer.parseInt(substr_crud_clase.substring(0, stop_crud_clase));
+					LinkCRUD link_crud = new LinkCRUD(linkc_name, linkc_service, linkc_clase);
+					m.addLinkCRUD(link_crud);
 				}
 				
 			}
 			fr.close();
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
 			this.pages.add(p);
-			//this.sql=sql;
+			//this.menus.add(m);
 	}
 	
 	
@@ -324,8 +332,8 @@ public class ReadModel{
 	}
 	
 	
-	/*
-	public static void main(String[] args) throws IOException {
-		loadXML("home/leo/Documentos/github/runtime-EclipseApplication/Elearning/","elearning.metawebdesign" );
-	}*/
+	public List<Menu> getMenus(){
+		return this.menus;
+	}
+	
 }
