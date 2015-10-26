@@ -9,9 +9,9 @@ import java.util.List;
 
 public class ReadModel{
 	
-	protected SQL sql = new SQL();
+	protected SQL sql = new SQL(); 
 	List <Page> pages = new ArrayList<Page>();
-	//protected Menu menu = new Menu();
+	List <Menu> menus = new ArrayList<Menu>();
 	
 	//public static SQL loadXML(String path, String file) throws IOException
 	public void loadXML(String path, String file) throws IOException
@@ -21,11 +21,14 @@ public class ReadModel{
 			
 			Page p=new Page();
 			
+			Menu m=new Menu();
+			
 			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
 			int cont_tabla=0;//CONTADOR DE TABLAS
 			int cont_page=0;//CONTADOR DE PAGINAS
+			int cont_menu=0;
 			String tabla = null;//NOMBRE DE LA TABLA
 		
 			//LECTURA
@@ -62,7 +65,7 @@ public class ReadModel{
 				int x_view_component_y=line.indexOf("postionVertical=");
 				
 				//MENUS
-				int x_view_menu=line.indexOf("metawebdesign:ViewAttribute");
+				int x_view_menu=line.indexOf("metawebdesign:NavegationMenu");
 				int x_view_menu_name=line.indexOf("name=");
 				int x_view_menu_typeMenu=line.indexOf("typeMenu=");
 				int x_view_link_crud=line.indexOf("metawebdesign:LinkViewCRUD");
@@ -246,6 +249,38 @@ public class ReadModel{
 					ViewAttribute viewAttribute=new ViewAttribute(int_clase+1, int_atributo+1, typePresentation, pos_x, pos_y);
 					p.setAtributo(viewAttribute);
 					
+					
+				}
+				
+				//MENU
+				if(x_view_menu != -1){
+					if(cont_menu!=0){
+						this.menus.add(m);
+						m = new Menu();
+					}
+					String substr_menu_name=line.substring(x_view_menu_name+6, line.length());
+					String substr_typeMenu=line.substring( x_view_menu_typeMenu+10, line.length());
+					
+					int stop_menu_name=substr_menu_name.indexOf("\"");
+					int stop_menu_type=substr_typeMenu.indexOf("\"");
+					
+					System.out.println("Menu name:"+substr_menu_name.substring(0, stop_menu_name));
+					System.out.println("Menu TypeMenu:"+substr_typeMenu.substring(0, stop_menu_type));
+				}
+				
+				//LINKS CRUD
+				if(x_view_link_crud !=-1){
+					String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
+					String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
+					String substr_crud_clase=line.substring( x_view_link_crud_class+20, line.length());
+					
+					int stop_crud_name=substr_crud_name.indexOf("\"");
+					int stop_crud_service=substr_crud_service.indexOf("\"");
+					int stop_crud_clase=substr_crud_clase.indexOf("\"");
+					
+					System.out.println("Link CRUD name:"+substr_crud_name.substring(0, stop_crud_name));
+					System.out.println("Link CRUD service:"+substr_crud_service.substring(0, stop_crud_service));
+					System.out.println("Link CRUD clase:"+substr_crud_clase.substring(0, stop_crud_clase));
 					
 				}
 				

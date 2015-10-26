@@ -78,7 +78,6 @@ public class SQLite{
 		    	}
 		    	
 		    	linea_sql=linea_sql+");";
-		    	//System.out.println(linea_sql);
 		    	dataBase.add(linea_sql);
 	        }
 			
@@ -175,7 +174,7 @@ public class SQLite{
 		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
 			script_bdd.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
-			System.out.println("sqlite3-> "+sql_line);
+			//System.out.println("sqlite3-> "+sql_line);
 		}
 		script_bdd.close();	
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
