@@ -28,20 +28,6 @@ public class Yii{
 		for(Tabla tabla : tablas) {
 			script_model.write("./yii gii/model --tableName="+tabla.getNombre()+" --modelClass="+tabla.getNombre()+" --interactive=0\n");
 		}
-		
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DE LOS MODELOS DASHBOARD
-		//script_model.write("./yii gii/model --tableName=Dashboard --modelClass=Dashboard --interactive=0  --generateQuery=1 --generateRelations=1 --overwrite=1 \n");
-		//script_model.write("./yii gii/model --tableName=DashboardConf --modelClass=DashboardConf --interactive=0\n"); //LO CARGA POR DEFECTO
-		//script_model.write("./yii gii/model --tableName=Views --modelClass=Views --interactive=0\n");//LO CARGA POR DEFECTO
-		
-		/*
-		script_model.write("./yii gii/model --tableName=TypePresentation --modelClass=TypePresentation --interactive=0\n");
-		script_model.write("./yii gii/model --tableName=ViewAttribute --modelClass=ViewAttribute --interactive=0\n");
-		script_model.write("./yii gii/model --tableName=DashboardError --modelClass=DashboardError --interactive=0\n");
-		*/
-		
-		//script_model.write("./yii gii/model --tableName=DashboardMedia --modelClass=DashboardMedia --interactive=0\n");//LO CARGA POR DEFECTO
-		//script_model.write("./yii gii/model --tableName=DashboardPermisoscrud --modelClass=DashboardPermisoscrud --interactive=0\n");//LO CARGA POR DEFECTO
 		script_model.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
@@ -63,15 +49,6 @@ public class Yii{
 		for(Tabla tabla : tablas) {
 			script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+" --controllerClass=\\\\app\\\\controllers\\\\"+tabla.getNombre()+"Controller --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\"+tabla.getNombre()+"Search\n");
 		}
-		//ESCRITURA DEL SCRIPT PARA LA CREACION DEL CRUD DASHBOARD
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Dashboard --controllerClass=\\\\app\\\\controllers\\\\DashboardController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardSearch\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardConf --controllerClass=\\\\app\\\\controllers\\\\DashboardConfController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardConfSearch\n");//LO CARGA POR DEFECTO
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\Views --controllerClass=\\\\app\\\\controllers\\\\ViewsController--overwrite=1 --searchModelClass=\\\\app\\\\models\\\\ViewsSearch\n");//LO CARGA POR DEFECTO
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\TypePresentation  --controllerClass=\\\\app\\\\controllers\\\\TypePresentationController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\TypePresentationSearch\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\ViewAttribute --controllerClass=\\\\app\\\\controllers\\\\ViewAttributeController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\ViewAttributeSearch\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardError --controllerClass=\\\\app\\\\controllers\\\\DashboardErrorController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardErrorSearch\n");
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardMedia --controllerClass=\\\\app\\\\controllers\\\\DashboardMediaController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardMediaSearch\n");//LO CARGA POR DEFECTO
-		//script_crud.write("./yii gii/crud --interactive=0 --modelClass=\\\\app\\\\models\\\\DashboardPermisoscrud --controllerClass=\\\\app\\\\controllers\\\\DashboardPermisoscrudController --overwrite=1 --searchModelClass=\\\\app\\\\models\\\\DashboardPermisoscrudSearch\n");//LO CARGA POR DEFECTO
 		script_crud.close();
 		
 		//DOY PERMISOS AL SCRIPT DE EJECUCIÓN
