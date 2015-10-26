@@ -308,11 +308,11 @@ public class SQLite{
 		int cont_menu=1;
 		int cont_link=1;
 		for(Menu menu : menus){
-			insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+"INSERT INTO Menu(nombre , type) VALUES ('"+menu.getName()+"', '"+menu.getTypeMenu()+"');\n";
+			insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+"INSERT INTO Menu(nombre , type) VALUES ('"+menu.getName()+"', '"+menu.getTypeMenu()+"');\"\n";
 			for(LinkCRUD link_crud : menu.getLinksCRUD()){
 				Tabla tabla=sql.getTablaByInt(link_crud.getClase());
-				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+"INSERT INTO Links (nombre, url) VALUES ('"+link_crud.getName()+"', 'index.php?r="+tabla.getNombre().toLowerCase()+"/"+link_crud.getService()+"');\n";
-				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+"INSERT INTO MenuLinks (id_menu, id_link) VALUES ("+cont_menu+","+cont_link+");\n";
+				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO Links (nombre, url) VALUES ('"+link_crud.getName()+"', 'index.php?r="+tabla.getNombre().toLowerCase()+"/"+link_crud.getService()+"');\"\n";
+				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO MenuLinks (id_menu, id_link) VALUES ("+cont_menu+","+cont_link+");\"\n";
 				cont_link++;
 			}
 			cont_menu++;
