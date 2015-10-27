@@ -281,13 +281,13 @@ public class SQLite{
 		for(Page page : pages){
 			//INSERT PAGE
 			//ROL
-			
 			String insert_view_page="INSERT INTO Views (id_view, title, content, id_rol) values ("+cont_page+",'"+page.getTitle()+"', '"+page.getContentHTML()+"', (SELECT id_rol FROM Roles where rolname='"+page.getRol().toLowerCase()+"' ));";
 			insert_page=insert_page+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+insert_view_page+"\"\n";
 			for(ViewAttribute atribute : page.getAtributos()){
 				String insert_view_attribute="INSERT INTO ViewAdvance (id_vista, id_clase, id_atributo, typePresentation, x_position, y_position) VALUES ("+cont_page+", "+atribute.getClase()+", "+atribute.getAtributo()+",'"+atribute.getTypePresentation()+"', '"+atribute.getX_Pos()+"', "+atribute.getY_Pos()+");";
 				insert_page=insert_page+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+insert_view_attribute+"\"\n";
-			}	
+			}
+			cont_page++;
 		}
 		script_pages = new FileWriter(path_db+"/PHP/pages.sh");
 		script_pages.write(insert_page);

@@ -54,7 +54,7 @@ public class ReadModel{
 				int x_roles_fview=line.indexOf("functionView=");
 
 				//VISTAS
-				int x_view=line.indexOf("<views ");
+				int x_view=line.indexOf("metawebdesign:Page");
 				int x_view_title=line.indexOf("title=");
 				int x_view_content_html=line.indexOf("Content_HTML=");
 				int x_view_rol=line.indexOf("rolView=");
@@ -209,19 +209,20 @@ public class ReadModel{
 				if(x_view != -1){
 					if(cont_page!=0){
 						this.pages.add(p);
-						p = new Page();
 					}
-					if(x_view_title!=-1){
-						 String substr_title=line.substring(x_view_title+7, line.length());
-						 String substr_html=line.substring( x_view_content_html+14, line.length());
-						 String substr_rol=line.substring(x_view_rol+9, line.length());
-						int title_stop=substr_title.indexOf("\"");
-						int html_stop=substr_html.indexOf("\"");
-						int rol_stop=substr_rol.indexOf("\"");
-						p.setTitle(substr_title.substring(0, title_stop));
-						p.setContentHTML(substr_html.substring(0,html_stop));
-						p.setRol(substr_rol.substring(0, rol_stop));
-					}
+					
+					p = new Page();
+					
+					String substr_title=line.substring(x_view_title+7, line.length());
+					String substr_html=line.substring( x_view_content_html+14, line.length());
+					String substr_rol=line.substring(x_view_rol+9, line.length());
+					int title_stop=substr_title.indexOf("\"");
+					int html_stop=substr_html.indexOf("\"");
+					int rol_stop=substr_rol.indexOf("\"");
+					p.setTitle(substr_title.substring(0, title_stop));
+					p.setContentHTML(substr_html.substring(0,html_stop));
+					p.setRol(substr_rol.substring(0, rol_stop));
+					cont_page++;
 				}
 				
 				//VIEW ATTRIBUTE - PAGE
@@ -230,8 +231,8 @@ public class ReadModel{
 					int start_atributo=substr_clase.indexOf("@");
 					String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
 					String substr_presentation=line.substring(x_view_component_type_presentation+18, line.length());
-					 String substr_x=line.substring(x_view_component_x+20, line.length());
-					 String substr_y=line.substring(x_view_component_y+17, line.length());
+					String substr_x=line.substring(x_view_component_x+20, line.length());
+					String substr_y=line.substring(x_view_component_y+17, line.length());
 						
 					int clase_stop=substr_clase.indexOf("@");
 					int atributo_stop=substr_atributo.indexOf("\"");
@@ -248,8 +249,6 @@ public class ReadModel{
 				   //+1 ya que el ID del modelo parte de cero y el de la BDD parte de uno
 					ViewAttribute viewAttribute=new ViewAttribute(int_clase+1, int_atributo+1, typePresentation, pos_x, pos_y);
 					p.setAtributo(viewAttribute);
-					
-					
 				}
 				
 				//MENU
@@ -257,8 +256,9 @@ public class ReadModel{
 				if(x_view_menu != -1){
 					if(cont_menu!=0){
 						this.menus.add(m);
-						m = new Menu();
+						
 					}
+					m = new Menu();
 					String substr_menu_name=line.substring(x_view_menu_name+6, line.length());
 					String substr_typeMenu=line.substring( x_view_menu_typeMenu+10, line.length());
 					
@@ -292,6 +292,7 @@ public class ReadModel{
 			fr.close();
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
 			this.pages.add(p);
+			System.out.println("Guardo Page "+cont_page);
 			this.menus.add(m);
 	}
 	
