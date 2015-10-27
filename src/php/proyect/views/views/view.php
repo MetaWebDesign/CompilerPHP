@@ -32,21 +32,25 @@ $this->params['breadcrumbs'][] = $this->title;
     echo "<br><br>\n";
     //----------------------------------------- Soporte ViewAdvance Menu ------------------------------------------//
     $menu= Menu::find()->where(['id_view'=>$model->id_view])->one();
-
+      echo "<div id=\"container\">";
     if($menu){
       $results= Links::find()->where(['id_menu'=>$menu->id])->all();
-      echo "<div id=\"container\">";
-      //echo "<div style=\"float: left; width: 100px;\">\n";
+
       echo " <div style=\"float:left;\">\n";
-      //echo "<div id=\"left\">\n";
-      echo "<div class=\"btn-group-vertical\" role=\"group\" aria-label=\"...\">\n";
-      echo "<div><center><b>$menu->nombre</b></center></div>";
+
+      echo "<div class=\"panel panel-default\">\n";
+      echo "  <div class=\"panel-heading\">\n";
+      echo "    <h3 class=\"panel-title\">$menu->nombre</h3>\n";
+      echo "  </div>\n";
+      echo "<div class=\"panel-body\">";
       echo "<ul>\n";
 
       foreach ($results AS $link) {
-        echo "<a target=\"_blank\" href=\"$link->url\" class=\"btn btn-default\" role=\"button\">$link->nombre</a><br>\n";
+        echo "<li><a target=\"_blank\" href=\"$link->url\">$link->nombre</a></li>\n";
       }
       echo "</ul> \n";
+      echo "</div>\n";
+      echo "</div>\n";
       echo "</div>\n";
     }
     ?>

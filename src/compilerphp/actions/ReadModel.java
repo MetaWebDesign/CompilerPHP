@@ -304,7 +304,7 @@ public class ReadModel{
 					String linkv_name=substr_link_name.substring(0, stop_link_view_name);
 					int linkv_view=Integer.parseInt(substr_link_id_view.substring(0, stop_link_view_id_view));
 
-					LinkView link_view= new LinkView(linkv_name, linkv_view+4);
+					LinkView link_view= new LinkView(linkv_name, linkv_view+5);
 					m.addLinkView(link_view);
 				}
 				
