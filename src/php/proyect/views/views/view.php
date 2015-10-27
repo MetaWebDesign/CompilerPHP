@@ -32,19 +32,23 @@ $this->params['breadcrumbs'][] = $this->title;
     echo "<br><br>\n";
     //----------------------------------------- Soporte ViewAdvance Menu ------------------------------------------//
 
-    $results= Links::find()->where(['id_menu'=>1])->all();
-    echo "<div id=\"container\">";
-    //echo "<div style=\"float: left; width: 100px;\">\n";
-    echo " <div style=\"float:left;\">\n";
-    //echo "<div id=\"left\">\n";
-    echo "<div class=\"btn-group-vertical\" role=\"group\" aria-label=\"...\">\n";
-    echo "<ul>\n";
+    $menu= Menu::find()->where(['id_view'=>$model->id_view])->one();
+      
+    if($menu){
+      $results= Links::find()->where(['id_menu'=>$menu->id])->all();
+      echo "<div id=\"container\">";
+      //echo "<div style=\"float: left; width: 100px;\">\n";
+      echo " <div style=\"float:left;\">\n";
+      //echo "<div id=\"left\">\n";
+      echo "<div class=\"btn-group-vertical\" role=\"group\" aria-label=\"...\">\n";
+      echo "<ul>\n";
 
-    foreach ($results AS $link) {
-      echo "<a target=\"_blank\" href=\"$link->url\" class=\"btn btn-default\" role=\"button\">$link->nombre</a>\n";
+      foreach ($results AS $link) {
+        echo "<a target=\"_blank\" href=\"$link->url\" class=\"btn btn-default\" role=\"button\">$link->nombre</a>\n";
+      }
+      echo "</ul> \n";
+      echo "</div>\n";
     }
-    echo "</ul> \n";
-    echo "</div>\n";
     ?>
 
 

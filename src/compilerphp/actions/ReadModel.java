@@ -255,8 +255,7 @@ public class ReadModel{
 				
 				if(x_view_menu != -1){
 					if(cont_menu!=0){
-						this.menus.add(m);
-						
+						this.menus.add(m);	
 					}
 					m = new Menu();
 					String substr_menu_name=line.substring(x_view_menu_name+6, line.length());
@@ -267,7 +266,7 @@ public class ReadModel{
 					
 					m.setName(substr_menu_name.substring(0, stop_menu_name));
 					m.setTypeMenu(substr_typeMenu.substring(0, stop_menu_type));
-					m.setIdView(cont_page+1);
+					m.setIdView(cont_page+3);
 				}
 				
 				//LINKS CRUD
