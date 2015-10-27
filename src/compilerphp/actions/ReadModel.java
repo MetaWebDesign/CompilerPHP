@@ -266,7 +266,7 @@ public class ReadModel{
 					
 					m.setName(substr_menu_name.substring(0, stop_menu_name));
 					m.setTypeMenu(substr_typeMenu.substring(0, stop_menu_type));
-					m.setIdView(cont_page+3);
+					m.setIdView(cont_page+4);
 				}
 				
 				//LINKS CRUD
