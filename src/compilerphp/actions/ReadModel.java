@@ -68,11 +68,17 @@ public class ReadModel{
 				int x_view_menu=line.indexOf("metawebdesign:NavegationMenu");
 				int x_view_menu_name=line.indexOf("name=");
 				int x_view_menu_typeMenu=line.indexOf("typeMenu=");
+				
+				//LINK CRUD
 				int x_view_link_crud=line.indexOf("metawebdesign:LinkViewCRUD");
 				int x_view_link_crud_name=line.indexOf("name=");
 				int x_view_link_crud_service=line.indexOf("service=");
 				int x_view_link_crud_class=line.indexOf("fromClass=");
 				
+				//LINK VIEW
+				int x_view_link_view=line.indexOf("metawebdesign:LinkView");
+				int x_view_link_view_name=line.indexOf("name=");
+				int x_view_link_view_id_view=line.indexOf("linkView=");
 				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
@@ -270,7 +276,7 @@ public class ReadModel{
 				}
 				
 				//LINKS CRUD
-				if(x_view_link_crud !=-1){
+				if(x_view_link_crud !=-1 &&  x_view_link_crud_service != -1){
 					String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
 					String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
 					String substr_crud_clase=line.substring( x_view_link_crud_class+20, line.length());
@@ -286,12 +292,28 @@ public class ReadModel{
 					m.addLinkCRUD(link_crud);
 				}
 				
+				//LINKS VIEW
+				if(x_view_link_view != -1 && x_view_link_view_id_view != -1){
+					
+					String substr_link_name=line.substring(x_view_link_view_name+6, line.length());
+					String substr_link_id_view=line.substring(x_view_link_view_id_view+19, line.length());
+					
+					int stop_link_view_name=substr_link_name.indexOf("\"");
+					int stop_link_view_id_view=substr_link_id_view.indexOf("\"");
+					
+					String linkv_name=substr_link_name.substring(0, stop_link_view_name);
+					int linkv_view=Integer.parseInt(substr_link_id_view.substring(0, stop_link_view_id_view));
+
+					LinkView link_view= new LinkView(linkv_name, linkv_view+4);
+					m.addLinkView(link_view);
+				}
+				
 			}
 			fr.close();
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
 			this.pages.add(p);
 			this.menus.add(m);
-			System.out.println("Guardo Menu "+cont_menu);
+			
 	}
 	
 	

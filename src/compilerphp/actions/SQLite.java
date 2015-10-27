@@ -310,6 +310,10 @@ public class SQLite{
 				Tabla tabla=sql.getTablaByInt(link_crud.getClase());
 				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO Links (nombre, url, id_menu) VALUES ('"+link_crud.getName()+"', 'index.php?r="+tabla.getNombre().toLowerCase()+"/"+link_crud.getService()+"', "+cont_menu+");\"\n";
 			}
+			
+			for(LinkView link_view : menu.getLinksView()){
+				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO Links (nombre, url, id_menu) VALUES ('"+link_view.getName()+"', 'index.php?r=views/view&id="+link_view.getIdView()+"', "+cont_menu+");\"\n";
+			}
 			cont_menu++;
 		}
 		script_menu = new FileWriter(path_db+"/PHP/menus.sh");

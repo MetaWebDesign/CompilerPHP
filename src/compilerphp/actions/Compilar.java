@@ -99,7 +99,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			e.printStackTrace();
 		}
 		
-		
 		//GENERACION DE CODIGO PHP
 		bar.updateProgress(40, "Creando Proyecto PHP");
 		PHP php=new PHP(this.path, this.sql, this.name_proyect);
