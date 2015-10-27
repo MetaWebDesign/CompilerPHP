@@ -252,7 +252,6 @@ public class ReadModel{
 				}
 				
 				//MENU
-				
 				if(x_view_menu != -1){
 					if(cont_menu!=0){
 						this.menus.add(m);	
@@ -267,10 +266,10 @@ public class ReadModel{
 					m.setName(substr_menu_name.substring(0, stop_menu_name));
 					m.setTypeMenu(substr_typeMenu.substring(0, stop_menu_type));
 					m.setIdView(cont_page+4);
+					cont_menu++;
 				}
 				
 				//LINKS CRUD
-				
 				if(x_view_link_crud !=-1){
 					String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
 					String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
@@ -291,8 +290,8 @@ public class ReadModel{
 			fr.close();
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
 			this.pages.add(p);
-			System.out.println("Guardo Page "+cont_page);
 			this.menus.add(m);
+			System.out.println("Guardo Menu "+cont_menu);
 	}
 	
 	
