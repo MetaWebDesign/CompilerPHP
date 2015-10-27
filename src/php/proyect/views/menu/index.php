@@ -1,5 +1,5 @@
 <?php
-
+namespace app\models;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -28,6 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nombre',
             'type',
+            //'id_view',
+            [                      // the owner name of the model
+                'label' => 'Vista',
+                'value' => function ($data) {
+                    $vista=Views::find()->where(['id_view'=>$data->id_view])->one();
+                    return $vista->title;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

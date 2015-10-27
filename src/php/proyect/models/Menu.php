@@ -10,8 +10,10 @@ use Yii;
  * @property integer $id
  * @property string $nombre
  * @property string $type
+ * @property integer $id_view
  *
  * @property Links[] $links
+ * @property Views $idView
  */
 class Menu extends \yii\db\ActiveRecord
 {
@@ -29,6 +31,7 @@ class Menu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['id_view'], 'integer'],
             [['nombre', 'type'], 'string', 'max' => 50]
         ];
     }
@@ -42,6 +45,7 @@ class Menu extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre' => 'Nombre',
             'type' => 'Type',
+            'id_view' => 'Id View',
         ];
     }
 
@@ -51,5 +55,13 @@ class Menu extends \yii\db\ActiveRecord
     public function getLinks()
     {
         return $this->hasMany(Links::className(), ['id_menu' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdView()
+    {
+        return $this->hasOne(Views::className(), ['id_view' => 'id_view']);
     }
 }

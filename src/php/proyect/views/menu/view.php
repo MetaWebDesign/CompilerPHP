@@ -37,23 +37,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nombre',
             'type',
+            'id_view',
         ],
     ]) ?>
-
     <?php
-    echo "<center><h3>Links:</h3></center>\n";
-    $results= Links::find()->where(['id_menu'=>$model->id])->all();
-    echo " <table class=\"table table-striped table-bordered detail-view\">\n";
-    $cont_links=1;
-    foreach ($results AS $link) {
-      echo "<tr>\n";
-      echo "<td>$cont_links</td>\n";
-      echo "<td>$link->nombre</td>";
-      echo "<td><a href=\"index.php?r=links/update&id=$link->id\">$link->url</a></td>";
-      echo "</tr>\n";
-      $cont_links++;
-    }
-    echo "</table>\n";
-    ?>
-
+      echo "<center><h3>Links:</h3></center>\n";
+      $results= Links::find()->where(['id_menu'=>$model->id])->all();
+      echo " <table class=\"table table-striped table-bordered detail-view\">\n";
+      $cont_links=1;
+      foreach ($results AS $link) {
+        echo "<tr>\n";
+        echo "<td>$cont_links</td>\n";
+        echo "<td>$link->nombre</td>";
+        echo "<td><a href=\"index.php?r=links/update&id=$link->id\">$link->url</a></td>";
+        echo "</tr>\n";
+        $cont_links++;
+      }
+      echo "</table>\n";
+      ?>
 </div>

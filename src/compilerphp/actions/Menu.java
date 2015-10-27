@@ -6,6 +6,7 @@ import java.util.List;
 public class Menu{
 	protected String name;
 	protected String typeMenu;
+	protected int id_view;
 	protected List <LinkCRUD> links_crud;
 	
 	public Menu(){
@@ -22,6 +23,14 @@ public class Menu{
 	
 	public void addLinkCRUD(LinkCRUD link){
 		this.links_crud.add(link);
+	}
+	
+	public void setIdView(int id){
+		this.id_view=id;
+	}
+	
+	public int getIdView(){
+		return this.id_view;
 	}
 	
 	public String getName(){

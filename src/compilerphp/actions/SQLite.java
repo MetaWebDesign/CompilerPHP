@@ -144,7 +144,7 @@ public class SQLite{
 			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, service varchar(50) ,id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
 			
 			//MENU
-			dataBase.add("CREATE TABLE Menu (id integer primary key not null, nombre varchar(50), type varchar(50));");
+			dataBase.add("CREATE TABLE Menu (id integer primary key not null, nombre varchar(50), type varchar(50), id_view integer, FOREIGN KEY (id_view) REFERENCES Views(id_view) );");
 			dataBase.add("CREATE TABLE Links (id integer primary key not null, nombre varchar(50), url varchar(70), id_menu integer, FOREIGN KEY (id_menu) REFERENCES Menu(id));");
 			
 		return dataBase;
@@ -304,13 +304,11 @@ public class SQLite{
 		FileWriter script_menu = null;//SCRIPT BASH PARA CREAR LA BDD SQLITE3
 		String insert_menu="";
 		int cont_menu=1;
-		//int cont_link=1;
 		for(Menu menu : menus){
-			insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+"INSERT INTO Menu(nombre , type) VALUES ('"+menu.getName()+"', '"+menu.getTypeMenu()+"');\"\n";
+			insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \""+"INSERT INTO Menu(nombre , type, id_view) VALUES ('"+menu.getName()+"', '"+menu.getTypeMenu()+"', "+menu.getIdView()+");\"\n";
 			for(LinkCRUD link_crud : menu.getLinksCRUD()){
 				Tabla tabla=sql.getTablaByInt(link_crud.getClase());
 				insert_menu=insert_menu+"sqlite3 "+path_db+"/PHP/proyect/config/"+name_db+".db \"INSERT INTO Links (nombre, url, id_menu) VALUES ('"+link_crud.getName()+"', 'index.php?r="+tabla.getNombre().toLowerCase()+"/"+link_crud.getService()+"', "+cont_menu+");\"\n";
-				//cont_link++;
 			}
 			cont_menu++;
 		}

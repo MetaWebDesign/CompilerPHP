@@ -265,11 +265,9 @@ public class ReadModel{
 					int stop_menu_name=substr_menu_name.indexOf("\"");
 					int stop_menu_type=substr_typeMenu.indexOf("\"");
 					
-					System.out.println("Menu name:"+substr_menu_name.substring(0, stop_menu_name));
-					System.out.println("Menu TypeMenu:"+substr_typeMenu.substring(0, stop_menu_type));
-					
 					m.setName(substr_menu_name.substring(0, stop_menu_name));
 					m.setTypeMenu(substr_typeMenu.substring(0, stop_menu_type));
+					m.setIdView(cont_page+1);
 				}
 				
 				//LINKS CRUD
@@ -282,10 +280,6 @@ public class ReadModel{
 					int stop_crud_name=substr_crud_name.indexOf("\"");
 					int stop_crud_service=substr_crud_service.indexOf("\"");
 					int stop_crud_clase=substr_crud_clase.indexOf("\"");
-					
-					System.out.println("Link CRUD name:"+substr_crud_name.substring(0, stop_crud_name));
-					System.out.println("Link CRUD service:"+substr_crud_service.substring(0, stop_crud_service));
-					System.out.println("Link CRUD clase:"+substr_crud_clase.substring(0, stop_crud_clase));
 					
 					String linkc_name=substr_crud_name.substring(0, stop_crud_name);
 					String linkc_service=substr_crud_service.substring(0, stop_crud_service);

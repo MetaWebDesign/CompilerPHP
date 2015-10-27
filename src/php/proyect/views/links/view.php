@@ -23,6 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php
+        $url="index.php?r=menu/view&id=$model->id_menu";
+        echo "<a href=\"$url\" class=\"btn btn-success\" role=\"button\">Back Menu </a> ";
+        ?>
     </p>
 
     <?= DetailView::widget([
