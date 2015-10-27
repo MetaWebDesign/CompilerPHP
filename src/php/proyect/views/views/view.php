@@ -31,9 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
     echo $model->content;
     echo "<br><br>\n";
     //----------------------------------------- Soporte ViewAdvance Menu ------------------------------------------//
-
     $menu= Menu::find()->where(['id_view'=>$model->id_view])->one();
-      
+
     if($menu){
       $results= Links::find()->where(['id_menu'=>$menu->id])->all();
       echo "<div id=\"container\">";
@@ -41,10 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
       echo " <div style=\"float:left;\">\n";
       //echo "<div id=\"left\">\n";
       echo "<div class=\"btn-group-vertical\" role=\"group\" aria-label=\"...\">\n";
+      echo "<div><center><b>$menu->nombre</b></center></div>";
       echo "<ul>\n";
 
       foreach ($results AS $link) {
-        echo "<a target=\"_blank\" href=\"$link->url\" class=\"btn btn-default\" role=\"button\">$link->nombre</a>\n";
+        echo "<a target=\"_blank\" href=\"$link->url\" class=\"btn btn-default\" role=\"button\">$link->nombre</a><br>\n";
       }
       echo "</ul> \n";
       echo "</div>\n";
@@ -57,8 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
     echo "</div>\n";
     echo "<div id=\"right\"></div>\n";
     //----------------------------------------- Soporte ViewAdvance Atributos -------------------------------------//
-    //echo "<div style=\"float: center; \">\n";
-    //echo "<div id=\"center\">\n";
     echo "<div style=\"float:right; width:75%\">\n";
     $string=array();//OK
     $table=array();//OK
