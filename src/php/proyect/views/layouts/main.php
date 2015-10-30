@@ -7,6 +7,9 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\models\DashboardConf;
+use app\models\Menu;
+use app\models\Links;
+
 $conf = DashboardConf::find()->where(['id_web' => 1])->one();
 AppAsset::register($this);
 ?>
@@ -31,13 +34,14 @@ AppAsset::register($this);
 						            'class' => 'navbar-inverse navbar-fixed-top',
 						        ],
 						    ]);
+								/*
 						    echo Nav::widget([
 						        'options' => ['class' => 'navbar-nav navbar-right'],
 						        'items' => [
 						            ['label' => 'Home', 'url' => ['/site/index']],
 						            ['label' => 'About', 'url' => ['/site/about']],
 												!Yii::$app->user->isGuest ?
-														['label' => 'Dashboard', 'url' => ['/site/dashboard']]:
+													['label' => 'Dashboard', 'url' => ['/site/dashboard']]:
 						            ['label' => 'Contact', 'url' => ['/site/contact']],
 						            Yii::$app->user->isGuest ?
 						                ['label' => 'Login', 'url' => ['/site/login']] :
@@ -48,6 +52,29 @@ AppAsset::register($this);
 						                ],
 						        ],
 						    ]);
+								*/
+
+								echo "<ul id=\"w2\" class=\"navbar-nav navbar-right nav\">\n";
+								echo "<li class=\"active\"><a href=\"index.php?r=site%2Findex\">Home</a></li>\n";
+								echo "<li><a href=\"index.php?r=site/about\">About</a></li>\n";
+								echo "<li><a href=\"index.php?r=site/contact\">Contact</a></li>\n";
+								if(Yii::$app->user->isGuest){
+
+									echo "<li><a href=\"index.php?r=site/login\">Login</a></li>\n";
+								}
+								else{
+									echo "<li><a href=\"index.php?r=site/dashboard\">Dashboard</a></li>\n";
+									$menu_principal=Menu::find()->where(['type'=>'principal'])->one();
+									$links=Links::find()->where(['id_menu'=>$menu_principal->id])->all();
+									foreach ($links as $link) {
+											echo "<li><a href=\"$link->url\">$link->nombre</a></li>\n";
+									}
+									echo "<li><a data-method=\"post\" href= \"index.php?r=site/logout\" >Logout (". Yii::$app->user->identity->username .")</a></li>\n";
+								}
+								echo "</ul>\n";
+
+								//echo "<li><a href=\"/public_html/mwd/Elearning/PHP/proyect/web/index.php?r=site%2Flogin\">Loginne</a></li></ul>\n";
+
 						    NavBar::end();
 						    ?>
 						    <div class="container">
