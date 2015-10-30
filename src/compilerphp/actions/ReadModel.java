@@ -269,9 +269,19 @@ public class ReadModel{
 					int stop_menu_name=substr_menu_name.indexOf("\"");
 					int stop_menu_type=substr_typeMenu.indexOf("\"");
 					
-					m.setName(substr_menu_name.substring(0, stop_menu_name));
-					m.setTypeMenu(substr_typeMenu.substring(0, stop_menu_type));
-					m.setIdView(cont_page+4);
+					String name_menu=substr_menu_name.substring(0, stop_menu_name);
+					String type_menu=substr_typeMenu.substring(0, stop_menu_type);
+					
+					m.setName(name_menu);
+					m.setTypeMenu(type_menu);
+					
+					if(type_menu.equals("principal")){
+						m.setIdView(-1);
+					}
+					else
+					{
+						m.setIdView(cont_page+4);
+					}
 					cont_menu++;
 				}
 				
@@ -294,7 +304,6 @@ public class ReadModel{
 				
 				//LINKS VIEW
 				if(x_view_link_view != -1 && x_view_link_view_id_view != -1){
-					
 					String substr_link_name=line.substring(x_view_link_view_name+6, line.length());
 					String substr_link_id_view=line.substring(x_view_link_view_id_view+19, line.length());
 					
