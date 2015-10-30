@@ -33,7 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Vista',
                 'value' => function ($data) {
                     $vista=Views::find()->where(['id_view'=>$data->id_view])->one();
-                    return $vista->title;
+                    if($vista){
+                      return $vista->title;
+                    }
+                    else{
+                      return "All";
+                    }
                 },
             ],
 
