@@ -35,7 +35,7 @@ public class ReadModel{
 			int cont_page=0;//CONTADOR DE PAGINAS
 			int cont_menu=0;
 			String tabla = null;//NOMBRE DE LA TABLA
-			
+			int cont_pk=0; //CONTADOR PRIMARY KEY, CADA CLAS DEBE TENER UNA
 			//LECTURA
 			while((line = br.readLine()) != null && !error_status) {
 				
@@ -89,7 +89,14 @@ public class ReadModel{
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
 					if(cont_tabla !=0){
-						this.sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
+						if(cont_pk == 0 || cont_pk > 1){
+							this.error_text="Error la clase "+t.getNombre()+", debe tener una Primary Key";
+				        	this.error_status=true;
+						}
+						else{
+							this.sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
+							cont_pk=0;
+						}
 					}
 					
 					//NUEVA TABLA
@@ -153,6 +160,7 @@ public class ReadModel{
 			        boolean requiered=true;
 			        if(x_attribute_pk != -1){
 			        	pk=true;
+			        	cont_pk++;
 			        }
 			        if(x_attribute_required !=-1){
 			        	requiered=false;
@@ -160,11 +168,21 @@ public class ReadModel{
 			        
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type_model=substr_type.substring(0, stop_type);
-			        
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
-			        Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
-			        t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABLA 
+			        if(atributo_nombre.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
+			        	this.error_status=true;
+			        }
+			        
+			        if(atributo_type_model.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+" el atributo "+atributo_nombre+" no posee Data Type";
+			        	this.error_status=true;
+			        }
+			        if(!error_status){
+			        	Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
+			        	t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABL
+			        }
 				}
 				
 				//BUSQUEDA ATRIBUTO DERIVADO 
@@ -186,18 +204,25 @@ public class ReadModel{
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
-			        
-			        System.out.println("Atributo nombre"+atributo_nombre);
-			        System.out.println("Atributo type"+atributo_type);
-			        System.out.println("Atributo formula"+atributo_formula+"\n");
-			        
+			        			        
 			        if(atributo_nombre.indexOf("xsi") != -1){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo derivado no posee nombre";
 			        	this.error_status=true;
 			        }
 			        
-			        View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
-			        this.sql.addView(v);
+			        if(atributo_type.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+" en el atributo derivado "+atributo_nombre+", no posee Data Type";
+			        	this.error_status=true;
+			        }
+			        
+			        if(atributo_formula.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+", en el atributo derivado "+atributo_nombre+" no posee formula";
+			        	this.error_status=true;
+			        }
+			        if(!error_status){
+			        	View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
+			        	this.sql.addView(v);
+			        }
 				}
 				
 				//BUSQUEDA RELACION
@@ -214,15 +239,20 @@ public class ReadModel{
 				     int stop_classDestino=substr_claseDestino.indexOf("/");
 				     int stop_atributoDestino=substr_atributoDestino.indexOf("\"");
 				     
-				     
 				     //EXTRACCION DE DATOS DE LA RELACION
 				     String relation_name=substr_nombre.substring(0, stop_nombre);
 				     //+1 por que modelo parte de cero y en la bdd parte de uno el ID
 				     int numClaseDestino= Integer.parseInt(substr_claseDestino.substring(0, stop_classDestino));
 				     int numAtributoDestino= Integer.parseInt(substr_atributoDestino.substring(0, stop_atributoDestino));
 				     
-				     ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
-				     t.addForeignKey(f);
+				     if(relation_name.length()==0){
+				        	this.error_text="Error posee una relación sin nombre";
+				        	this.error_status=true;
+				     }
+				     if(!error_status){
+				    	 ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
+				    	 t.addForeignKey(f);
+				     }
 				}
 				
 				//BUSQUEDA VISTA MODELADA O PAGE
@@ -239,6 +269,9 @@ public class ReadModel{
 					int title_stop=substr_title.indexOf("\"");
 					int html_stop=substr_html.indexOf("\"");
 					int rol_stop=substr_rol.indexOf("\"");
+					
+					//System.out.println("Relacion |"+relation_name+"|");
+					
 					p.setTitle(substr_title.substring(0, title_stop));
 					p.setContentHTML(substr_html.substring(0,html_stop));
 					p.setRol(substr_rol.substring(0, rol_stop));
