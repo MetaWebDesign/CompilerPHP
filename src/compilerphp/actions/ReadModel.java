@@ -6,12 +6,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+
 
 public class ReadModel{
-	
 	protected SQL sql = new SQL(); 
 	List <Page> pages = new ArrayList<Page>();
 	List <Menu> menus = new ArrayList<Menu>();
+	protected boolean error_status=false;
+	protected String error_text="";
 	
 	//public static SQL loadXML(String path, String file) throws IOException
 	public void loadXML(String path, String file) throws IOException
@@ -30,9 +35,9 @@ public class ReadModel{
 			int cont_page=0;//CONTADOR DE PAGINAS
 			int cont_menu=0;
 			String tabla = null;//NOMBRE DE LA TABLA
-		
+			
 			//LECTURA
-			while((line = br.readLine()) != null) {
+			while((line = br.readLine()) != null && !error_status) {
 				
 				int x_class=line.indexOf("class name="); //IDENTIFICA UNA CLASE
 				int x_attribute=line.indexOf("<hasAttributes");//IDENTIFICA UN ATRIBUTO
@@ -130,13 +135,12 @@ public class ReadModel{
 			        	r.setFView(substr_fview.substring(0, stop_fview));
 			        	cont_tabla++;
 			        }
-			        
-			        
 			        t.setRoles(r); //AGREGO LA CONF DE LOS ROLES ENCONTRADOS
 			    }
 				
 				//BUSQUEDA ATRIBUTO NO DERIVADO
 				if(x_attribute != -1 && x_attribute_not_derived != -1){
+					
 					//DATOS A EXTRAER DE LOS ATRIBUTOS
 			        String substr_nombre = line.substring(x_attribute_name+6, line.length());
 			        String substr_type=line.substring(x_attribute_type+10, line.length());
@@ -182,6 +186,16 @@ public class ReadModel{
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
+			        
+			        System.out.println("Atributo nombre"+atributo_nombre);
+			        System.out.println("Atributo type"+atributo_type);
+			        System.out.println("Atributo formula"+atributo_formula+"\n");
+			        
+			        if(atributo_nombre.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo derivado no posee nombre";
+			        	this.error_status=true;
+			        }
+			        
 			        View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
 			        this.sql.addView(v);
 				}
@@ -360,6 +374,13 @@ public class ReadModel{
 	
 	public List<Menu> getMenus(){
 		return this.menus;
+	}	
+	
+	public String getErrorText(){
+		return this.error_text;
 	}
 	
+	public boolean getErrorStatus(){
+		return this.error_status;
+	}
 }
