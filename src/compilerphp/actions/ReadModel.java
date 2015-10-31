@@ -170,15 +170,16 @@ public class ReadModel{
 			        String atributo_type_model=substr_type.substring(0, stop_type);
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
+			        if(atributo_type_model.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+" el atributo "+atributo_nombre+" no posee Data Type";
+			        	this.error_status=true;
+			        }
+			        
 			        if(atributo_nombre.indexOf("xsi") != -1){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
 			        	this.error_status=true;
 			        }
 			        
-			        if(atributo_type_model.indexOf("xsi") != -1){
-			        	this.error_text="Error en la clase "+t.getNombre()+" el atributo "+atributo_nombre+" no posee Data Type";
-			        	this.error_status=true;
-			        }
 			        if(!error_status){
 			        	Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
 			        	t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABL
@@ -205,11 +206,6 @@ public class ReadModel{
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
 			        			        
-			        if(atributo_nombre.indexOf("xsi") != -1){
-			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo derivado no posee nombre";
-			        	this.error_status=true;
-			        }
-			        
 			        if(atributo_type.indexOf("xsi") != -1){
 			        	this.error_text="Error en la clase "+t.getNombre()+" en el atributo derivado "+atributo_nombre+", no posee Data Type";
 			        	this.error_status=true;
@@ -217,6 +213,11 @@ public class ReadModel{
 			        
 			        if(atributo_formula.indexOf("xsi") != -1){
 			        	this.error_text="Error en la clase "+t.getNombre()+", en el atributo derivado "+atributo_nombre+" no posee formula";
+			        	this.error_status=true;
+			        }
+			        
+			        if(atributo_nombre.indexOf("xsi") != -1){
+			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo derivado no posee nombre";
 			        	this.error_status=true;
 			        }
 			        if(!error_status){
@@ -270,12 +271,30 @@ public class ReadModel{
 					int html_stop=substr_html.indexOf("\"");
 					int rol_stop=substr_rol.indexOf("\"");
 					
-					//System.out.println("Relacion |"+relation_name+"|");
-					
-					p.setTitle(substr_title.substring(0, title_stop));
-					p.setContentHTML(substr_html.substring(0,html_stop));
-					p.setRol(substr_rol.substring(0, rol_stop));
-					cont_page++;
+					String title=substr_title.substring(0, title_stop);
+					String html=substr_html.substring(0,html_stop);
+					String rol=substr_rol.substring(0, rol_stop);
+
+			        if(html.indexOf("type") != -1){
+			        	html=" ";
+			        }
+			        
+			        if(rol.indexOf("xsi") != -1){
+			        	this.error_text="Error, la Pagina "+title+" no posee un Rol View\nVuelva a asignar uno.";
+			        	this.error_status=true;
+			        }
+			        
+			        if(title.indexOf("xsi") != -1){
+			        	this.error_text="Error existe una vista sin titulo";
+			        	this.error_status=true;
+			        }
+			        
+			        if(!error_status){
+			        	p.setTitle(title);
+			        	p.setContentHTML(html);
+			        	p.setRol(rol);
+			        	cont_page++;
+			        }
 				}
 				
 				//VIEW ATTRIBUTE - PAGE
@@ -299,7 +318,12 @@ public class ReadModel{
 					String typePresentation=substr_presentation.substring(0, presentation_stop);
 				    String pos_x=substr_x.substring(0, stop_x);
 				    int pos_y=Integer.parseInt(substr_y.substring(0, stop_y));
-				   //+1 ya que el ID del modelo parte de cero y el de la BDD parte de uno
+				    
+					
+					//System.out.println("title "+title); //ACA VOYYYYYYYYYYYYYYYYYYY
+					
+
+				    
 					ViewAttribute viewAttribute=new ViewAttribute(int_clase+1, int_atributo+1, typePresentation, pos_x, pos_y);
 					p.setAtributo(viewAttribute);
 				}
