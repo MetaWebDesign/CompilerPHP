@@ -299,33 +299,52 @@ public class ReadModel{
 				
 				//VIEW ATTRIBUTE - PAGE
 				if(x_view_atributo!=-1){
-					String substr_clase=line.substring(x_view_component_atributte+23, line.length());
-					int start_atributo=substr_clase.indexOf("@");
-					String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
-					String substr_presentation=line.substring(x_view_component_type_presentation+18, line.length());
-					String substr_x=line.substring(x_view_component_x+20, line.length());
-					String substr_y=line.substring(x_view_component_y+17, line.length());
+					if (x_view_component_atributte == -1){
+			        	this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin GetAttribute";
+			        	this.error_status=true;
+					}
+					
+					if (x_view_component_type_presentation == -1){
+						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Type Presentation";
+			        	this.error_status=true;
+					}
+					
+					if(x_view_component_x == -1){
+						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Position Horizontal";
+			        	this.error_status=true;						
+					}
+					
+					if(x_view_component_x == -1){
+						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Position Vertical";
+			        	this.error_status=true;						
+					}
+					if(!error_status){
+						String substr_clase=line.substring(x_view_component_atributte+23, line.length());
+						int start_atributo=substr_clase.indexOf("@");
+						String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
+						String substr_presentation=line.substring(x_view_component_type_presentation+18, line.length());
+						String substr_x=line.substring(x_view_component_x+20, line.length());
+						String substr_y=line.substring(x_view_component_y+17, line.length());
 						
-					int clase_stop=substr_clase.indexOf("@");
-					int atributo_stop=substr_atributo.indexOf("\"");
-					int presentation_stop=substr_presentation.indexOf("\"");
-				    int stop_x=substr_x.indexOf("\"");
-				    int stop_y=substr_y.indexOf("\"");
-					
+						int clase_stop=substr_clase.indexOf("@");
+						int atributo_stop=substr_atributo.indexOf("\"");
+						int presentation_stop=substr_presentation.indexOf("\"");
+						int stop_x=substr_x.indexOf("\"");
+						int stop_y=substr_y.indexOf("\"");
 				    
-					int int_clase= Integer.parseInt(substr_clase.substring(0, clase_stop-1));
-					int int_atributo= Integer.parseInt(substr_atributo.substring(0, atributo_stop));				    
-					String typePresentation=substr_presentation.substring(0, presentation_stop);
-				    String pos_x=substr_x.substring(0, stop_x);
-				    int pos_y=Integer.parseInt(substr_y.substring(0, stop_y));
-				    
+						String clase=substr_clase.substring(0, clase_stop-1);
+						String atributo=substr_atributo.substring(0, atributo_stop);
+						String typePresentation=substr_presentation.substring(0, presentation_stop);
+						String x=substr_x.substring(0, stop_x);
+						String y=substr_y.substring(0, stop_y);
 					
-					//System.out.println("title "+title); //ACA VOYYYYYYYYYYYYYYYYYYY
+						int int_clase= Integer.parseInt(clase);
+						int int_atributo= Integer.parseInt(atributo);
+						int pos_y=Integer.parseInt(y);
 					
-
-				    
-					ViewAttribute viewAttribute=new ViewAttribute(int_clase+1, int_atributo+1, typePresentation, pos_x, pos_y);
-					p.setAtributo(viewAttribute);
+						ViewAttribute viewAttribute=new ViewAttribute(int_clase+1, int_atributo+1, typePresentation, x, pos_y);
+						p.setAtributo(viewAttribute);
+					}
 				}
 				
 				//MENU
