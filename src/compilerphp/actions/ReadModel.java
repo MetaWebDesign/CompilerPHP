@@ -87,9 +87,6 @@ public class ReadModel{
 				int x_view_link_view_name=line.indexOf("name=");
 				int x_view_link_view_id_view=line.indexOf("linkView=");
 				
-				System.out.println("LinkCRUD :"+x_view_link_crud);
-				System.out.println("LinkView :"+x_view_link_view);
-				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
@@ -399,12 +396,7 @@ public class ReadModel{
 				
 				//LINKS CRUD
 				if(x_view_link_crud !=-1 && x_view_link_dif != -1){
-					System.out.println("entro");
 					String linkc_name="null";
-					System.out.println("link_name "+x_view_link_crud_name );
-					System.out.println("link_name "+x_view_link_crud_service );
-					System.out.println("link_name "+x_view_link_crud_class);
-					
 					
 					if(x_view_link_crud_name == -1){
 						this.error_text="Error, en el menu "+m.getName()+" existe un link sin nombre";
@@ -433,7 +425,6 @@ public class ReadModel{
 						
 						String linkc_service=substr_crud_service.substring(0, stop_crud_service);
 						int linkc_clase=Integer.parseInt(substr_crud_clase.substring(0, stop_crud_clase));
-						System.out.println("Name: "+linkc_name+"\n");
 						LinkCRUD link_crud = new LinkCRUD(linkc_name, linkc_service, linkc_clase);
 						m.addLinkCRUD(link_crud);
 					}
