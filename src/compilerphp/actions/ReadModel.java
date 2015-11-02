@@ -36,6 +36,7 @@ public class ReadModel{
 			int cont_menu=0;
 			String tabla = null;//NOMBRE DE LA TABLA
 			int cont_pk=0; //CONTADOR PRIMARY KEY, CADA CLAS DEBE TENER UNA
+			int cont_menu_principal=0; //CONTADOR DE MENU PRINCIPAL, SOLO PUEDE EXISTIR AL MENOS UNO
 			//LECTURA
 			while((line = br.readLine()) != null && !error_status) {
 				
@@ -386,6 +387,11 @@ public class ReadModel{
 					
 						if(type_menu.equals("principal")){
 							m.setIdView(-1);
+							cont_menu_principal++;
+							if(cont_menu_principal >=2){
+								this.error_text="Error, solo puede tener UN menu type = \"Principal\"";
+					        	this.error_status=true;
+							}
 						}
 						else{
 							m.setIdView(cont_page+4);
