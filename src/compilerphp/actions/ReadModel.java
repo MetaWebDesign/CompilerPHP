@@ -75,13 +75,13 @@ public class ReadModel{
 				int x_view_menu_typeMenu=line.indexOf("typeMenu=");
 				
 				//LINK CRUD
-				int x_view_link_crud=line.indexOf("metawebdesign:LinkViewCRUD");
+				int x_view_link_crud=line.indexOf("LinkViewCRUD");
 				int x_view_link_crud_name=line.indexOf("name=");
 				int x_view_link_crud_service=line.indexOf("service=");
 				int x_view_link_crud_class=line.indexOf("fromClass=");
 				
 				//LINK VIEW
-				int x_view_link_view=line.indexOf("metawebdesign:LinkView");
+				int x_view_link_view=line.indexOf("LinkView");
 				int x_view_link_view_name=line.indexOf("name=");
 				int x_view_link_view_id_view=line.indexOf("linkView=");
 				
@@ -361,7 +361,7 @@ public class ReadModel{
 						name_menu=substr_menu_name.substring(0, stop_menu_name);
 					}
 					
-					if(x_view_menu_typeMenu == -1){
+					if(x_view_menu_typeMenu == -1 && !error_status){
 						this.error_text="Error, el menu "+name_menu+" no posee typeMenu";
 			        	this.error_status=true;
 					}
@@ -393,20 +393,46 @@ public class ReadModel{
 				}
 				
 				//LINKS CRUD
-				if(x_view_link_crud !=-1 &&  x_view_link_crud_service != -1){
-					String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
-					String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
-					String substr_crud_clase=line.substring( x_view_link_crud_class+20, line.length());
+				//if(x_view_link_crud !=-1 &&  x_view_link_crud_service != -1){
+				if(x_view_link_crud !=-1){
+					System.out.println("entro");
+					String linkc_name="null";
+					System.out.println("link_name "+x_view_link_crud_name );
+					System.out.println("link_name "+x_view_link_crud_service );
+					System.out.println("link_name "+x_view_link_crud_class);
 					
-					int stop_crud_name=substr_crud_name.indexOf("\"");
-					int stop_crud_service=substr_crud_service.indexOf("\"");
-					int stop_crud_clase=substr_crud_clase.indexOf("\"");
 					
-					String linkc_name=substr_crud_name.substring(0, stop_crud_name);
-					String linkc_service=substr_crud_service.substring(0, stop_crud_service);
-					int linkc_clase=Integer.parseInt(substr_crud_clase.substring(0, stop_crud_clase));
-					LinkCRUD link_crud = new LinkCRUD(linkc_name, linkc_service, linkc_clase);
-					m.addLinkCRUD(link_crud);
+					if(x_view_link_crud_name == -1){
+						this.error_text="Error, en el menu "+m.getName()+" existe un link sin nombre";
+			        	this.error_status=true;
+					}
+					if(!error_status && x_view_link_crud_name != -1 ){
+						String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
+						int stop_crud_name=substr_crud_name.indexOf("\"");
+						linkc_name=substr_crud_name.substring(0, stop_crud_name);
+					}
+					if(x_view_link_crud_service == -1 && !error_status){
+						this.error_text="Error, en el menu "+m.getName()+" el link "+linkc_name+" no posee referencia a un servicio";
+			        	this.error_status=true;
+					}
+					
+					if (x_view_link_crud_class == -1 && !error_status){
+						this.error_text="Error, en el menu "+m.getName()+" el link "+linkc_name+" no posee refencia a una clase";
+			        	this.error_status=true;						
+					}
+					if(!error_status){
+						String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
+						String substr_crud_clase=line.substring( x_view_link_crud_class+20, line.length());
+					
+						int stop_crud_service=substr_crud_service.indexOf("\"");
+						int stop_crud_clase=substr_crud_clase.indexOf("\"");
+						
+						String linkc_service=substr_crud_service.substring(0, stop_crud_service);
+						int linkc_clase=Integer.parseInt(substr_crud_clase.substring(0, stop_crud_clase));
+						System.out.println("Name: "+linkc_name+"\n");
+						LinkCRUD link_crud = new LinkCRUD(linkc_name, linkc_service, linkc_clase);
+						m.addLinkCRUD(link_crud);
+					}
 				}
 				
 				//LINKS VIEW
