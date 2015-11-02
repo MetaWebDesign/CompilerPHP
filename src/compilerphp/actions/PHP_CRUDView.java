@@ -2,7 +2,13 @@ package compilerphp.actions;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
+/*
+ * Generador de CRUD para vistas SQL generadas por atributos derivados.
+ *  - CREATE (REDIRECCIONADO A LA TABLA DE LA VISTA)
+ *  - UPDATE NO POSEE
+ *  - DELETE NO POSEE
+ *  - INDEX (ATRIBUTOS TABLE + LOS DE LA VISTA SQL)
+ */
 public class PHP_CRUDView{
 	
 	private View view;
@@ -241,7 +247,7 @@ public class PHP_CRUDView{
 												for(ForeignKey fk : this.tabla.getForeignKeys()){
 		index=index+"						        '"+fk.getNombre()+"',\n";
 												}
-		index=index+"						        '"+this.view.getNombre()+"',\n";
+		index=index+"						        '"+this.view.getNombre()+"',\n";//DEBERIA SER UN FOR
 		//index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
 		index=index+"						    ]\n";
 		index=index+"						]);\n";

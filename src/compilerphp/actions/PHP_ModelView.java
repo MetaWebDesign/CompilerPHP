@@ -3,7 +3,9 @@ package compilerphp.actions;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
+/*
+ * Generado del Modelo de la Vista SQL para atributos derivados
+ */
 public class PHP_ModelView{
 
 	static View view;

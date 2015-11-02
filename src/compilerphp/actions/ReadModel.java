@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-
 
 public class ReadModel{
 	protected SQL sql = new SQL(); 
@@ -173,17 +169,19 @@ public class ReadModel{
 			        String atributo_type_model=substr_type.substring(0, stop_type);
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
-			        if(atributo_type_model.indexOf("xsi") != -1){
-			        	this.error_text="Error en la clase "+t.getNombre()+" el atributo "+atributo_nombre+" no posee Data Type";
-			        	this.error_status=true;
-			        }
-			        
 			        if(atributo_nombre.indexOf("xsi") != -1){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
 			        	this.error_status=true;
 			        }
 			        
-			        if(!error_status){
+			        if(atributo_type_model.indexOf("xsi") != -1 && !this.error_status){
+			        	this.error_text="Error en la clase "+t.getNombre()+" el atributo "+atributo_nombre+" no posee Data Type";
+			        	this.error_status=true;
+			        }
+			        
+
+			        
+			        if(!this.error_status){
 			        	Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
 			        	t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABL
 			        }
@@ -208,24 +206,28 @@ public class ReadModel{
 			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
-			        			        
-			        if(atributo_type.indexOf("xsi") != -1){
-			        	this.error_text="Error en la clase "+t.getNombre()+" en el atributo derivado "+atributo_nombre+", no posee Data Type";
-			        	this.error_status=true;
-			        }
-			        
-			        if(atributo_formula.indexOf("xsi") != -1){
-			        	this.error_text="Error en la clase "+t.getNombre()+", en el atributo derivado "+atributo_nombre+" no posee formula";
-			        	this.error_status=true;
-			        }
 			        
 			        if(atributo_nombre.indexOf("xsi") != -1){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo derivado no posee nombre";
 			        	this.error_status=true;
 			        }
-			        if(!error_status){
-			        	View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
-			        	this.sql.addView(v);
+			        			        
+			        if(atributo_type.indexOf("xsi") != -1 && !this.error_status){
+			        	this.error_text="Error en la clase "+t.getNombre()+" en el atributo derivado "+atributo_nombre+", no posee Data Type";
+			        	this.error_status=true;
+			        }
+			        
+			        if(atributo_formula.indexOf("xsi") != -1 && !this.error_status){
+			        	this.error_text="Error en la clase "+t.getNombre()+", en el atributo derivado "+atributo_nombre+" no posee formula";
+			        	this.error_status=true;
+			        }
+			        
+			        if(!this.error_status){
+			        	//CHEQUEO DE FORMULA.
+			        	if(check_formula(atributo_formula, atributo_nombre)){
+			        		View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
+			        		this.sql.addView(v);
+			        	}
 			        }
 				}
 				
@@ -253,7 +255,7 @@ public class ReadModel{
 				        	this.error_text="Error posee una relación sin nombre";
 				        	this.error_status=true;
 				     }
-				     if(!error_status){
+				     if(!this.error_status){
 				    	 ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
 				    	 t.addForeignKey(f);
 				     }
@@ -292,7 +294,7 @@ public class ReadModel{
 			        	this.error_status=true;
 			        }
 			        
-			        if(!error_status){
+			        if(!this.error_status){
 			        	p.setTitle(title);
 			        	p.setContentHTML(html);
 			        	p.setRol(rol);
@@ -321,7 +323,7 @@ public class ReadModel{
 						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Position Vertical";
 			        	this.error_status=true;						
 					}
-					if(!error_status){
+					if(!this.error_status){
 						String substr_clase=line.substring(x_view_component_atributte+23, line.length());
 						int start_atributo=substr_clase.indexOf("@");
 						String substr_atributo=line.substring(x_view_component_atributte+23+start_atributo+15, line.length());
@@ -358,7 +360,7 @@ public class ReadModel{
 			        	this.error_status=true;
 					}
 					
-					if(!error_status && x_view_menu_name != -1){
+					if(!this.error_status && x_view_menu_name != -1){
 						String substr_menu_name=line.substring(x_view_menu_name+6, line.length());
 						int stop_menu_name=substr_menu_name.indexOf("\"");
 						name_menu=substr_menu_name.substring(0, stop_menu_name);
@@ -369,7 +371,7 @@ public class ReadModel{
 			        	this.error_status=true;
 					}
 					
-					if(!error_status && x_view_menu_typeMenu != -1){
+					if(!this.error_status && x_view_menu_typeMenu != -1){
 					
 						if(cont_menu!=0){
 							this.menus.add(m);
@@ -408,7 +410,7 @@ public class ReadModel{
 						this.error_text="Error, en el menu "+m.getName()+" existe un link sin nombre";
 			        	this.error_status=true;
 					}
-					if(!error_status && x_view_link_crud_name != -1 ){
+					if(!this.error_status && x_view_link_crud_name != -1 ){
 						String substr_crud_name=line.substring(x_view_link_crud_name+6, line.length());
 						int stop_crud_name=substr_crud_name.indexOf("\"");
 						linkc_name=substr_crud_name.substring(0, stop_crud_name);
@@ -422,7 +424,7 @@ public class ReadModel{
 						this.error_text="Error, en el menu "+m.getName()+" el link "+linkc_name+" no posee refencia a una clase";
 			        	this.error_status=true;						
 					}
-					if(!error_status){
+					if(!this.error_status){
 						String substr_crud_service=line.substring( x_view_link_crud_service+9, line.length());
 						String substr_crud_clase=line.substring( x_view_link_crud_class+20, line.length());
 					
@@ -443,7 +445,7 @@ public class ReadModel{
 						this.error_text="Error, en el menu "+m.getName()+" existe un link sin nombre";
 			        	this.error_status=true;
 					}
-					if(!error_status && x_view_link_view_name != -1 && !error_status){
+					if(!this.error_status && x_view_link_view_name != -1 && !error_status){
 						String substr_link_name=line.substring(x_view_link_view_name+6, line.length());
 						int stop_link_view_name=substr_link_name.indexOf("\"");
 						linkv_name=substr_link_name.substring(0, stop_link_view_name);
@@ -453,7 +455,7 @@ public class ReadModel{
 			        	this.error_status=true;						
 					}
 
-					if(!error_status){
+					if(!this.error_status){
 						String substr_link_id_view=line.substring(x_view_link_view_id_view+19, line.length());
 					
 						int stop_link_view_id_view=substr_link_id_view.indexOf("\"");
@@ -470,10 +472,7 @@ public class ReadModel{
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
 			this.pages.add(p);
 			this.menus.add(m);
-			
 	}
-	
-	
 	
 	//public static String typeAtributeVarChar(String DataType){
 	public static String typeAdaptAtribute(String DataTypeModel){
@@ -516,5 +515,23 @@ public class ReadModel{
 	
 	public boolean getErrorStatus(){
 		return this.error_status;
+	}
+	
+	public boolean check_formula(String formula, String nombre){
+		boolean edo=true;
+		int pk=formula.indexOf(" pk");
+		//int
+		if(pk == -1){
+			edo=false;
+			this.error_text="Error, en el atributo derivado "+nombre+", falta la refencia \"as pk\"\n\n"
+							+"La sintaxis debiera ser:\n"
+							+"SELECT tabla.foreingKey AS pk, atributo_derivado AS nombre_columna FROM tabla\n\n"
+							+"tabla = clase del dato a extraer \n"
+							+"foreingKey = llave foranea que une la clase del dato a extraer con la clase en donde se encuentra la llave foranea\n"
+							+"atributo_derivado = Columna del dato, puede ser COUNT, AVG, SUM, etc";
+							
+			this.error_status=true;
+		}
+		return edo;
 	}
 }
