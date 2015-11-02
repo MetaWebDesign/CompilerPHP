@@ -75,15 +75,20 @@ public class ReadModel{
 				int x_view_menu_typeMenu=line.indexOf("typeMenu=");
 				
 				//LINK CRUD
-				int x_view_link_crud=line.indexOf("LinkViewCRUD");
+				int x_view_link_crud=line.indexOf("metawebdesign:LinkViewCRUD");
 				int x_view_link_crud_name=line.indexOf("name=");
 				int x_view_link_crud_service=line.indexOf("service=");
 				int x_view_link_crud_class=line.indexOf("fromClass=");
 				
+				int x_view_link_dif=line.indexOf("CRUD");
+				
 				//LINK VIEW
-				int x_view_link_view=line.indexOf("LinkView");
+				int x_view_link_view=line.indexOf("metawebdesign:LinkView");
 				int x_view_link_view_name=line.indexOf("name=");
 				int x_view_link_view_id_view=line.indexOf("linkView=");
+				
+				System.out.println("LinkCRUD :"+x_view_link_crud);
+				System.out.println("LinkView :"+x_view_link_view);
 				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
@@ -393,8 +398,7 @@ public class ReadModel{
 				}
 				
 				//LINKS CRUD
-				//if(x_view_link_crud !=-1 &&  x_view_link_crud_service != -1){
-				if(x_view_link_crud !=-1){
+				if(x_view_link_crud !=-1 && x_view_link_dif != -1){
 					System.out.println("entro");
 					String linkc_name="null";
 					System.out.println("link_name "+x_view_link_crud_name );
@@ -436,18 +440,32 @@ public class ReadModel{
 				}
 				
 				//LINKS VIEW
-				if(x_view_link_view != -1 && x_view_link_view_id_view != -1){
-					String substr_link_name=line.substring(x_view_link_view_name+6, line.length());
-					String substr_link_id_view=line.substring(x_view_link_view_id_view+19, line.length());
-					
-					int stop_link_view_name=substr_link_name.indexOf("\"");
-					int stop_link_view_id_view=substr_link_id_view.indexOf("\"");
-					
-					String linkv_name=substr_link_name.substring(0, stop_link_view_name);
-					int linkv_view=Integer.parseInt(substr_link_id_view.substring(0, stop_link_view_id_view));
+				if(x_view_link_view != -1 && x_view_link_dif == -1){
+					String linkv_name="null";
+					if(x_view_link_view_name == -1){
+						this.error_text="Error, en el menu "+m.getName()+" existe un link sin nombre";
+			        	this.error_status=true;
+					}
+					if(!error_status && x_view_link_view_name != -1 && !error_status){
+						String substr_link_name=line.substring(x_view_link_view_name+6, line.length());
+						int stop_link_view_name=substr_link_name.indexOf("\"");
+						linkv_name=substr_link_name.substring(0, stop_link_view_name);
+					}
+					if(x_view_link_view_id_view == -1 && !error_status){
+						this.error_text="Error, en el menu "+m.getName()+" el atributo "+linkv_name+" no posee LinkView";
+			        	this.error_status=true;						
+					}
 
-					LinkView link_view= new LinkView(linkv_name, linkv_view+5);
-					m.addLinkView(link_view);
+					if(!error_status){
+						String substr_link_id_view=line.substring(x_view_link_view_id_view+19, line.length());
+					
+						int stop_link_view_id_view=substr_link_id_view.indexOf("\"");
+						
+						int linkv_view=Integer.parseInt(substr_link_id_view.substring(0, stop_link_view_id_view));
+
+						LinkView link_view= new LinkView(linkv_name, linkv_view+5);
+						m.addLinkView(link_view);
+					}
 				}
 				
 			}
