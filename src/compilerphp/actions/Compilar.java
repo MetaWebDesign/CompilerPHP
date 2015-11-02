@@ -176,7 +176,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		File[] listOfFiles = folder.listFiles();
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	      if (listOfFiles[i].isFile()) {
-	        //System.out.println("File " + listOfFiles[i].getName());
 	        if(listOfFiles[i].getName().indexOf("metawebdesign")!=-1){
 	        	int stop=listOfFiles[i].getName().indexOf(".");
 	        	fileModel=listOfFiles[i].getName().substring(0, stop);
@@ -188,7 +187,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 	
 	//VENTANA CON LAS DIFERENTES PROYECTOS A COMPILAR (EN CASO DE EXISTIR MÁS DE UNO)
 	public static String windowListOptions(String[] choices){
-		//String[] choices = { "A", "B", "C", "D", "E", "F" };
 		String input = (String) JOptionPane.showInputDialog(null, "Choose now...",
 				"The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
                                                                         // default
@@ -198,7 +196,6 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		System.out.println(input);
 		return input;
 	}
-	
 	
 	//VENTANA CON INFORMACION
 	public static void windowMensajeInfo(String msn){

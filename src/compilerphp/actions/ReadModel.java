@@ -349,30 +349,47 @@ public class ReadModel{
 				
 				//MENU
 				if(x_view_menu != -1){
-					if(cont_menu!=0){
-						this.menus.add(m);	
+					String name_menu="null";
+					if(x_view_menu_name == -1){
+						this.error_text="Error, un menu no posee nombre";
+			        	this.error_status=true;
 					}
-					m = new Menu();
-					String substr_menu_name=line.substring(x_view_menu_name+6, line.length());
-					String substr_typeMenu=line.substring( x_view_menu_typeMenu+10, line.length());
 					
-					int stop_menu_name=substr_menu_name.indexOf("\"");
-					int stop_menu_type=substr_typeMenu.indexOf("\"");
-					
-					String name_menu=substr_menu_name.substring(0, stop_menu_name);
-					String type_menu=substr_typeMenu.substring(0, stop_menu_type);
-					
-					m.setName(name_menu);
-					m.setTypeMenu(type_menu);
-					
-					if(type_menu.equals("principal")){
-						m.setIdView(-1);
+					if(!error_status && x_view_menu_name != -1){
+						String substr_menu_name=line.substring(x_view_menu_name+6, line.length());
+						int stop_menu_name=substr_menu_name.indexOf("\"");
+						name_menu=substr_menu_name.substring(0, stop_menu_name);
 					}
-					else
-					{
-						m.setIdView(cont_page+4);
+					
+					if(x_view_menu_typeMenu == -1){
+						this.error_text="Error, el menu "+name_menu+" no posee typeMenu";
+			        	this.error_status=true;
 					}
-					cont_menu++;
+					
+					if(!error_status && x_view_menu_typeMenu != -1){
+					
+						if(cont_menu!=0){
+							this.menus.add(m);
+						}
+						m = new Menu();
+					
+						String substr_typeMenu=line.substring( x_view_menu_typeMenu+10, line.length());
+					
+						int stop_menu_type=substr_typeMenu.indexOf("\"");
+						
+						String type_menu=substr_typeMenu.substring(0, stop_menu_type);
+					
+						m.setName(name_menu);
+						m.setTypeMenu(type_menu);	
+					
+						if(type_menu.equals("principal")){
+							m.setIdView(-1);
+						}
+						else{
+							m.setIdView(cont_page+4);
+						}
+						cont_menu++;
+					}
 				}
 				
 				//LINKS CRUD
