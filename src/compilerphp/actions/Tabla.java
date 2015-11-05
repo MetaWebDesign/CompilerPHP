@@ -59,6 +59,17 @@ public class Tabla{
 		return name;
 	}
 	
+	public int getIdAttribute(String attribute){
+		int id=0;
+		for (Atributo a : this.atributos){
+			if(a.getNombre().indexOf(attribute) != -1 && a.getNombre().length() == attribute.length()){
+				return id;
+			}
+			id++;
+		}
+		return id;
+	}
+	
 	public Roles getRoles(){
 		return this.roles;
 	}

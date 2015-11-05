@@ -28,6 +28,7 @@ public class ReadModel{
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
 			int cont_tabla=0;//CONTADOR DE TABLAS
+			int cont_attribute=0; //CONTADOR DE ATRIBUTOS
 			int cont_page=0;//CONTADOR DE PAGINAS
 			int cont_menu=0;
 			String tabla = null;//NOMBRE DE LA TABLA
@@ -95,6 +96,7 @@ public class ReadModel{
 						else{
 							this.sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
 							cont_pk=0;
+							cont_attribute=0;
 						}
 					}
 					
@@ -111,10 +113,6 @@ public class ReadModel{
 			        	this.error_status=true;
 			        	
 			        }
-			        
-			        //valida que el nombre de la tabla no este repetido.
-			        System.out.println("ID TABLA "+tabla+" "+sql.getIDTabla(tabla)+" cont tabla "+cont_tabla);
-			        
 			        
 			        if(sql.getIDTabla(tabla)!=cont_tabla){
 			        	this.error_text="Error la tabla "+tabla+" se encuentra repetida";
@@ -193,11 +191,15 @@ public class ReadModel{
 			        	this.error_status=true;
 			        }
 			        
-
+			        if(t.getIdAttribute(atributo_nombre) != cont_attribute){
+			        	this.error_text="Error en la clase "+t.getNombre()+" existe un atributo duplicado";
+			        	this.error_status=true;
+			        }
 			        
 			        if(!this.error_status){
 			        	Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
 			        	t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABL
+			        	cont_attribute++;
 			        }
 				}
 				
