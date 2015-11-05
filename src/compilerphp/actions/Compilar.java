@@ -105,7 +105,8 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 		}
 		
 		if(!m.error_status){
-			//GENERACION DE CODIGO PHP
+			//GENERACION DE CODIGO PHP 
+			/*
 			bar.updateProgress(40, "Creando Proyecto PHP");
 			PHP php=new PHP(this.path, this.sql, this.name_proyect);
 			bar.updateProgress(45, "Creando Proyecto PHP - Codigo base");
@@ -136,6 +137,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			bar.updateProgress(95, "Cargando menus");
 			php.insertMenus(m.getMenus());
 			bar.updateProgress(100, "Proyecto PHP creado!");
+			*/
 			windowMensajeInfo("Compilado con exito!");
 		}
 	}

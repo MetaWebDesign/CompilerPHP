@@ -105,50 +105,57 @@ public class ReadModel{
 			        int stop=substr.indexOf("\"");//CRITERIO DE PARADA PARA EXTRACCION DEL DATO
 			        tabla=substr.substring(0, stop);
 			        
+			        //Valida q la tabla (Clase) posea un nombre
 			        if(tabla.length()==0){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
 			        	this.error_status=true;
 			        	
 			        }
-			        t.setNombre(tabla);//AGREGO EL NOMBRE A LA TABLA
+			        
+			        //valida que el nombre de la tabla no este repetido.
+			        System.out.println("ID TABLA "+tabla+" "+sql.getIDTabla(tabla)+" cont tabla "+cont_tabla);
+			        
+			        
+			        if(sql.getIDTabla(tabla)!=cont_tabla){
+			        	this.error_text="Error la tabla "+tabla+" se encuentra repetida";
+			        	this.error_status=true;
+			        }
+			        
 			        //ROLES -ACCESO A LOS SERVICIOS
 			        if(x_roles_fcreate != -1){//CREATE
 			        	String substr_fcreate=line.substring(x_roles_fcreate+16	, line.length());
 			        	int stop_fcreate=substr_fcreate.indexOf("\"");
 			        	r.setFCreate(substr_fcreate.substring(0, stop_fcreate));
-			        	cont_tabla++;
 			        }
 			        
 			        if(!this.error_status){
+			        	t.setNombre(tabla);//AGREGO EL NOMBRE A LA TABLA
 			        	if(x_roles_fupdate != -1){//UPDATE
 			        		String substr_fupdate=line.substring(x_roles_fupdate+16	, line.length());
 			        		int stop_fupdate=substr_fupdate.indexOf("\"");
 			        		r.setFUpdate(substr_fupdate.substring(0, stop_fupdate));
-			        		cont_tabla++;
 			        	}
 			        
 			        	if(x_roles_fdelete != -1){//DELETE
 			        		String substr_fdelete=line.substring(x_roles_fdelete+16	, line.length());
 			        		int stop_fdelete=substr_fdelete.indexOf("\"");
 			        		r.setFDelete(substr_fdelete.substring(0, stop_fdelete));
-			        		cont_tabla++;
 			        	}
 			        	
 			        	if(x_roles_findex != -1){//INDEX
 			        		String substr_findex=line.substring(x_roles_findex+15	, line.length());
 			        		int stop_findex=substr_findex.indexOf("\"");
 			        		r.setFIndex(substr_findex.substring(0, stop_findex));
-			        		cont_tabla++;
 			        	}
 			        
 			        	if(x_roles_fview != -1){//VIEW
 			        		String substr_fview=line.substring(x_roles_fview+14	, line.length());
 			        		int stop_fview=substr_fview.indexOf("\"");
 			        		r.setFView(substr_fview.substring(0, stop_fview));
-			        		cont_tabla++;
 			        	}
 			        	t.setRoles(r); //AGREGO LA CONF DE LOS ROLES ENCONTRADOS
 			        }
+			        cont_tabla++;
 			    }
 				
 				//BUSQUEDA ATRIBUTO NO DERIVADO
