@@ -61,7 +61,10 @@ public class ReadModel{
 				int x_view_title=line.indexOf("title=");
 				int x_view_content_html=line.indexOf("Content_HTML=");
 				int x_view_rol=line.indexOf("rolView=");
+				
+				//VISTAS - VIEWATTRIBUTE
 				int x_view_atributo=line.indexOf("metawebdesign:ViewAttribute");
+				int x_view_attributo_name=line.indexOf("name=");
 				int x_view_component_atributte=line.indexOf("getAttribute=");
 				int x_view_component_type_presentation=line.indexOf("typePresentation=");
 				int x_view_component_x=line.indexOf("positionHorizontal=");
@@ -322,23 +325,38 @@ public class ReadModel{
 				
 				//VIEW ATTRIBUTE - PAGE
 				if(x_view_atributo!=-1){
-					if (x_view_component_atributte == -1){
-			        	this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin GetAttribute";
+					
+					 if(x_view_attributo_name == -1){
+				        	this.error_text="Error en la Pagina "+p.getTitle()+" existe un ViewAttribute sin nombre";
+				        	this.error_status=true;
+					 }
+					 
+					 String substr_aname=line.substring(x_view_attributo_name+6, line.length());
+					 int aname_stop=substr_aname.indexOf("\"");
+					 String aname=substr_aname.substring(0, aname_stop);
+					 
+					if(aname.length() == 0 && !this.error_status){
+			        	this.error_text="Error en la Pagina "+p.getTitle()+" existe un ViewAttribute sin nombre";
 			        	this.error_status=true;
 					}
 					
-					if (x_view_component_type_presentation == -1){
-						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Type Presentation";
+					if (x_view_component_atributte == -1 && !this.error_status){
+			        	this.error_text="Error en la Pagina "+p.getTitle()+" existe un ViewAttribute sin GetAttribute";
 			        	this.error_status=true;
 					}
 					
-					if(x_view_component_x == -1){
-						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Position Horizontal";
+					if (x_view_component_type_presentation == -1 && !this.error_status){
+						this.error_text="Error en la Pagina "+p.getTitle()+" existe un ViewAttribute sin Type Presentation";
+			        	this.error_status=true;
+					}
+					
+					if(x_view_component_x == -1 && !this.error_status){
+						this.error_text="Error en la Pagina "+p.getTitle()+" existe un ViewAttribute sin Position Horizontal";
 			        	this.error_status=true;						
 					}
 					
-					if(x_view_component_x == -1){
-						this.error_text="Error en la Pagina "+p.getTitle()+" existe una ViewAttribute sin Position Vertical";
+					if(x_view_component_x == -1&& !this.error_status){
+						this.error_text="Error en la Pagina "+p.getTitle()+" existe un ViewAttribute sin Position Vertical";
 			        	this.error_status=true;						
 					}
 					if(!this.error_status){
