@@ -89,7 +89,7 @@ public class ReadModel{
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
 					if(cont_tabla !=0){
 						if(cont_pk == 0 || cont_pk > 1){
-							this.error_text="Error la clase "+t.getNombre()+", debe tener una Primary Key";
+							this.error_text="Error hay una clase sin nombre";
 				        	this.error_status=true;
 						}
 						else{
@@ -104,8 +104,13 @@ public class ReadModel{
 			        String substr = line.substring(x_class+12, line.length());
 			        int stop=substr.indexOf("\"");//CRITERIO DE PARADA PARA EXTRACCION DEL DATO
 			        tabla=substr.substring(0, stop);
-			        t.setNombre(tabla);//AGREGO EL NOMBRE A LA TABLA
 			        
+			        if(tabla.length()==0){
+			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
+			        	this.error_status=true;
+			        	
+			        }
+			        t.setNombre(tabla);//AGREGO EL NOMBRE A LA TABLA
 			        //ROLES -ACCESO A LOS SERVICIOS
 			        if(x_roles_fcreate != -1){//CREATE
 			        	String substr_fcreate=line.substring(x_roles_fcreate+16	, line.length());
@@ -114,34 +119,36 @@ public class ReadModel{
 			        	cont_tabla++;
 			        }
 			        
-			        if(x_roles_fupdate != -1){//UPDATE
-			        	String substr_fupdate=line.substring(x_roles_fupdate+16	, line.length());
-			        	int stop_fupdate=substr_fupdate.indexOf("\"");
-			        	r.setFUpdate(substr_fupdate.substring(0, stop_fupdate));
-			        	cont_tabla++;
-			        }
+			        if(!this.error_status){
+			        	if(x_roles_fupdate != -1){//UPDATE
+			        		String substr_fupdate=line.substring(x_roles_fupdate+16	, line.length());
+			        		int stop_fupdate=substr_fupdate.indexOf("\"");
+			        		r.setFUpdate(substr_fupdate.substring(0, stop_fupdate));
+			        		cont_tabla++;
+			        	}
 			        
-			        if(x_roles_fdelete != -1){//DELETE
-			        	String substr_fdelete=line.substring(x_roles_fdelete+16	, line.length());
-			        	int stop_fdelete=substr_fdelete.indexOf("\"");
-			        	r.setFDelete(substr_fdelete.substring(0, stop_fdelete));
-			        	cont_tabla++;
-			        }
+			        	if(x_roles_fdelete != -1){//DELETE
+			        		String substr_fdelete=line.substring(x_roles_fdelete+16	, line.length());
+			        		int stop_fdelete=substr_fdelete.indexOf("\"");
+			        		r.setFDelete(substr_fdelete.substring(0, stop_fdelete));
+			        		cont_tabla++;
+			        	}
+			        	
+			        	if(x_roles_findex != -1){//INDEX
+			        		String substr_findex=line.substring(x_roles_findex+15	, line.length());
+			        		int stop_findex=substr_findex.indexOf("\"");
+			        		r.setFIndex(substr_findex.substring(0, stop_findex));
+			        		cont_tabla++;
+			        	}
 			        
-			        if(x_roles_findex != -1){//INDEX
-			        	String substr_findex=line.substring(x_roles_findex+15	, line.length());
-			        	int stop_findex=substr_findex.indexOf("\"");
-			        	r.setFIndex(substr_findex.substring(0, stop_findex));
-			        	cont_tabla++;
+			        	if(x_roles_fview != -1){//VIEW
+			        		String substr_fview=line.substring(x_roles_fview+14	, line.length());
+			        		int stop_fview=substr_fview.indexOf("\"");
+			        		r.setFView(substr_fview.substring(0, stop_fview));
+			        		cont_tabla++;
+			        	}
+			        	t.setRoles(r); //AGREGO LA CONF DE LOS ROLES ENCONTRADOS
 			        }
-			        
-			        if(x_roles_fview != -1){//VIEW
-			        	String substr_fview=line.substring(x_roles_fview+14	, line.length());
-			        	int stop_fview=substr_fview.indexOf("\"");
-			        	r.setFView(substr_fview.substring(0, stop_fview));
-			        	cont_tabla++;
-			        }
-			        t.setRoles(r); //AGREGO LA CONF DE LOS ROLES ENCONTRADOS
 			    }
 				
 				//BUSQUEDA ATRIBUTO NO DERIVADO
@@ -169,7 +176,7 @@ public class ReadModel{
 			        String atributo_type_model=substr_type.substring(0, stop_type);
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
 			        
-			        if(atributo_nombre.indexOf("xsi") != -1){
+			        if(atributo_nombre.indexOf("xsi") != -1 || atributo_nombre.length()==0){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
 			        	this.error_status=true;
 			        }
@@ -207,7 +214,7 @@ public class ReadModel{
 			        String atributo_type=substr_type.substring(0, stop_type);
 			        String atributo_formula=substr_formula.substring(0, stop_formula);
 			        
-			        if(atributo_nombre.indexOf("xsi") != -1){
+			        if(atributo_nombre.indexOf("xsi") != -1 || atributo_nombre.length()==0){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo derivado no posee nombre";
 			        	this.error_status=true;
 			        }
@@ -280,19 +287,21 @@ public class ReadModel{
 					String html=substr_html.substring(0,html_stop);
 					String rol=substr_rol.substring(0, rol_stop);
 
-			        if(html.indexOf("type") != -1){
+			        if(title.indexOf("xsi") != -1 || title.length() == 0){
+			        	this.error_text="Error existe una vista sin titulo";
+			        	this.error_status=true;
+			        }
+					
+			        if(html.indexOf("type") != -1 && !this.error_status){
 			        	html=" ";
 			        }
 			        
-			        if(rol.indexOf("xsi") != -1){
+			        if(rol.indexOf("xsi") != -1 && !this.error_status){
 			        	this.error_text="Error, la Pagina "+title+" no posee un Rol View\nVuelva a asignar uno.";
 			        	this.error_status=true;
 			        }
 			        
-			        if(title.indexOf("xsi") != -1){
-			        	this.error_text="Error existe una vista sin titulo";
-			        	this.error_status=true;
-			        }
+
 			        
 			        if(!this.error_status){
 			        	p.setTitle(title);
@@ -366,6 +375,11 @@ public class ReadModel{
 						name_menu=substr_menu_name.substring(0, stop_menu_name);
 					}
 					
+					if(name_menu.length() == 0){
+						this.error_text="Error, un menu no posee nombre";
+			        	this.error_status=true;
+					}
+					
 					if(x_view_menu_typeMenu == -1 && !error_status){
 						this.error_text="Error, el menu "+name_menu+" no posee typeMenu";
 			        	this.error_status=true;
@@ -377,16 +391,13 @@ public class ReadModel{
 							this.menus.add(m);
 						}
 						m = new Menu();
-					
 						String substr_typeMenu=line.substring( x_view_menu_typeMenu+10, line.length());
-					
 						int stop_menu_type=substr_typeMenu.indexOf("\"");
-						
 						String type_menu=substr_typeMenu.substring(0, stop_menu_type);
-					
+
 						m.setName(name_menu);
-						m.setTypeMenu(type_menu);	
-					
+						m.setTypeMenu(type_menu);
+						
 						if(type_menu.equals("principal")){
 							m.setIdView(-1);
 							cont_menu_principal++;
