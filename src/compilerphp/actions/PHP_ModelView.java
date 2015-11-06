@@ -87,9 +87,11 @@ public class PHP_ModelView{
 				model_view=model_view+"        '"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
 		}
 		
+		/*
 		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
 		
 		model_view=model_view+"        '"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
+		*/
 	    model_view=model_view+"    ];\n";
 	    model_view=model_view+" }\n";
 	    model_view=model_view+"}\n";

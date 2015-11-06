@@ -69,7 +69,7 @@ public class PHP_CRUDView{
 		controler=controler+"                                'allow'=>true,\n";
 		controler=controler+"                                'matchCallback'=>function(){\n";
 		controler=controler+"                                    if(!Yii::$app->user->isGuest){\n";
-		controler=controler+"                                      return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.tabla.getNombre().toLowerCase()+"', 'index'));\n";
+		controler=controler+"                                      return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.view.getNombre().toLowerCase()+"', 'index'));\n";
 		controler=controler+"                                    }\n";
 		controler=controler+"                                    else{\n";
 		controler=controler+"                                      false;\n";
@@ -83,7 +83,7 @@ public class PHP_CRUDView{
 		controler=controler+"                                'allow'=>true,\n";
 		controler=controler+"                                'matchCallback'=>function(){\n";
 		controler=controler+"                                  if(!Yii::$app->user->isGuest){\n";
-		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.tabla.getNombre().toLowerCase()+"', 'create'));\n";
+		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.view.getNombre().toLowerCase()+"', 'create'));\n";
 		controler=controler+"                                  }\n";
 		controler=controler+"                                  else{\n";
 		controler=controler+"                                    false;\n";
@@ -97,7 +97,7 @@ public class PHP_CRUDView{
 		controler=controler+"                                'allow'=>true,\n";
 		controler=controler+"                                'matchCallback'=>function(){\n";
 		controler=controler+"                                  if(!Yii::$app->user->isGuest){\n";
-		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.tabla.getNombre().toLowerCase()+"', 'update'));\n";
+		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.view.getNombre().toLowerCase()+"', 'update'));\n";
 		controler=controler+"                                  }\n";
 		controler=controler+"                                  else{\n";
 		controler=controler+"                                    false;\n";
@@ -111,7 +111,7 @@ public class PHP_CRUDView{
 		controler=controler+"                                'allow'=>true,\n";
 		controler=controler+"                                'matchCallback'=>function(){\n";
 		controler=controler+"                                  if(!Yii::$app->user->isGuest){\n";
-		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.tabla.getNombre().toLowerCase()+"', 'delete'));\n";
+		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.view.getNombre().toLowerCase()+"', 'delete'));\n";
 		controler=controler+"                                  }\n";
 		controler=controler+"                                  else{\n";
 		controler=controler+"                                    false;\n";
@@ -125,7 +125,7 @@ public class PHP_CRUDView{
 		controler=controler+"                                'allow'=>true,\n";
 		controler=controler+"                                'matchCallback'=>function(){\n";
 		controler=controler+"                                  if(!Yii::$app->user->isGuest){\n";
-		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.tabla.getNombre().toLowerCase()+"', 'view'));\n";
+		controler=controler+"                                    return (Yii::$app->access->validate(Yii::$app->user->identity->id_rol, '"+this.view.getNombre().toLowerCase()+"', 'view'));\n";
 		controler=controler+"                                  }\n";
 		controler=controler+"                                  else{\n";
 		controler=controler+"                                    false;\n";
@@ -197,7 +197,7 @@ public class PHP_CRUDView{
 		controler=controler+"\n";
 		controler=controler+"		    protected function findModel($id)\n";
 		controler=controler+"		    {\n";
-		controler=controler+"			        if (($model = "+this.tabla.getNombre()+"::findOne($id)) !== null) {\n";
+		controler=controler+"			        if (($model = "+this.view.getNombre()+"::findOne($id)) !== null) {\n";
 		controler=controler+"			            return $model;\n";
 		controler=controler+"			        } else {\n";
 		controler=controler+"			            throw new NotFoundHttpException('The requested page does not exist.');\n";
@@ -233,7 +233,7 @@ public class PHP_CRUDView{
 		index=index+"						        <?= Html::a('Create "+this.view.getNombre()+"', ['create'], ['class' => 'btn btn-success']) ?>\n";
 		index=index+"						    </p>\n";
 		index=index+"						    <?php\n";
-		index=index+"						    $results= "+this.view.getNombre()+"::find();\n";
+		index=index+"						    $results= "+this.view.getNombre()+"::find()->all();\n";
 		index=index+"				    $resultsProvider = new ActiveDataProvider([\n";
 		index=index+"						        'query' => $results,\n";
 		index=index+"						    ]);\n";
@@ -247,7 +247,7 @@ public class PHP_CRUDView{
 												for(ForeignKey fk : this.tabla.getForeignKeys()){
 		index=index+"						        '"+fk.getNombre()+"',\n";
 												}
-		index=index+"						        '"+this.view.getNombre()+"',\n";//DEBERIA SER UN FOR
+		//index=index+"						        '"+this.view.getNombre()+"',\n";//DEBERIA SER UN FOR
 		//index=index+"				        ['class' => 'yii\\grid\\ActionColumn'],\n";
 		index=index+"						    ]\n";
 		index=index+"						]);\n";
