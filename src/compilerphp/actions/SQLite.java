@@ -18,6 +18,7 @@ public class SQLite{
 	//ESCRIBRE EN TEXTO PLANO LAS SENTENCIAS SQL
 	public static List<String> genSQL(SQL sql, String path){
 		sql.genViews();
+		System.out.println("Paso");
 		List <View> views = sql.getViews();
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
@@ -84,7 +85,9 @@ public class SQLite{
 			}
 			
 			//ESCRIVO LAS VISTAS
+			System.out.println("Escrivo las Vistas");
 			for(View view : views){
+				System.out.println("Escriviendo: "+view.getNombre());
 				dataBase.add(view.getSQL());
 			}
 			

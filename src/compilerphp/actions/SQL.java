@@ -63,32 +63,37 @@ public class SQL{
 	
 	//GENERADOR DE VISTAS POR TABLA SEGUN LOS ATRIBUTOS DERIVADOS QUE ESTA POSEE
 	public void genViews(){
+		System.out.println("entro genViews");
 		for(Tabla t : this.tablas){
-			String sql="CREATE VIEW "+t.getNombre()+"View AS SELECT * FROM "+t.getNombre()+", ";
-			int cont_atributo=0;
-			for(Atributo a : t.getAtributos()){
-				if(a.getDerivedEDO()){
-					if(cont_atributo > 0){
-						sql=sql+", ";
+			if(t.getVistaEDO()){
+				String sql="CREATE VIEW "+t.getNombre()+"View AS SELECT * FROM "+t.getNombre()+", ";
+				int cont_atributo=0;
+				for(Atributo a : t.getAtributos()){
+					if(a.getDerivedEDO()){
+						if(a.getDerivedEDO()){
+							if(cont_atributo > 0){
+								sql=sql+", ";
+							}
+							sql=sql+"("+a.getFormula()+") AS "+a.getNombre();
+						}
+						cont_atributo++;
 					}
-					sql=sql+"("+a.getFormula()+") AS "+a.getNombre();
 				}
-				cont_atributo++;
-			}
-			sql=sql+" WHERE ";
-			cont_atributo=0;
-			for(Atributo a : t.getAtributos()){
-				if(a.getDerivedEDO()){
-					if(cont_atributo>0){
-						sql=sql+" AND ";
+				sql=sql+" WHERE ";
+				cont_atributo=0;
+				for(Atributo a : t.getAtributos()){
+					if(a.getDerivedEDO()){
+						if(cont_atributo>0){
+							sql=sql+" AND ";
+						}
+						sql=sql+t.getNombre()+"."+t.getPrimaryKey().getNombre()+"="+a.getNombre()+".pk";
+						cont_atributo++;
 					}
-					sql=sql+t.getNombre()+"."+t.getPrimaryKey().getNombre()+"="+a.getNombre()+".pk";
 				}
-				cont_atributo++;
+				System.out.println("Vista SQL: "+sql);
+				View v = new View(sql, t.getNombre(), t.getNombre()+"View");
+				this.views.add(v);
 			}
-			View v = new View(sql, t.getNombre(), t.getNombre()+"View");
-			this.views.add(v);
 		}
-		
 	}
 }

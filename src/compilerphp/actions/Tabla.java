@@ -10,10 +10,11 @@ public class Tabla{
 	private List<Atributo> atributos;
 	private List<ForeignKey> llavesForaneas;
 	private Roles roles;
-	
+	private boolean vista;
 	public Tabla(){
 		this.atributos = new ArrayList<Atributo>();
 		this.llavesForaneas = new ArrayList<ForeignKey>();
+		this.vista=false;
 	}
 	
 	public void setNombre(String n){
@@ -49,6 +50,10 @@ public class Tabla{
 		return null;
 	}
 	
+	public boolean getVistaEDO(){
+		return this.vista;
+	}
+	
 	public String findNameAttribute(){
 		String name="";
 		for (Atributo a: this.atributos){
@@ -78,4 +83,7 @@ public class Tabla{
 		this.roles=roles_;
 	}
 	
+	public void setVistaEDO(boolean vista_){
+		this.vista=vista_;
+	}
 }

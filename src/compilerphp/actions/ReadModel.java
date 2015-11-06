@@ -248,6 +248,7 @@ public class ReadModel{
 			        		//this.sql.addView(v);
 			        		Atributo a_derived = new Atributo(atributo_nombre, atributo_formula, tabla, atributo_type);
 			        		t.addAtributo(a_derived);
+			        		t.setVistaEDO(true);
 			        	}
 			        }
 				}
