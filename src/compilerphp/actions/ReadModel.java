@@ -117,7 +117,12 @@ public class ReadModel{
 			        	
 			        }
 			        
-			        if(sql.getIDTabla(tabla)!=cont_tabla){
+			        if(tabla.indexOf(" ") != -1 && !this.error_status){
+			        	this.error_text="Error en la clase "+t.getNombre()+", el nombre debe ser sin espacios";
+			        	this.error_status=true;
+			        }
+			        
+			        if(sql.getIDTabla(tabla)!=cont_tabla && !this.error_status){
 			        	this.error_text="Error la tabla "+tabla+" se encuentra repetida";
 			        	this.error_status=true;
 			        }
@@ -199,6 +204,11 @@ public class ReadModel{
 			        	this.error_status=true;
 			        }
 			        
+			        if(atributo_nombre.indexOf(" ") != -1 && !this.error_status){
+			        	this.error_text="Error en la clase "+t.getNombre()+", el atributo "+atributo_nombre+", debe ser sin espacios";
+			        	this.error_status=true;
+			        }
+			        
 			        if(!this.error_status){
 			        	Atributo a = new Atributo(atributo_nombre, pk, false, atributo_type, atributo_type_model, requiered);
 			        	t.addAtributo(a);//AGREGO ATRIBUTOS A LA TABL
@@ -241,6 +251,12 @@ public class ReadModel{
 			        	this.error_status=true;
 			        }
 			        
+			        
+			        if(atributo_nombre.indexOf(" ") != -1 && !this.error_status){
+			        	this.error_text="Error en la clase "+t.getNombre()+", el atributo "+atributo_nombre+" debe ser sin espacios";
+			        	this.error_status=true;
+			        }
+			        
 			        if(!this.error_status){
 			        	//CHEQUEO DE FORMULA.
 			        	if(check_formula(atributo_formula, atributo_nombre)){
@@ -277,6 +293,12 @@ public class ReadModel{
 				        	this.error_text="Error posee una relación sin nombre";
 				        	this.error_status=true;
 				     }
+				     
+				     if(relation_name.indexOf(" ") != -1 && !this.error_status){
+				       	this.error_text="Error en la realación "+relation_name+", el nombre debe ser sin espacios";
+				       	this.error_status=true;
+				     }
+				        
 				     if(!this.error_status){
 				    	 ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
 				    	 t.addForeignKey(f);

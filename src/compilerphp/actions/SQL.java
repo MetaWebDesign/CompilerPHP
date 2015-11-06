@@ -69,7 +69,7 @@ public class SQL{
 		List <View> views = new ArrayList<View>();
 		for(Tabla t : this.tablas){
 			if(t.getVistaEDO()){
-				String sql="CREATE VIEW "+t.getNombre()+"View AS SELECT * FROM "+t.getNombre()+", ";
+				String sql="CREATE VIEW "+t.getNombre()+"view AS SELECT * FROM "+t.getNombre()+", ";
 				int cont_atributo=0;
 				for(Atributo a : t.getAtributos()){
 					if(a.getDerivedEDO()){
