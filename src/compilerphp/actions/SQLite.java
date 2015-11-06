@@ -108,7 +108,7 @@ public class SQLite{
 			//DASHBOARD VISTAS
 			
 			for(View view : sql.getViews()){
-				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla().toLowerCase()+view.getNombre().toLowerCase()+"', 'true');";
+				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getNombre().toLowerCase()+"', 'true');";
 				dataBase.add(dash_table);
 			
 			}

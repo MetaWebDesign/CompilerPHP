@@ -29,18 +29,18 @@ public class PHP_ModelView{
 		model_view=model_view+"namespace app\\models;\n\n";
 		model_view=model_view+"use Yii;\n";
 		model_view=model_view+"/**\n";
-		model_view=model_view+" * This is the model class for table \""+view.getTabla()+view.getNombre()+"\".\n";
+		model_view=model_view+" * This is the model class for table \""+view.getNombre()+"\".\n";
 		model_view=model_view+" *\n";
 		for(Atributo atributo : atributos) {
 			model_view=model_view+" * @property "+atributo.getType()+" "+atributo.getNombre()+"\n";
 		}
 		//model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
 		model_view=model_view+" */\n";
-		model_view=model_view+"class "+view.getTabla()+view.getNombre()+" extends \\yii\\db\\ActiveRecord\n";
+		model_view=model_view+"class "+view.getNombre()+" extends \\yii\\db\\ActiveRecord\n";
 		model_view=model_view+"{\n";
 		model_view=model_view+"public static function tableName()\n";
 		model_view=model_view+"{\n";
-		model_view=model_view+"    return '"+view.getTabla()+view.getNombre()+"';\n";
+		model_view=model_view+"    return '"+view.getNombre()+"';\n";
 		model_view=model_view+"}\n";
 		model_view=model_view+"public function rules()\n";
 		model_view=model_view+"{\n";
@@ -86,7 +86,9 @@ public class PHP_ModelView{
 				atributo_model_name=atributo.getNombre().substring(0, 1).toUpperCase() +atributo.getNombre().substring(1);
 				model_view=model_view+"        '"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
 		}
+		
 		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
+		
 		model_view=model_view+"        '"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
 	    model_view=model_view+"    ];\n";
 	    model_view=model_view+" }\n";

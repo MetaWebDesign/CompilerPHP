@@ -27,7 +27,7 @@ public class PHP_CRUDView{
 		this.path_proyect_controller=path_proyect_+"proyect/controllers/";
 		this.path_proyect_view=path_proyect_+"proyect/views/";
 		this.tabla=this.modelo.getTabla(view.getTabla());
-		this.ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
+		this.ruta=this.path_proyect_view+this.view.getNombre().toLowerCase();
 		obj.executeCommand("mkdir "+ruta);
 		
 	}
@@ -43,7 +43,7 @@ public class PHP_CRUDView{
 		controler=controler+"namespace app\\controllers;\n";
 		controler=controler+"\n";
 		controler=controler+"use Yii;\n";
-		controler=controler+"use app\\models\\"+this.tabla.getNombre()+this.view.getNombre()+";\n";
+		controler=controler+"use app\\models\\"+this.view.getNombre()+";\n";
 		controler=controler+"use app\\models\\"+this.tabla.getNombre()+"Search;\n";
 		controler=controler+"use yii\\web\\Controller;\n";
 		controler=controler+"use yii\\web\\NotFoundHttpException;\n";
@@ -51,7 +51,7 @@ public class PHP_CRUDView{
 		controler=controler+"\n";
 		controler=controler+"use yii\\filters\\AccessControl;\n";
 		controler=controler+"\n";
-		controler=controler+"class "+this.tabla.getNombre()+this.view.getNombre()+"Controller extends Controller\n";
+		controler=controler+"class "+this.view.getNombre()+"Controller extends Controller\n";
 		controler=controler+"{\n";
 		controler=controler+"		    protected $roles_= array();\n";
 		controler=controler+"\n";
@@ -164,7 +164,7 @@ public class PHP_CRUDView{
 		controler=controler+"\n";
 		controler=controler+"		    public function actionCreate()\n";
 		controler=controler+"		    {\n";
-		controler=controler+"		        $model = new "+this.tabla.getNombre()+this.view.getNombre()+"();\n";
+		controler=controler+"		        $model = new "+this.view.getNombre()+"();\n";
 		controler=controler+"\n";
 		controler=controler+"		        if ($model->load(Yii::$app->request->post()) && $model->save()) {\n";
 		controler=controler+"		            return $this->redirect(['view', 'id' => $model->"+pk.getNombre()+"]);\n";
@@ -206,7 +206,7 @@ public class PHP_CRUDView{
 		controler=controler+"}\n";
 
 		//ESCRITURA DEL CONTROLADOR DE LA VISTA
-		php_crud = new FileWriter(path_proyect_controller+this.view.getTabla()+this.view.getNombre()+"Controller.php");
+		php_crud = new FileWriter(path_proyect_controller+this.view.getNombre()+"Controller.php");
 		php_crud.write(controler);
 		php_crud.close();
 	}
@@ -222,18 +222,18 @@ public class PHP_CRUDView{
 		index=index+"use yii\\data\\ActiveDataProvider;\n";
 		index=index+"\n";
 		index=index+"if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){\n";
-		index=index+"						  $this->title = '"+this.tabla.getNombre()+this.view.getNombre()+"';\n";
+		index=index+"						  $this->title = '"+this.view.getNombre()+"';\n";
 		index=index+"						  $this->params['breadcrumbs'][] = $this->title;\n";
 		index=index+"				?>\n";
-		index=index+"						  <div class=\""+this.tabla.getNombre()+this.view.getNombre()+"-index\">\n";
+		index=index+"						  <div class=\""+this.view.getNombre()+"-index\">\n";
 		index=index+"\n";
 		index=index+"						    <h1><?= Html::encode($this->title) ?></h1>\n";
 		index=index+"\n";
 		index=index+"						    <p>\n";
-		index=index+"						        <?= Html::a('Create "+this.tabla.getNombre()+" "+this.view.getNombre()+"', ['create'], ['class' => 'btn btn-success']) ?>\n";
+		index=index+"						        <?= Html::a('Create "+this.view.getNombre()+"', ['create'], ['class' => 'btn btn-success']) ?>\n";
 		index=index+"						    </p>\n";
 		index=index+"						    <?php\n";
-		index=index+"						    $results= "+this.tabla.getNombre()+this.view.getNombre()+"::find();\n";
+		index=index+"						    $results= "+this.view.getNombre()+"::find();\n";
 		index=index+"				    $resultsProvider = new ActiveDataProvider([\n";
 		index=index+"						        'query' => $results,\n";
 		index=index+"						    ]);\n";
@@ -288,7 +288,7 @@ public class PHP_CRUDView{
 		create=create+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/create'));\n";
 		create=create+"?>\n";
 		//ESCRITURA DE LA VISTA INDEX
-		String ruta=this.path_proyect_view+this.tabla.getNombre().toLowerCase()+this.view.getNombre().toLowerCase();
+		String ruta=this.path_proyect_view+this.view.getNombre().toLowerCase();
 		php_crud_create = new FileWriter(ruta+"/create.php");
 		php_crud_create.write(create);
 		php_crud_create.close();
