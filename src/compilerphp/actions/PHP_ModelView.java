@@ -34,7 +34,7 @@ public class PHP_ModelView{
 		for(Atributo atributo : atributos) {
 			model_view=model_view+" * @property "+atributo.getType()+" "+atributo.getNombre()+"\n";
 		}
-		model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
+		//model_view=model_view+" * @property "+view.getType()+" "+view.getNombre()+"\n";
 		model_view=model_view+" */\n";
 		model_view=model_view+"class "+view.getTabla()+view.getNombre()+" extends \\yii\\db\\ActiveRecord\n";
 		model_view=model_view+"{\n";
@@ -46,7 +46,7 @@ public class PHP_ModelView{
 		model_view=model_view+"{\n";
 		model_view=model_view+"    return [\n";
 		for(Atributo atributo : atributos) {
-			if(!atributo.getType().equals("autoincremental")){
+			if(!atributo.getType().equals("autoincremental") && !atributo.getDerivedEDO()){
 				String typeData=atributo.getType();
 				if(typeData.equals("varchar(10)")){
 					//typeData="'string', 'max' => 10";
@@ -70,8 +70,13 @@ public class PHP_ModelView{
 				}
 				
 			}
+			
+			if (atributo.getDerivedEDO()){
+				model_view=model_view+"        [['"+atributo.getNombre()+"'], '"+atributo.getType()+"'],\n";
+			}
 		}
-		model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
+		
+		//model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
 	    model_view=model_view+"    ];\n";
 	    model_view=model_view+"}\n";
 	    model_view=model_view+"public function attributeLabels()\n";

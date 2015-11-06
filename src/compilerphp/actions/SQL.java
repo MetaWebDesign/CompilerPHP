@@ -86,7 +86,7 @@ public class SQL{
 				}
 				cont_atributo++;
 			}
-			View v = new View(sql);
+			View v = new View(sql, t.getNombre(), t.getNombre()+"View");
 			this.views.add(v);
 		}
 		

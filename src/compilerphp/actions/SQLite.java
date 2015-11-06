@@ -17,6 +17,7 @@ public class SQLite{
 	
 	//ESCRIBRE EN TEXTO PLANO LAS SENTENCIAS SQL
 	public static List<String> genSQL(SQL sql, String path){
+		sql.genViews();
 		List <View> views = sql.getViews();
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
@@ -36,59 +37,55 @@ public class SQLite{
 			    //IMPRIMO LOS ATRIBUTOS
 			    int coma=0;
 			    for(Atributo atributo : atributos){
-			    	//ESCRIVO LOS ATRIBUTOS
-			    	if(coma !=0){
-			    		linea_sql=linea_sql+", ";
+			    	if(!atributo.getDerivedEDO()){
+			    		//ESCRIVO LOS ATRIBUTOS
+			    		if(coma !=0){
+			    			linea_sql=linea_sql+", ";
+			    		}
+			    	
+			    		linea_sql=linea_sql+atributo.getNombre();
+			    	
+			    		if (atributo.getType().equals("autoincremental")){
+			    			linea_sql=linea_sql+" integer primary key not null";
+			    		}
+			    	
+			    		if (!atributo.getType().equals("autoincremental")){
+			    			linea_sql=linea_sql+" "+atributo.getType();
+			    		}
+			    		coma++;
 			    	}
-			    	
-			    	linea_sql=linea_sql+atributo.getNombre();
-			    	
-			    	if (atributo.getType().equals("autoincremental")){
-			    		linea_sql=linea_sql+" integer primary key not null";
+			    }
+			    
+			    //IMPRIMO LLAVES FORANEAS
+			    coma=0;
+			    //AGREGO ATRIBUTO DE LAS LLAVES FORANEA
+			    for(ForeignKey fk : foreignKeys){
+			    	String typeAtributo=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType();
+			    	linea_sql=linea_sql+", "+fk.getNombre()+" ";
+			    	if(typeAtributo.equals("autoincremental")){
+			    		linea_sql=linea_sql+"integer";
 			    	}
-			    	
-			    	if (!atributo.getType().equals("autoincremental")){
-			    		linea_sql=linea_sql+" "+atributo.getType();
+			    	else{
+			    		linea_sql=linea_sql+typeAtributo;
 			    	}
 			    	coma++;
 			    }
-			    
-		    	//IMPRIMO LLAVES FORANEAS
 			    coma=0;
-			    //AGREGO ATRIBUTO DE LAS LLAVES FORANEA
-		    	for(ForeignKey fk : foreignKeys){
-		    		String typeAtributo=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType();
-	    			linea_sql=linea_sql+", "+fk.getNombre()+" ";
-		    		if(typeAtributo.equals("autoincremental")){
-		    			linea_sql=linea_sql+"integer";
-		    		}
-		    		else{
-		    			linea_sql=linea_sql+typeAtributo;
-		    		}
-		    		coma++;
-		    	}
-		    	coma=0;
-		    	//AGREGO LAS REFERENCIAS DE LAS LLAVES FORANES
-		    	for(ForeignKey fk : foreignKeys){
-		    		String tablaDestino=tablas.get(fk.getDestination()).getNombre();
-		    		String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();
-		    		//String typeAtributo=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType();
-		    		linea_sql=linea_sql+", FOREIGN KEY("+fk.getNombre()+") REFERENCES "+tablaDestino+"("+atributoDestino+")";
-		    		coma++;
-		    	}
-		    	
-		    	linea_sql=linea_sql+");";
-		    	dataBase.add(linea_sql);
-	        }
+			    //AGREGO LAS REFERENCIAS DE LAS LLAVES FORANES
+			    for(ForeignKey fk : foreignKeys){
+			    	String tablaDestino=tablas.get(fk.getDestination()).getNombre();
+			    	String atributoDestino=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getNombre();
+			    	//String typeAtributo=tablas.get(fk.getDestination()).getAtributos().get(fk.getAtributoDestination()).getType();
+			    	linea_sql=linea_sql+", FOREIGN KEY("+fk.getNombre()+") REFERENCES "+tablaDestino+"("+atributoDestino+")";
+			    	coma++;
+			    }				    	
+			    linea_sql=linea_sql+");";
+			    dataBase.add(linea_sql);
+			}
 			
 			//ESCRIVO LAS VISTAS
 			for(View view : views){
-				Tabla tabla_=sql.getTabla(view.getTabla());
-				String vista="CREATE VIEW "+tabla_.getNombre()+view.getNombre()+" as ";
-				vista=vista+"SELECT * FROM "+tabla_.getNombre();
-				vista=vista+", ("+view.getFormula()+") as view";
-				vista=vista+" WHERE "+tabla_.getNombre()+"."+tabla_.getPrimaryKey().getNombre()+"=view.pk";
-				dataBase.add(vista);
+				dataBase.add(view.getSQL());
 			}
 			
 			/*
