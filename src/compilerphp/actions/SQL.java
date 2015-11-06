@@ -9,12 +9,12 @@ import java.util.List;
 public class SQL{
 	//DATOS EXTRAIDOS DEL MODELO
 	private List<Tabla> tablas;
-	private List<View> views;
+	//private List<View> views;
 	
 	//CONSTRUCTOR
 	public SQL(){
 		tablas = new ArrayList<Tabla>(); //CONTIENE A LA(S) LLAVE(S) FORANEAS
-		views = new ArrayList<View>();
+		//views = new ArrayList<View>();
 	}
 
 	public void addTabla(Tabla t){
@@ -25,13 +25,15 @@ public class SQL{
 		return tablas;
 	}
 	
+	/*
 	public void addView(View v){
 		views.add(v);
-	}
+	}*/
 	
+	/*
 	public List<View> getViews(){
 		return this.views;
-	}
+	}*/
 	
 	//BUSCA UNA TABLA POR NOMBRE
 	public Tabla getTabla(String tabla_name){
@@ -62,8 +64,9 @@ public class SQL{
 	}
 	
 	//GENERADOR DE VISTAS POR TABLA SEGUN LOS ATRIBUTOS DERIVADOS QUE ESTA POSEE
-	public void genViews(){
+	public List <View> getViews(){
 		System.out.println("entro genViews");
+		List <View> views = new ArrayList<View>();
 		for(Tabla t : this.tablas){
 			if(t.getVistaEDO()){
 				String sql="CREATE VIEW "+t.getNombre()+"View AS SELECT * FROM "+t.getNombre()+", ";
@@ -90,10 +93,12 @@ public class SQL{
 						cont_atributo++;
 					}
 				}
-				System.out.println("Vista SQL: "+sql);
+				System.out.println("Vista SQL: "+sql+" "+t.getNombre()+" "+t.getNombre()+"View");
 				View v = new View(sql, t.getNombre(), t.getNombre()+"View");
-				this.views.add(v);
+				System.out.println("Guardo Como vista: "+v.getNombre());
+				views.add(v);
 			}
 		}
+		return views;
 	}
 }

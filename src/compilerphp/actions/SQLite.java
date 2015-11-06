@@ -17,9 +17,9 @@ public class SQLite{
 	
 	//ESCRIBRE EN TEXTO PLANO LAS SENTENCIAS SQL
 	public static List<String> genSQL(SQL sql, String path){
-		sql.genViews();
+		//sql.genViews();
 		System.out.println("Paso");
-		List <View> views = sql.getViews();
+		//List <View> views = sql.getViews();
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
 		List <ForeignKey> foreignKeys;
@@ -86,7 +86,7 @@ public class SQLite{
 			
 			//ESCRIVO LAS VISTAS
 			System.out.println("Escrivo las Vistas");
-			for(View view : views){
+			for(View view : sql.getViews()){
 				System.out.println("Escriviendo: "+view.getNombre());
 				dataBase.add(view.getSQL());
 			}
@@ -107,7 +107,7 @@ public class SQLite{
 			
 			//DASHBOARD VISTAS
 			
-			for(View view : views){
+			for(View view : sql.getViews()){
 				String dash_table="INSERT INTO Dashboard (nombre, vista) values ('"+view.getTabla().toLowerCase()+view.getNombre().toLowerCase()+"', 'true');";
 				dataBase.add(dash_table);
 			

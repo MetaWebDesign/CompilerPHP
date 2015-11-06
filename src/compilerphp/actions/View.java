@@ -5,8 +5,10 @@ public class View{
 	private String tabla;
 	private String nombre;
 	
-	public View(String sql, String tabla, String nombre){
-		this.sql_view=sql;
+	public View(String sql_, String tabla_, String nombre_){
+		this.sql_view=sql_;
+		this.tabla=tabla_;
+		this.nombre=nombre_;
 	}
 	
 	public String getSQL(){

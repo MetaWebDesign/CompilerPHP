@@ -55,18 +55,20 @@ public class PHP_ViewForm{
 		
 		//WIDGETS PARA ATRIBUTOS
 		for(Atributo a : tabla.getAtributos()){
-			if(a.getTypeModel().equals("date_time")){ //SI EN EL MODELO HAY UN ATRIBUTO TIPO DATETIME
-				uses=uses+"use kartik\\datetime\\DateTimePicker;\n";
+			if(!a.getDerivedEDO()){
+				if(a.getTypeModel().equals("date_time")){ //SI EN EL MODELO HAY UN ATRIBUTO TIPO DATETIME
+					uses=uses+"use kartik\\datetime\\DateTimePicker;\n";
+				}
+				if(a.getTypeModel().equals("time")){
+					uses=uses+"use kartik\\time\\TimePicker;\n";
+				}
+				if(a.getTypeModel().equals("date")){
+					uses=uses+"use kartik\\date\\DatePicker;\n";
+				}
+				if(a.getTypeModel().equals("file") || a.getTypeModel().equals("img")){
+					uses=uses+"use kartik\\file\\FileInput;\n";
+				}
 			}
-			if(a.getTypeModel().equals("time")){
-				uses=uses+"use kartik\\time\\TimePicker;\n";
-			}
-			if(a.getTypeModel().equals("date")){
-				uses=uses+"use kartik\\date\\DatePicker;\n";
-			}
-			if(a.getTypeModel().equals("file") || a.getTypeModel().equals("img")){
-				uses=uses+"use kartik\\file\\FileInput;\n";
-			}			
 		}
 		
 		return uses;
@@ -91,7 +93,7 @@ public class PHP_ViewForm{
 		//LECTURA DE ATRIBUTOS
 		 for(Atributo atributo : atributos){
 			 boolean auto=true; //EVITAR QUE SE CUMPLAN DOS CASOS A LA VEZ, SE QUEDA CON EL PRIMERO
-			if(atributo.getRequired()){//SI EL ATRIBUTO ES REQUERIDO EN EL FORMULARIO
+			if(atributo.getRequired() && !atributo.getDerivedEDO()){//SI EL ATRIBUTO ES REQUERIDO EN EL FORMULARIO
 				form=form+"\n";
 				//si el atributo es de tipo datetime
 				if(atributo.getTypeModel().equals("date_time")){//campo para fecha y hora
