@@ -233,7 +233,7 @@ public class PHP_CRUDView{
 		index=index+"						        <?= Html::a('Create "+this.view.getNombre()+"', ['create'], ['class' => 'btn btn-success']) ?>\n";
 		index=index+"						    </p>\n";
 		index=index+"						    <?php\n";
-		index=index+"						    $results= "+this.view.getNombre()+"::find()->all();\n";
+		index=index+"						    $results= "+this.view.getNombre()+"::find();\n";
 		index=index+"				    $resultsProvider = new ActiveDataProvider([\n";
 		index=index+"						        'query' => $results,\n";
 		index=index+"						    ]);\n";
@@ -275,7 +275,7 @@ public class PHP_CRUDView{
 		index=index+"						 ?>\n";
 
 		//ESCRITURA DE LA VISTA INDEX
-		php_crud_view = new FileWriter(ruta+"/index.php");
+		php_crud_view = new FileWriter(this.ruta+"/index.php");
 		php_crud_view.write(index);
 		php_crud_view.close();
 		
@@ -288,8 +288,8 @@ public class PHP_CRUDView{
 		create=create+"Yii::$app->response->redirect(array('"+this.tabla.getNombre().toLowerCase()+"/create'));\n";
 		create=create+"?>\n";
 		//ESCRITURA DE LA VISTA INDEX
-		String ruta=this.path_proyect_view+this.view.getNombre().toLowerCase();
-		php_crud_create = new FileWriter(ruta+"/create.php");
+		//String ruta=this.path_proyect_view+this.view.getNombre().toLowerCase();
+		php_crud_create = new FileWriter(this.ruta+"/create.php");
 		php_crud_create.write(create);
 		php_crud_create.close();
 	}

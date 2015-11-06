@@ -97,7 +97,7 @@ public class PHP_ModelView{
 	    model_view=model_view+"}\n";
 	   
 	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-	    php_model_view = new FileWriter(path_proyect+view.getTabla()+view.getNombre()+".php");
+	    php_model_view = new FileWriter(path_proyect+view.getNombre()+".php");
 	    php_model_view.write(model_view);
 	    php_model_view.close();
 	}

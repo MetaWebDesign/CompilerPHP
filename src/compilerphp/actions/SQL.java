@@ -93,8 +93,8 @@ public class SQL{
 						cont_atributo++;
 					}
 				}
-				System.out.println("Vista SQL: "+sql+" "+t.getNombre()+" "+t.getNombre()+"View");
-				View v = new View(sql, t.getNombre(), t.getNombre()+"View");
+				System.out.println("Vista SQL: "+sql+" "+t.getNombre()+" "+t.getNombre()+"view");
+				View v = new View(sql, t.getNombre(), t.getNombre()+"view");
 				System.out.println("Guardo Como vista: "+v.getNombre());
 				views.add(v);
 			}
