@@ -244,8 +244,10 @@ public class ReadModel{
 			        if(!this.error_status){
 			        	//CHEQUEO DE FORMULA.
 			        	if(check_formula(atributo_formula, atributo_nombre)){
-			        		View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
-			        		this.sql.addView(v);
+			        		//View v = new View(atributo_nombre, atributo_formula, tabla, atributo_type);
+			        		//this.sql.addView(v);
+			        		Atributo a_derived = new Atributo(atributo_nombre, atributo_formula, tabla, atributo_type);
+			        		t.addAtributo(a_derived);
 			        	}
 			        }
 				}

@@ -9,13 +9,9 @@ public class Atributo{
 	private String typeModel;
 	private boolean required;
 	
-	public Atributo(){
-		this.nombre="none";
-		this.primaryKey=false;
-		this.type="text";
-		this.typeModel="text";
-		this.required=true;
-	}
+	private boolean derived;	
+	private String tabla_name;
+	private String formula;
 	
 	//Construcctor
 	/*
@@ -31,10 +27,31 @@ public class Atributo{
 		this.type=type_;
 		this.typeModel=typeModel_;
 		this.required=required_;
+		this.derived=false;
+	}
+	
+	public Atributo(String name, String form, String tabla, String type){
+		this.nombre=name;
+		this.formula=form;
+		this.tabla_name=tabla;
+		this.type=type;
+		this.derived=true;
 	}
 	
 	public String getNombre(){
 		return this.nombre;
+	}
+	
+	public String getFormula(){
+		return this.formula;
+	}
+	
+	public String getTabla(){
+		return this.tabla_name;
+	}
+	
+	public boolean getDerivedEDO(){
+		return this.derived;
 	}
 	
 	public boolean getPrimaryKey(){
