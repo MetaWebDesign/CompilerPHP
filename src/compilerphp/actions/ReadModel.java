@@ -88,6 +88,14 @@ public class ReadModel{
 				int x_view_link_view_name=line.indexOf("name=");
 				int x_view_link_view_id_view=line.indexOf("linkView=");
 				
+				//RESTRICCIONES
+				/*
+				int x_restriccion=line.indexOf("hasConstraint");
+				int x_restriccion_operador=line.indexOf("operator=");
+				int x_restriccion_service=line.indexOf("service=");
+				int x_restriccion_nombre=line.indexOf("name=");
+				int x_restriccion_value=
+				*/
 				//BUSQUEDA TABLA
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
