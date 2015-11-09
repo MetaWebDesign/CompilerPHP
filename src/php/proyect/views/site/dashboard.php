@@ -330,6 +330,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <a href="index.php?r=site/permisos">Permisos Servicios</a>
                                 </li>
                                 <li>
+                                    <a href="index.php?r=restricciones/index">Restricciones Servicios</a>
+                                </li>
+                                <li>
                                     <a href="#">Temas <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
