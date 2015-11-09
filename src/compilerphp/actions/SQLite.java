@@ -140,8 +140,18 @@ public class SQLite{
 			 */
 			dataBase.add("CREATE TABLE DashboardMedia (id_media integer primary key not null, filename varchar(100), id_autor integer, Fecha datetime, extencion varchar(10), FOREIGN KEY(id_autor) REFERENCES Users (id_user));");
 			
-			// DASHBIARD PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS PAGINAS
+			// DASHBOARD PERMISOS PARA ACCEDER A LOS SERVICIOS Y SUS PAGINAS
 			dataBase.add("CREATE TABLE DashboardPermisoscrud (id_permiso integer primary key not null, id_dash integer, service varchar(50) ,id_rol integer, FOREIGN KEY(id_dash) REFERENCES Dashboard(id), FOREIGN KEY(id_rol) REFERENCES Roles(id_rol));");
+
+			//DASHBOARD PARA LAS RESTRICCIONES DE LOS SERVICIOS DE LAS CLASES
+			dataBase.add("CREATE TABLE Restricciones (id integer primary key not null, nombre varchar(50), mensaje_error text, operador varchar(4), service varchar(30), valor varchar(50), clase integer, atributo integer, FOREIGN KEY(clase) REFERENCES Dashboard(id), FOREIGN KEY (atributo) REFERENCES ClassAtributo(id));");
+			
+			for(Tabla t : tablas){
+				for(Restriccion r : t.getRestricciones()){
+					dataBase.add("INSERT INTO Restricciones (nombre, mensaje_error, operador, service, valor, clase, atributo) VALUES ('"+r.getNombre()+"', '"+r.getMsjError()+"', '"+r.getOperator()+"', '"+r.getService()+"', '"+r.getValor()+"', "+r.getClase()+", "+r.getAtributo()+" );");
+				}
+			}
+			
 			
 			//MENU
 			dataBase.add("CREATE TABLE Menu (id integer primary key not null, nombre varchar(50), type varchar(50), id_view integer, FOREIGN KEY (id_view) REFERENCES Views(id_view) );");

@@ -10,10 +10,13 @@ public class Tabla{
 	private List<Atributo> atributos;
 	private List<ForeignKey> llavesForaneas;
 	private Roles roles;
-	private boolean vista;
+	private boolean vista; //LA TABLA POSEE UN ATRIBUTO DERIVADO QUE GENERE UNA VISTA?
+	private List<Restriccion> restricciones;
+	
 	public Tabla(){
 		this.atributos = new ArrayList<Atributo>();
 		this.llavesForaneas = new ArrayList<ForeignKey>();
+		this.restricciones= new ArrayList<Restriccion>();
 		this.vista=false;
 	}
 	
@@ -27,10 +30,19 @@ public class Tabla{
 	
 	public void addAtributo(Atributo a){
 		this.atributos.add(a);
+
 	}
 	
 	public List<Atributo> getAtributos(){
 		return this.atributos;
+	}
+	
+	public void addRestriccion(Restriccion r){
+		this.restricciones.add(r);
+	}
+	
+	public List <Restriccion> getRestricciones(){
+		return this.restricciones;
 	}
 	
 	public void addForeignKey(ForeignKey f){

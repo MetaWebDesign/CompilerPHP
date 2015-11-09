@@ -89,13 +89,15 @@ public class ReadModel{
 				int x_view_link_view_id_view=line.indexOf("linkView=");
 				
 				//RESTRICCIONES
-				/*
+				
 				int x_restriccion=line.indexOf("hasConstraint");
 				int x_restriccion_operador=line.indexOf("operator=");
 				int x_restriccion_service=line.indexOf("service=");
 				int x_restriccion_nombre=line.indexOf("name=");
-				int x_restriccion_value=
-				*/
+				int x_restriccion_value=line.indexOf("value=");
+				int x_restriccion_atributo=line.indexOf("Attribute=");
+				int x_restriccion_mensaje=line.indexOf("mansajeError=");
+				
 				//BUSQUEDA TABLA
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
@@ -536,6 +538,40 @@ public class ReadModel{
 						LinkView link_view= new LinkView(linkv_name, linkv_view+5);
 						m.addLinkView(link_view);
 					}
+				}
+				
+				
+				//RESTRICCIONES
+				if(x_restriccion != -1){
+					String substr_operador=line.substring( x_restriccion_operador+10, line.length());
+					String substr_service=line.substring( x_restriccion_service+9, line.length());
+					String substr_nombre=line.substring( x_restriccion_nombre+6, line.length());
+					String substr_value=line.substring( x_restriccion_value+7, line.length());
+					String substr_atributo_clase=line.substring( x_restriccion_atributo+20, line.length());
+					String substr_mensaje=line.substring(x_restriccion_mensaje+14, line.length());
+					
+					int stop_operador=substr_operador.indexOf("\"");
+					int stop_service=substr_service.indexOf("\"");
+					int stop_nombre=substr_nombre.indexOf("\"");
+					int stop_value=substr_value.indexOf("\"");
+					int stop_clase=substr_atributo_clase.indexOf("/");
+					int stop_mensaje=substr_mensaje.indexOf("\"");
+					
+					
+					String nombre=substr_nombre.substring(0, stop_nombre);
+					String operador=substr_operador.substring(0, stop_operador);
+					String servicio=substr_service.substring(0, stop_service);
+					String valor=substr_value.substring(0, stop_value);
+					String clase=substr_atributo_clase.substring(0, stop_clase);
+					String msj=substr_mensaje.substring(0, stop_mensaje);
+					
+					String substr_atributo=line.substring( x_restriccion_atributo+20+clase.length()+16, line.length());
+					
+					int stop_atributo=substr_atributo.indexOf("\"");
+					String atributo = substr_atributo.substring(0, stop_atributo);			
+					
+					Restriccion restriccion = new Restriccion(msj, nombre, operador, servicio, valor, Integer.parseInt(clase), Integer.parseInt(atributo));
+					t.addRestriccion(restriccion);
 				}
 				
 			}

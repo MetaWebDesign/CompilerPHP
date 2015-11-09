@@ -25,16 +25,6 @@ public class SQL{
 		return tablas;
 	}
 	
-	/*
-	public void addView(View v){
-		views.add(v);
-	}*/
-	
-	/*
-	public List<View> getViews(){
-		return this.views;
-	}*/
-	
 	//BUSCA UNA TABLA POR NOMBRE
 	public Tabla getTabla(String tabla_name){
 		for(Tabla t : this.tablas) {
@@ -65,7 +55,6 @@ public class SQL{
 	
 	//GENERADOR DE VISTAS POR TABLA SEGUN LOS ATRIBUTOS DERIVADOS QUE ESTA POSEE
 	public List <View> getViews(){
-		System.out.println("entro genViews");
 		List <View> views = new ArrayList<View>();
 		for(Tabla t : this.tablas){
 			if(t.getVistaEDO()){
@@ -93,9 +82,8 @@ public class SQL{
 						cont_atributo++;
 					}
 				}
-				System.out.println("Vista SQL: "+sql+" "+t.getNombre()+" "+t.getNombre()+"view");
+				
 				View v = new View(sql, t.getNombre(), t.getNombre()+"view");
-				System.out.println("Guardo Como vista: "+v.getNombre());
 				views.add(v);
 			}
 		}
