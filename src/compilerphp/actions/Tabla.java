@@ -98,4 +98,17 @@ public class Tabla{
 	public void setVistaEDO(boolean vista_){
 		this.vista=vista_;
 	}
+	
+	public boolean checkRestriccion(int id_atributo){
+		for(Restriccion r : this.restricciones){
+			if(r.getAtributo() == id_atributo){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Restriccion getRestriccion(int id){
+		return this.restricciones.get(id);
+	}
 }

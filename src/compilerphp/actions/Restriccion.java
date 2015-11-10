@@ -48,5 +48,5 @@ public class Restriccion{
 	public int getAtributo(){
 		return this.atributo;
 	}
-	
+
 }
