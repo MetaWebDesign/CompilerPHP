@@ -3,13 +3,17 @@ package compilerphp.actions;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class PHP_CRUD{
+/*
+ * Generador Controlador
+ * - carga los los roles para el control de los accesos a los servivios
+ */
+public class PHP_Controller{
 	
 	protected Tabla tabla;
 	protected SQL modelo;
 	protected String path_proyect;
 	
-	public PHP_CRUD(Tabla tabla_, SQL modelo_, String path_proyect_){
+	public PHP_Controller(Tabla tabla_, SQL modelo_, String path_proyect_){
 		this.tabla=tabla_;
 		this.modelo=modelo_;
 		this.path_proyect=path_proyect_;

@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 /*
- * Generado del Modelo de la Vista SQL para atributos derivados
+ * Generado del Modelo para una Vista SQL para atributos derivados
  */
 public class PHP_ModelView{
 
@@ -68,7 +68,6 @@ public class PHP_ModelView{
 					//typeData="'"+typeData+"'";
 					model_view=model_view+"        [['"+atributo.getNombre()+"'], '"+typeData+"'],\n";
 				}
-				
 			}
 			
 			if (atributo.getDerivedEDO()){
@@ -76,7 +75,6 @@ public class PHP_ModelView{
 			}
 		}
 		
-		//model_view=model_view+"        [['"+view.getNombre()+"'], '"+view.getType()+"'],\n";
 	    model_view=model_view+"    ];\n";
 	    model_view=model_view+"}\n";
 	    model_view=model_view+"public function attributeLabels()\n";
@@ -87,11 +85,6 @@ public class PHP_ModelView{
 				model_view=model_view+"        '"+atributo.getNombre()+"' => '"+atributo_model_name+"',\n";
 		}
 		
-		/*
-		atributo_model_name=view.getNombre().substring(0, 1).toUpperCase() +view.getNombre().substring(1);
-		
-		model_view=model_view+"        '"+view.getNombre()+"' => '"+atributo_model_name+"',\n";
-		*/
 	    model_view=model_view+"    ];\n";
 	    model_view=model_view+" }\n";
 	    model_view=model_view+"}\n";
@@ -101,6 +94,4 @@ public class PHP_ModelView{
 	    php_model_view.write(model_view);
 	    php_model_view.close();
 	}
-	
-
 }

@@ -122,8 +122,8 @@ public class PHP{
 		//CONFIGURACION DEL CONTROLADOR SERVICIOS / PERMISOS DE ACCESO
 		for(Tabla tabla : tablas){
 			try {
-				PHP_CRUD crud = new PHP_CRUD(tabla, modelo, path_proyect+"proyect/controllers/");
-				crud.write();
+				PHP_Controller controller = new PHP_Controller(tabla, modelo, path_proyect+"proyect/controllers/");
+				controller.write();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
