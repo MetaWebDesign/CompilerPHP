@@ -110,7 +110,27 @@ public class PHP{
 	}
 	
 	/*
+	 * Generador de modelos
+	 * - usado cuando un modelo posee una restriccion
+	 */
+	public void genModelRestrict(){
+		List <Tabla>tablas=modelo.getTablas();
+		for(Tabla t : tablas){
+			if(t.getRestriccionEDO()){
+				PHP_Model modelo = new PHP_Model(t, path_proyect+"proyect/models/");
+				try {
+					modelo.write();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	/*
 	 * GENERA LOS CONTROLADORES JUNTO CON LAS VISTAS DE LOS SERVICIOS
+	 * - carga los los roles para el control de los accesos a los servicios
 	 */
 	public void genCRUD(){
 		ExecuteShellComand obj= new ExecuteShellComand();
@@ -121,8 +141,8 @@ public class PHP{
 		
 		//CONFIGURACION DEL CONTROLADOR SERVICIOS / PERMISOS DE ACCESO
 		for(Tabla tabla : tablas){
+			PHP_Controller controller = new PHP_Controller(tabla, modelo, path_proyect+"proyect/controllers/");
 			try {
-				PHP_Controller controller = new PHP_Controller(tabla, modelo, path_proyect+"proyect/controllers/");
 				controller.write();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -11,6 +11,7 @@ public class Tabla{
 	private List<ForeignKey> llavesForaneas;
 	private Roles roles;
 	private boolean vista; //LA TABLA POSEE UN ATRIBUTO DERIVADO QUE GENERE UNA VISTA?
+	private boolean restriccion;
 	private List<Restriccion> restricciones;
 	
 	public Tabla(){
@@ -18,6 +19,15 @@ public class Tabla{
 		this.llavesForaneas = new ArrayList<ForeignKey>();
 		this.restricciones= new ArrayList<Restriccion>();
 		this.vista=false;
+		this.restriccion=false;
+	}
+	
+	public void setRestriccionEDO(boolean res){
+		this.restriccion=res;
+	}
+	
+	public boolean getRestriccionEDO(){
+		return this.restriccion;
 	}
 	
 	public void setNombre(String n){
@@ -109,6 +119,12 @@ public class Tabla{
 	}
 	
 	public Restriccion getRestriccion(int id){
-		return this.restricciones.get(id);
+		
+		for (Restriccion r : this.restricciones){
+			if(r.getAtributo() == id){
+				return r;
+			}
+		}
+		return null;
 	}
 }

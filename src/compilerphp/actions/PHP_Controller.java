@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /*
  * Generador Controlador
- * - carga los los roles para el control de los accesos a los servivios
+ * - carga los los roles para el control de los accesos a los servicios
  */
 public class PHP_Controller{
 	

@@ -18,6 +18,7 @@ public class PHP_Model{
 	}
 	
 	public void write() throws IOException{
+		System.out.println("WRITE "+this.tabla.getNombre());
 		FileWriter php_model = null;
 		String model="<?php\n";
 		model=model+"namespace app\\models;\n";
@@ -49,48 +50,59 @@ public class PHP_Model{
 		model=model+"     */\n";
 		model=model+"    public function rules()\n";
 		model=model+"    {\n";
-		model=model+"        return [\n;";
+		model=model+"        return [\n";
 		int id_atributo=0;
 		for(Atributo atributo : this.tabla.getAtributos()){
-			if(this.tabla.checkRestriccion(id_atributo)){ 
+			System.out.println("ID ATRIBUTO "+id_atributo);
+			String typeAtributo=atributo.getType();
+			if(typeAtributo.equals("autoincremental")){
+				typeAtributo="integer";
+			}
+			
+			
+			if(this.tabla.checkRestriccion(id_atributo)){
+				System.out.println("Entro");
 				Restriccion restriccion = this.tabla.getRestriccion(id_atributo);
+				System.out.println("Restriccion "+restriccion.getNombre());
+
 				
 				if(restriccion.getOperator().equals("menor") || restriccion.getOperator().equals("menor_igual")){
-					model=model+"            [['"+atributo.getNombre()+"'], '"+atributo.getType()+"', 'min'=>"+restriccion.getValor()+"],\n;";
+					model=model+"            [['"+atributo.getNombre()+"'], '"+typeAtributo+"', 'max'=>"+restriccion.getValor()+"],\n";
 				}
 				
 				if(restriccion.getOperator().equals("mayor") || restriccion.getOperator().equals("mayor_igual")){
-					model=model+"            [['"+atributo.getNombre()+"'], '"+atributo.getType()+"', 'max'=>"+restriccion.getValor()+"],\n;";
+					model=model+"            [['"+atributo.getNombre()+"'], '"+typeAtributo+"', 'min'=>"+restriccion.getValor()+"],\n";
 				}
 			}
 			else{
-				model=model+"            [['"+atributo.getNombre()+"'], '"+atributo.getType()+"']\n";
+				model=model+"            [['"+atributo.getNombre()+"'], '"+typeAtributo+"'],\n";
 			}
 			id_atributo++;
 		}
 		for(ForeignKey fk : tabla.getForeignKeys()){
-			model=model+"            [['"+fk.getNombre()+"'], 'integer']\n";
+			model=model+"            [['"+fk.getNombre()+"'], 'integer'],\n";
 		}
 		model=model+"        ];\n";
 		model=model+"    }\n";
 
 		model=model+"    /**\n";
 		model=model+"     * @inheritdoc\n";
-		model=model+"     */\n;";
+		model=model+"     */\n";
 		model=model+"    public function attributeLabels()\n";
 		model=model+"    {\n";
 		model=model+"        return [\n";
 		for(Atributo atributo : this.tabla.getAtributos()){
-			model=model+"            '"+atributo.getNombre()+"' => '"+atributo.getNombre()+",\n";
+			model=model+"            '"+atributo.getNombre()+"' => '"+atributo.getNombre()+"',\n";
 		}
 		for(ForeignKey fk : tabla.getForeignKeys()){
-			model=model+"            '"+fk.getNombre()+"' => '"+fk.getNombre()+",\n";
+			model=model+"            '"+fk.getNombre()+"' => '"+fk.getNombre()+"',\n";
 		}
 		model=model+"        ];\n";
 		model=model+"    }\n";
 		model=model+"}\n";
 		
 	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
+		System.out.println("ESCRIBIENDO "+this.tabla.getNombre()+".php");
 	    php_model = new FileWriter(path_proyect+this.tabla.getNombre()+".php");
 	    php_model.write(model);
 	    php_model.close();

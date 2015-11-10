@@ -135,6 +135,7 @@ public class Compilar implements IWorkbenchWindowActionDelegate {
 			bar.updateProgress(90, "Cargando vistas modeladas");
 			php.insertPages(m.getPages());
 			bar.updateProgress(95, "Cargando menus");
+			php.genModelRestrict();//GENERA LOS MODELOS CON RESTRICCIONES 
 			php.insertMenus(m.getMenus());
 			bar.updateProgress(100, "Proyecto PHP creado!");
 			

@@ -572,6 +572,7 @@ public class ReadModel{
 					
 					Restriccion restriccion = new Restriccion(msj, nombre, operador, servicio, valor, Integer.parseInt(clase), Integer.parseInt(atributo));
 					t.addRestriccion(restriccion);
+					t.setRestriccionEDO(true);
 				}
 				
 			}
