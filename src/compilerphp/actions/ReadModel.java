@@ -543,38 +543,87 @@ public class ReadModel{
 				
 				//RESTRICCIONES
 				if(x_restriccion != -1){
-					String substr_operador=line.substring( x_restriccion_operador+10, line.length());
-					String substr_service=line.substring( x_restriccion_service+9, line.length());
-					String substr_nombre=line.substring( x_restriccion_nombre+6, line.length());
-					String substr_value=line.substring( x_restriccion_value+7, line.length());
-					String substr_atributo_clase=line.substring( x_restriccion_atributo+20, line.length());
-					String substr_mensaje=line.substring(x_restriccion_mensaje+14, line.length());
+					System.out.println("nombre "+x_restriccion_nombre);
+					System.out.println("operador "+x_restriccion_operador);
+					System.out.println("servicio "+x_restriccion_service);
+					System.out.println("valor "+x_restriccion_value);
+					System.out.println("atributo "+x_restriccion_atributo);
+					System.out.println("mensaje "+x_restriccion_mensaje);
 					
-					int stop_operador=substr_operador.indexOf("\"");
-					int stop_service=substr_service.indexOf("\"");
-					int stop_nombre=substr_nombre.indexOf("\"");
-					int stop_value=substr_value.indexOf("\"");
-					int stop_clase=substr_atributo_clase.indexOf("/");
-					int stop_mensaje=substr_mensaje.indexOf("\"");
+					if(x_restriccion_nombre == -1){
+						this.error_text="Error, la restricción de la clase "+t.getNombre()+" no posee un nombre";
+			        	this.error_status=true;
+					}
 					
+					if(!this.error_status){
+						String substr_nombre=line.substring( x_restriccion_nombre+6, line.length());
+						int stop_nombre=substr_nombre.indexOf("\"");
+						String nombre=substr_nombre.substring(0, stop_nombre);
+
+						if(nombre.length()==0 && !this.error_status){
+							this.error_text="Error, la restricción de la clase "+t.getNombre()+" no posee un nombre";
+							this.error_status=true;
+						}
 					
-					String nombre=substr_nombre.substring(0, stop_nombre);
-					String operador=substr_operador.substring(0, stop_operador);
-					String servicio=substr_service.substring(0, stop_service);
-					String valor=substr_value.substring(0, stop_value);
-					String clase=substr_atributo_clase.substring(0, stop_clase);
-					String msj=substr_mensaje.substring(0, stop_mensaje);
+						if(x_restriccion_operador == -1 && !this.error_status){
+							this.error_text="Error, en la restricción "+nombre+" de la clase "+t.getNombre()+", no posee operador logico para restringir";
+							this.error_status=true;
+						}
 					
-					String substr_atributo=line.substring( x_restriccion_atributo+20+clase.length()+16, line.length());
-					
-					int stop_atributo=substr_atributo.indexOf("\"");
-					String atributo = substr_atributo.substring(0, stop_atributo);			
-					
-					Restriccion restriccion = new Restriccion(msj, nombre, operador, servicio, valor, Integer.parseInt(clase), Integer.parseInt(atributo));
-					t.addRestriccion(restriccion);
-					t.setRestriccionEDO(true);
+						if(x_restriccion_service == -1 && !this.error_status){
+							this.error_text="Error, en la restricción "+nombre+" de la clase "+t.getNombre()+", no posee un servicio a restringir";
+				        	this.error_status=true;
+						}
+						
+						if(x_restriccion_value == -1 && !this.error_status){
+							this.error_text="Error, en la restricción "+nombre+" de la clase "+t.getNombre()+", no un valor para restringir";
+				        	this.error_status=true;
+						}
+						
+						if(x_restriccion_atributo == -1 && !this.error_status){
+							this.error_text="Error, en la restricción "+nombre+" de la clase "+t.getNombre()+", no un atributo a restringir";
+				        	this.error_status=true;
+						}
+						
+						if(x_restriccion_mensaje == -1 && !this.error_status){
+							this.error_text="Error, en la restricción "+nombre+" de la clase "+t.getNombre()+", no un mensaje de alerta al restringir";
+				        	this.error_status=true;
+						}
+						
+						if(!this.error_status){
+							String substr_operador=line.substring( x_restriccion_operador+10, line.length());
+							String substr_service=line.substring( x_restriccion_service+9, line.length());
+							
+							String substr_value=line.substring( x_restriccion_value+7, line.length());
+							String substr_atributo_clase=line.substring( x_restriccion_atributo+20, line.length());
+							String substr_mensaje=line.substring(x_restriccion_mensaje+14, line.length());
+							
+							int stop_operador=substr_operador.indexOf("\"");
+							int stop_service=substr_service.indexOf("\"");
+							
+							int stop_value=substr_value.indexOf("\"");
+							int stop_clase=substr_atributo_clase.indexOf("/");
+							int stop_mensaje=substr_mensaje.indexOf("\"");
+							
+							
+							
+							String operador=substr_operador.substring(0, stop_operador);
+							String servicio=substr_service.substring(0, stop_service);
+							String valor=substr_value.substring(0, stop_value);
+							String clase=substr_atributo_clase.substring(0, stop_clase);
+							String msj=substr_mensaje.substring(0, stop_mensaje);
+							
+							String substr_atributo=line.substring( x_restriccion_atributo+20+clase.length()+16, line.length());
+							
+							int stop_atributo=substr_atributo.indexOf("\"");
+							String atributo = substr_atributo.substring(0, stop_atributo);			
+						
+							Restriccion restriccion = new Restriccion(msj, nombre, operador, servicio, valor, Integer.parseInt(clase), Integer.parseInt(atributo));
+							t.addRestriccion(restriccion);
+							t.setRestriccionEDO(true);
+						}
+					}
 				}
-				
 			}
 			fr.close();
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO

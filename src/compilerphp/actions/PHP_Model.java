@@ -18,7 +18,7 @@ public class PHP_Model{
 	}
 	
 	public void write() throws IOException{
-		System.out.println("WRITE "+this.tabla.getNombre());
+		
 		FileWriter php_model = null;
 		String model="<?php\n";
 		model=model+"namespace app\\models;\n";
@@ -53,7 +53,7 @@ public class PHP_Model{
 		model=model+"        return [\n";
 		int id_atributo=0;
 		for(Atributo atributo : this.tabla.getAtributos()){
-			System.out.println("ID ATRIBUTO "+id_atributo);
+			
 			String typeAtributo=atributo.getType();
 			if(typeAtributo.equals("autoincremental")){
 				typeAtributo="integer";
@@ -61,9 +61,9 @@ public class PHP_Model{
 			
 			
 			if(this.tabla.checkRestriccion(id_atributo)){
-				System.out.println("Entro");
+				
 				Restriccion restriccion = this.tabla.getRestriccion(id_atributo);
-				System.out.println("Restriccion "+restriccion.getNombre());
+				
 
 				
 				if(restriccion.getOperator().equals("menor") || restriccion.getOperator().equals("menor_igual")){
@@ -102,7 +102,7 @@ public class PHP_Model{
 		model=model+"}\n";
 		
 	    //ESCRITURA DEL PHP CON EL MODELO DE LA VISTA
-		System.out.println("ESCRIBIENDO "+this.tabla.getNombre()+".php");
+		
 	    php_model = new FileWriter(path_proyect+this.tabla.getNombre()+".php");
 	    php_model.write(model);
 	    php_model.close();

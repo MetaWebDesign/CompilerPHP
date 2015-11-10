@@ -17,9 +17,7 @@ public class SQLite{
 	
 	//ESCRIBRE EN TEXTO PLANO LAS SENTENCIAS SQL
 	public static List<String> genSQL(SQL sql, String path){
-		//sql.genViews();
-		System.out.println("Paso");
-		//List <View> views = sql.getViews();
+
 		List <Tabla> tablas = sql.getTablas();
 		List <Atributo> atributos;
 		List <ForeignKey> foreignKeys;
@@ -85,9 +83,9 @@ public class SQLite{
 			}
 			
 			//ESCRIVO LAS VISTAS
-			System.out.println("Escrivo las Vistas");
+			
 			for(View view : sql.getViews()){
-				System.out.println("Escriviendo: "+view.getNombre());
+				
 				dataBase.add(view.getSQL());
 			}
 			
@@ -185,7 +183,7 @@ public class SQLite{
 		script_bdd = new FileWriter(path+"/PHP/"+nombreScriptBD+".sh");
 		for(String sql_line : dataBase){
 			script_bdd.write("sqlite3 "+path+"/PHP/"+nombreScriptBD+".db \""+sql_line+"\"\n");
-			//System.out.println("sqlite3-> "+sql_line);
+			
 		}
 		script_bdd.close();	
 		obj.executeCommand("chmod +x "+path+"/PHP/*");
