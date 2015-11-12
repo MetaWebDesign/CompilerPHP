@@ -1,5 +1,5 @@
 <?php
-
+namespace app\models;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -25,15 +25,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'nombre',
-            'mensaje_error:ntext',
-            'operador',
             'service',
-            // 'valor',
+           //'atributo',
+           [                      // the owner name of the model
+               'label' => 'atributo',
+               'value' => function ($data) {
+                   $nombre_pag=ClassAtributo::find()->select('nombre')->where(['id_clase'=>$data->clase, 'id_atributo'=>$data->atributo])->one();
+                   return $nombre_pag->nombre;
+               },
+           ],
+            'operador',
+            //'mensaje_error:ntext',
+             'valor',
             // 'clase',
-            // 'atributo',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
