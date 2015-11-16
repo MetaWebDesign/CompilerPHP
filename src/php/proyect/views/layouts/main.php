@@ -6,10 +6,10 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\models\DashboardConf;
-use app\models\Menu;
 use app\models\Links;
-
+use app\models\Menu;
+use app\models\DashboardConf;
+//namespace app\models;
 $conf = DashboardConf::find()->where(['id_web' => 1])->one();
 AppAsset::register($this);
 ?>
@@ -27,6 +27,7 @@ AppAsset::register($this);
 						<?php $this->beginBody() ?>
 						<div class="wrap">
 						    <?php
+								/*
 						    NavBar::begin([
 						        'brandLabel' => $conf->sitetitle." <small>".$conf->tagline."</small>",
 						        'brandUrl' => Yii::$app->homeUrl,
@@ -34,14 +35,13 @@ AppAsset::register($this);
 						            'class' => 'navbar-inverse navbar-fixed-top',
 						        ],
 						    ]);
-								/*
 						    echo Nav::widget([
 						        'options' => ['class' => 'navbar-nav navbar-right'],
 						        'items' => [
 						            ['label' => 'Home', 'url' => ['/site/index']],
 						            ['label' => 'About', 'url' => ['/site/about']],
 												!Yii::$app->user->isGuest ?
-													['label' => 'Dashboard', 'url' => ['/site/dashboard']]:
+												['label' => 'Dashboard', 'url' => ['/site/dashboard']]:
 						            ['label' => 'Contact', 'url' => ['/site/contact']],
 						            Yii::$app->user->isGuest ?
 						                ['label' => 'Login', 'url' => ['/site/login']] :
@@ -52,31 +52,42 @@ AppAsset::register($this);
 						                ],
 						        ],
 						    ]);
+						    NavBar::end();
 								*/
+								?>
+								<nav id="w0" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="container">
+									<div class="navbar-header">
+										<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+											<span class="sr-only">Toggle navigation</span>
+											<span class="icon-bar"></span>
+											<span class="icon-bar"></span>
+											<span class="icon-bar"></span>
+										</button>
+										<a class="navbar-brand" href="/public_html/mwd/Elearning/PHP/proyect/web/index.php">elearning <small> </small></a>
+									</div>
+								<?php
 
-								echo "<ul id=\"w2\" class=\"navbar-nav navbar-right nav\">\n";
-								echo "<li class=\"active\"><a href=\"index.php?r=site%2Findex\">Home</a></li>\n";
-								echo "<li><a href=\"index.php?r=site/about\">About</a></li>\n";
-								echo "<li><a href=\"index.php?r=site/contact\">Contact</a></li>\n";
+								echo "<div id=\"w0-collapse\" class=\"collapse navbar-collapse\">\n";
+								echo "	<ul id=\"w1\" class=\"navbar-nav navbar-right nav\">\n";
+								echo "		<li><a href=\"index.php?r=site/index\">Home</a></li>\n";
+								echo "		<li><a href=\"index.php?r=site/about\">About</a></li>\n";
+
+								if (!Yii::$app->user->isGuest){
+									echo "  <li><a href=\"index.php?r=site/dashboard\">Dashboard</a></li>\n";
+									$menu_principal = Menu::find()->where(['type'=>'principal'])->one();
+									$links = Links::find()->where(['id_menu'=>$menu_principal->id])->all();
+									foreach($links AS $link){
+										echo "		<li><a href=\"$link->url\">$link->nombre</a></li>\n";
+									}
+									echo "		<li><a href=\"index.php?r=site/logout\" >Logout</a></li>\n";
+								}
 								if(Yii::$app->user->isGuest){
-
 									echo "<li><a href=\"index.php?r=site/login\">Login</a></li>\n";
 								}
-								else{
-									echo "<li><a href=\"index.php?r=site/dashboard\">Dashboard</a></li>\n";
-									$menu_principal=Menu::find()->where(['type'=>'principal'])->one();
-									$links=Links::find()->where(['id_menu'=>$menu_principal->id])->all();
-									foreach ($links as $link) {
-											echo "<li><a href=\"$link->url\">$link->nombre</a></li>\n";
-									}
-									echo "<li><a data-method=\"post\" href= \"index.php?r=site/logout\" >Logout (". Yii::$app->user->identity->username .")</a></li>\n";
-								}
 								echo "</ul>\n";
-
-								//echo "<li><a href=\"/public_html/mwd/Elearning/PHP/proyect/web/index.php?r=site%2Flogin\">Loginne</a></li></ul>\n";
-
-						    NavBar::end();
-						    ?>
+								echo "</div>\n";
+								?>
+								</div></nav>
 						    <div class="container">
 						        <?= Breadcrumbs::widget([
 						            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
