@@ -17,7 +17,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Dashboard Permisoscrud', ['create'], ['class' => 'btn btn-success']) ?>
+        <a class="btn btn-success" href="index.php?r=dashboard-permisoscrud/create">Create Dashboard Permisoscrud</a>
     </p>
 
 
