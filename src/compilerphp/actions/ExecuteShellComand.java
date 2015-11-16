@@ -128,6 +128,14 @@ public class ExecuteShellComand {
 		executeCommand(comando);
 	}
 	
+	public void loadLayout(String path_layout){
+		Locate l=new Locate();
+		String path=l.getPath();
+		String comando="bash "+path+path_bash+"layaout.sh "+path_layout;
+		System.out.println(comando);
+		executeCommand(comando);
+	}
+	
 	//MOVER MV
 	public void move (String to, String from){
 		Locate l=new Locate();

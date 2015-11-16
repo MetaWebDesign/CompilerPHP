@@ -291,4 +291,10 @@ public class PHP{
 		}
 	}
 	
+	public void updateLayout(){
+		String path_layout=path_proyect+"proyect/views/layouts/";
+		ExecuteShellComand obj= new ExecuteShellComand();
+		obj.loadLayout(path_layout);
+	}
+	
 }
