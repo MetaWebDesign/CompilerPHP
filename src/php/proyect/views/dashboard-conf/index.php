@@ -1,47 +1,34 @@
 <?php
-
+namespace app\models;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Dashboard Confs';
+$this->title = 'Configuración sitio web';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dashboard-conf-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?php /*<?= Html::a('Create Dashboard Conf', ['create'], ['class' => 'btn btn-success']) ?>*/ ?>
-    </p>
 
-    <?php /* GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <?php
+      $web = DashboardConf::find()->where(['id_web'=>'1'])->one();
+      echo "<center>\n";
+      echo "<div class=\"jumbotron\">\n";
+      echo "  <h1>$web->sitetitle</h1>\n";
+      echo "  <p>$web->tagline</p>\n";
+      echo "  <p><b>Mail Administrador: </b>$web->admin_mail</p>\n";
+      echo "  <p><a class=\"btn btn-primary btn-lg\" href=\"index.php?r=dashboard-conf/update&id=1\" role=\"button\">Update</a></p>\n";
+      echo "</div>\n";
+      echo "</center>\n";
+     ?>
 
-            //'id_web',
-            'sitetitle',
-            'tagline',
-            'admin_mail',
-            'id_index',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); */?>
 
-  <div id="w0" class="grid-view"><div class="summary">Showing <b>1-20</b> of <b>35</b> items.</div>
-    <table class="table table-striped table-bordered">
-      <tbody>
-        <?php
-        $permisos= DashboardPermisoscrud::find()->all();
-        echo ""
-        ?>
-      </tbody>
-    </table>
-  </div>
+
 
 
 </div>

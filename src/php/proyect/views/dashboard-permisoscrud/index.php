@@ -32,16 +32,16 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->identity->id_rol == 1){
     </p>
 
     <?php
-    $results= DashboardPermisoscrud::find()->where(['id_dash'=>$id_dash]);
-
-
-    $resultsProvider = new ActiveDataProvider([
-        'query' => $results,
-    ]);
+    if($id_dash !=0){
+      $results= DashboardPermisoscrud::find()->where(['id_dash'=>$id_dash]);
+      $dataProvider = new ActiveDataProvider([
+          'query' => $results,
+      ]);
+    }
 
     echo GridView::widget([
-    //'dataProvider' => $dataProvider,
-    'dataProvider' => $resultsProvider,
+    'dataProvider' => $dataProvider,
+    //'dataProvider' => $resultsProvider,
     'filterModel' => $searchModel,
     'columns' => [
         'id_dash',
