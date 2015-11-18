@@ -25,7 +25,8 @@ class DashboardAsset extends AssetBundle
     public $js = [
 
 		'dashboard/bower_components/jquery/dist/jquery.min.js',
-		'dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js/jquery.min.js',
+		//'dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js/jquery.min.js',
+    'dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js',
 		'dashboard/bower_components/metisMenu/dist/metisMenu.min.js',
 		'dashboard/bower_components/raphael/raphael-min.js',
 		//'dashboard/bower_components/morrisjs/morris.min.js',
