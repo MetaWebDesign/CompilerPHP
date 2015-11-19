@@ -48,11 +48,13 @@ AppAsset::register($this);
 								if (!Yii::$app->user->isGuest){
 									echo "  <li><a href=\"index.php?r=site/dashboard\">Dashboard</a></li>\n";
 									$menu_principal = Menu::find()->where(['type'=>'principal'])->one();
-									$links = Links::find()->where(['id_menu'=>$menu_principal->id])->all();
-									foreach($links AS $link){
-										echo "		<li><a href=\"$link->url\">$link->nombre</a></li>\n";
-									}
-									echo "		<li><a href=\"index.php?r=site/logout\" >Logout</a></li>\n";
+									if($menu_principal){
+										$links = Links::find()->where(['id_menu'=>$menu_principal->id])->all();
+										foreach($links AS $link){
+											echo "		<li><a href=\"$link->url\">$link->nombre</a></li>\n";
+										}
+										echo "		<li><a href=\"index.php?r=site/logout\" >Logout</a></li>\n";
+									}//if menu principal end
 								}
 								if(Yii::$app->user->isGuest){
 									echo "<li><a href=\"index.php?r=site/login\">Login</a></li>\n";
