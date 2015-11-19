@@ -27,10 +27,15 @@ public class ReadModel{
 			FileReader fr = new FileReader(path+"/"+file);//LECTURA DEL ARCHIVO DEL MODELO
 			BufferedReader br = new BufferedReader(fr);
 			String line;//LINEA DE LECTURA DEL ARCHIVO
+			
 			int cont_tabla=0;//CONTADOR DE TABLAS
 			int cont_attribute=0; //CONTADOR DE ATRIBUTOS
 			int cont_page=0;//CONTADOR DE PAGINAS
-			int cont_menu=0;
+			int cont_menu=0;//CONTADOR MENUS
+			
+			boolean open_page=false;
+			boolean open_menu=false;
+			
 			String tabla = null;//NOMBRE DE LA TABLA
 			int cont_pk=0; //CONTADOR PRIMARY KEY, CADA CLAS DEBE TENER UNA
 			int cont_menu_principal=0; //CONTADOR DE MENU PRINCIPAL, SOLO PUEDE EXISTIR AL MENOS UNO
@@ -319,6 +324,7 @@ public class ReadModel{
 				if(x_view != -1){
 					if(cont_page!=0){
 						this.pages.add(p);
+						open_page=false;
 					}
 					
 					p = new Page();
@@ -355,6 +361,7 @@ public class ReadModel{
 			        	p.setContentHTML(html);
 			        	p.setRol(rol);
 			        	cont_page++;
+			        	open_page=true;
 			        }
 				}
 				
@@ -451,6 +458,7 @@ public class ReadModel{
 					
 						if(cont_menu!=0){
 							this.menus.add(m);
+							open_menu=false;
 						}
 						m = new Menu();
 						String substr_typeMenu=line.substring( x_view_menu_typeMenu+10, line.length());
@@ -472,6 +480,7 @@ public class ReadModel{
 							m.setIdView(cont_page+4);
 						}
 						cont_menu++;
+						open_menu=true;
 					}
 				}
 				
@@ -543,12 +552,6 @@ public class ReadModel{
 				
 				//RESTRICCIONES
 				if(x_restriccion != -1){
-					System.out.println("nombre "+x_restriccion_nombre);
-					System.out.println("operador "+x_restriccion_operador);
-					System.out.println("servicio "+x_restriccion_service);
-					System.out.println("valor "+x_restriccion_value);
-					System.out.println("atributo "+x_restriccion_atributo);
-					System.out.println("mensaje "+x_restriccion_mensaje);
 					
 					if(x_restriccion_nombre == -1){
 						this.error_text="Error, la restricción de la clase "+t.getNombre()+" no posee un nombre";
@@ -627,8 +630,14 @@ public class ReadModel{
 			}
 			fr.close();
 			this.sql.addTabla(t);//AGREGO LA ULTIMA TABLA DEL MODELO
-			this.pages.add(p);
-			this.menus.add(m);
+			//SI QUEDO UNA PAGE SIN AGREGAR
+			if(open_page){
+				this.pages.add(p);
+			}
+			//SI QUEDO UN MENU SIN AGREGAR
+			if(open_menu){
+				this.menus.add(m);
+			}
 	}
 	
 	//public static String typeAtributeVarChar(String DataType){
