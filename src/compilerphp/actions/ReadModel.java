@@ -41,7 +41,7 @@ public class ReadModel{
 			int cont_menu_principal=0; //CONTADOR DE MENU PRINCIPAL, SOLO PUEDE EXISTIR AL MENOS UNO
 			//LECTURA
 			while((line = br.readLine()) != null && !error_status) {
-				
+					
 				int x_class=line.indexOf("class name="); //IDENTIFICA UNA CLASE
 				int x_attribute=line.indexOf("<hasAttributes");//IDENTIFICA UN ATRIBUTO
 				int x_attribute_not_derived=line.indexOf("metawebdesign:NotDerived");//IDENTIFICA UN ATRIBUTO NO DERIVADO
@@ -107,12 +107,12 @@ public class ReadModel{
 				if(x_class != -1){
 					//AGREGO LA TABLA IDENTIFICADA ANTERIORMENTE
 					if(cont_tabla !=0){
-						if(cont_pk == 0 || cont_pk > 1){
-							this.error_text="Error hay una clase sin nombre";
+						if(cont_pk == 0){
+							this.error_text="Error,la tabla "+t.getNombre()+" no posee llave primaria";
 				        	this.error_status=true;
 						}
 						else{
-							this.sql.addTabla(t);//AGREGO LA PRIMERA TABLA INDETIFICADA
+							this.sql.addTabla(t);//AGREGO LA TABLA INDETIFICADA
 							cont_pk=0;
 							cont_attribute=0;
 						}
@@ -189,10 +189,12 @@ public class ReadModel{
 			        //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
 			        int stop_nombre=substr_nombre.indexOf("\"");
 			        int stop_type=substr_type.indexOf("\"");
-			        
+			       
 			        boolean pk=false;
 			        boolean requiered=true;
 			        if(x_attribute_pk != -1){
+			        	//System.out.println("Clase "+t.getNombre()+" tiene llave primaria");
+			        	//System.out.println("linea: "+line);
 			        	pk=true;
 			        	cont_pk++;
 			        }
@@ -200,9 +202,14 @@ public class ReadModel{
 			        	requiered=false;
 			        }
 			        
-			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);
+			        String atributo_nombre=substr_nombre.substring(0, stop_nombre);			       
 			        String atributo_type_model=substr_type.substring(0, stop_type);
 			        String atributo_type=typeAdaptAtribute(atributo_type_model);//Adapta el dataType del modelo a uno aceptado por la BDD;
+			        
+			        if(cont_pk > 1){
+			        	this.error_text="Error en la clase "+t.getNombre()+", posee más de una llave primaria";
+			        	this.error_status=true;
+			        }
 			        
 			        if(atributo_nombre.indexOf("xsi") != -1 || atributo_nombre.length()==0){
 			        	this.error_text="Error en la clase "+t.getNombre()+", un atributo no posee nombre";
@@ -467,7 +474,7 @@ public class ReadModel{
 
 						m.setName(name_menu);
 						m.setTypeMenu(type_menu);
-						
+						//System.out.println("typeMenu: "+type_menu);
 						if(type_menu.equals("principal")){
 							m.setIdView(-1);
 							cont_menu_principal++;
