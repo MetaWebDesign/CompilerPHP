@@ -295,35 +295,41 @@ public class ReadModel{
 				if(x_relation != -1){
 					//NOMBRE EN LA RELACION
 				     String substr_nombre=line.substring(x_relation_name+6, line.length());
+				     int stop_nombre=substr_nombre.indexOf("\"");
+				     String relation_name=substr_nombre.substring(0, stop_nombre);
+				     
 				     String substr_claseDestino=line.substring(x_relation_destination+32, line.length());
 				     int start_r_atributo=substr_claseDestino.indexOf("@");
-					 String substr_atributoDestino=line.substring(x_relation_destination+32+start_r_atributo+15, line.length());
-
-				     
-				     //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
-				     int stop_nombre=substr_nombre.indexOf("\"");
-				     int stop_classDestino=substr_claseDestino.indexOf("/");
-				     int stop_atributoDestino=substr_atributoDestino.indexOf("\"");
-				     
-				     //EXTRACCION DE DATOS DE LA RELACION
-				     String relation_name=substr_nombre.substring(0, stop_nombre);
-				     //+1 por que modelo parte de cero y en la bdd parte de uno el ID
-				     int numClaseDestino= Integer.parseInt(substr_claseDestino.substring(0, stop_classDestino));
-				     int numAtributoDestino= Integer.parseInt(substr_atributoDestino.substring(0, stop_atributoDestino));
-				     
-				     if(relation_name.length()==0){
-				        	this.error_text="Error posee una relación sin nombre";
+				     if(x_relation_destination == -1 && !this.error_status){
+				        	this.error_text="Error, la relación "+relation_name+" no tiene definido el campo  \"Attribute Destination\"";
 				        	this.error_status=true;
 				     }
 				     
-				     if(relation_name.indexOf(" ") != -1 && !this.error_status){
-				       	this.error_text="Error en la realación "+relation_name+", el nombre debe ser sin espacios";
-				       	this.error_status=true;
-				     }
-				        
 				     if(!this.error_status){
-				    	 ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
-				    	 t.addForeignKey(f);
+						 String substr_atributoDestino=line.substring(x_relation_destination+32+start_r_atributo+15, line.length());
+					     //CRITERIO DE PARADA PARA EXTRACCION DEL DATO
+					    
+					     int stop_classDestino=substr_claseDestino.indexOf("/");
+					     int stop_atributoDestino=substr_atributoDestino.indexOf("\"");
+					     
+					     //EXTRACCION DE DATOS DE LA RELACION
+					     int numClaseDestino= Integer.parseInt(substr_claseDestino.substring(0, stop_classDestino));
+					     int numAtributoDestino= Integer.parseInt(substr_atributoDestino.substring(0, stop_atributoDestino));
+					     
+					     if(relation_name.length()==0){
+					        	this.error_text="Error posee una relación sin nombre";
+					        	this.error_status=true;
+					     }
+					     
+					     if(relation_name.indexOf(" ") != -1 && !this.error_status){
+					       	this.error_text="Error en la realación "+relation_name+", el nombre debe ser sin espacios";
+					       	this.error_status=true;
+					     }
+					        
+					     if(!this.error_status){
+					    	 ForeignKey f=new ForeignKey(relation_name, numClaseDestino, numAtributoDestino);
+					    	 t.addForeignKey(f);
+					     }
 				     }
 				}
 				
@@ -491,7 +497,7 @@ public class ReadModel{
 					}
 				}
 				
-				//LINKS CRUD
+				//S CRUD
 				if(x_view_link_crud !=-1 && x_view_link_dif != -1){
 					String linkc_name="null";
 					
