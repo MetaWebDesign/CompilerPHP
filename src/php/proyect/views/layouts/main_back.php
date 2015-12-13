@@ -53,7 +53,7 @@ AppAsset::register($this);
 										foreach($links AS $link){
 											echo "		<li><a href=\"$link->url\">$link->nombre</a></li>\n";
 										}
-										echo "		<li><a href=\"index.php?r=site/logout\" >Logout</a></li>\n";
+										echo "		<li><a href=\"index.php?r=site/logout\" >Logout (". Yii::$app->user->identity->username . ")</a></li>\n";
 									}//if menu principal end
 								}
 								if(Yii::$app->user->isGuest){
