@@ -59,16 +59,13 @@ public class PHP_Model{
 				typeAtributo="integer";
 			}
 			
-			if(typeAtributo.indexOf("varchar")!=-1){
-				typeAtributo="string";
-			}
-			
-			if(typeAtributo.equals("numeric")){
-				typeAtributo="integer";
-			}
 			
 			if(this.tabla.checkRestriccion(id_atributo)){
+				
 				Restriccion restriccion = this.tabla.getRestriccion(id_atributo);
+				
+
+				
 				if(restriccion.getOperator().equals("menor") || restriccion.getOperator().equals("menor_igual")){
 					model=model+"            [['"+atributo.getNombre()+"'], '"+typeAtributo+"', 'max'=>"+restriccion.getValor()+"],\n";
 				}
